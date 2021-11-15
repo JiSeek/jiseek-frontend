@@ -28,7 +28,7 @@ const youTubeApi = (url) => async (data) => {
 };
 
 const foodApi = {
-  getFoodInfo: commonAPI.get('/food/search')()(),
+  getFoodInfo: commonAPI.get('/food/search'),
   getRecipeList: youTubeApi('/search'),
   getVideoRating: youTubeApi('/videos'),
 };

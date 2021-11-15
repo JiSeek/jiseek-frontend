@@ -3,16 +3,13 @@ import axios from 'axios';
 const JISEEK_BASE_URL = process.env.REACT_APP_JISEEK_API_BASE_URL;
 
 const createApi =
-  (baseURL) =>
   (method) =>
   (url) =>
-  (resourceId = '') =>
-  (token = null) =>
-  async (data) => {
+  async ({ resourceId = '', token = null, data }) => {
     try {
       const response = await axios({
-        baseURL,
-        url: url.concat(resourceId),
+        baseURL: JISEEK_BASE_URL,
+        url: url.concat(`/${resourceId}`),
         method,
         headers: {
           'content-Type': 'application/json',
@@ -35,13 +32,12 @@ const createApi =
     }
   };
 
-const basicApi = createApi(JISEEK_BASE_URL);
 const commonApi = {
-  get: basicApi('get'),
-  post: basicApi('post'),
-  put: basicApi('put'),
-  patch: basicApi('patch'),
-  delete: basicApi('delete'),
+  get: createApi('get'),
+  post: createApi('post'),
+  put: createApi('put'),
+  patch: createApi('patch'),
+  delete: createApi('delete'),
 };
 
 export default commonApi;

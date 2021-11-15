@@ -1,1 +1,5 @@
-// TODO: 메인 페이지 구현
+import React from 'react';
+
+const MainPage = () => <div>Main Page</div>;
+
+export default MainPage;

@@ -5,11 +5,13 @@ const JISEEK_BASE_URL = process.env.REACT_APP_JISEEK_API_BASE_URL;
 const createApi =
   (method) =>
   (url) =>
-  async ({ resourceId = '', token = null, data }) => {
+  async ({ queryKey, data = {} }) => {
     try {
+      const id = queryKey[1]?.id || '';
+      const token = queryKey[1]?.token;
       const response = await axios({
         baseURL: JISEEK_BASE_URL,
-        url: url.concat(`/${resourceId}`),
+        url: url.concat(id),
         method,
         headers: {
           'content-Type': 'application/json',
@@ -20,14 +22,14 @@ const createApi =
         timeout: 3000,
       });
 
-      const valid = /^2[0-9]{2}$/;
-      if (!valid.test(response.status)) {
-        throw new Error(response.status);
-      }
-
+      // TODO: api 요청 실패시 어떻게 오는지에 따라 필요할 수도?(확인 필요)
+      // const valid = /^2[0-9]{2}$/;
+      // if (!valid.test(response.status)) {
+      //   console.log('sdfsdfsdf');
+      //   throw new Error(response.status);
+      // }
       return response.data;
     } catch (err) {
-      // TODO: 비동기 처리 로직에 따라 변경 필요.
       throw new Error(err);
     }
   };

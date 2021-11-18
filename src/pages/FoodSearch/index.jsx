@@ -1,24 +1,24 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import FoodSearchContainer from '../../components/FoodSearch/FoodSearchContainer';
 
-const FoodSearch = () => <div>FoodSearch</div>;
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+const FoodSearch = () => (
+  <div>
+    FoodSearch
+    <QueryClientProvider client={queryClient}>
+      <FoodSearchContainer />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </div>
+);
 
 export default FoodSearch;
-
-// TEST 코드
-// useEffect(() => {
-//   (async () => {
-//     await jiseekApi
-//       .getRecipeList({
-//         q: '불고기',
-//         videoEmbeddable: true,
-//         type: 'video',
-//         regionCode: 'KR',
-//         part: 'snippet',
-//         fields:
-//           'items(id(videoId),snippet(title,description,thumbnails(default(url)),channelTitle))',
-//         maxResult: 5,
-//       })
-//       .then((res) => console.log(res))
-//       .catch((err) => console.log(err));
-//   })();
-// }, []);

@@ -14,21 +14,15 @@ const youTubeApi = (url) => async (data) => {
       params: { key: YOUTUBE_API_KEY, ...data },
       timeout: 3000,
     });
-
-    // 혹시 모르니 임시 보류
-    // const valid = /^2[0-9]{2}$/;
-    // if (!valid.test(response.status)) {
-    //   // throw new Error(response);
-    // }
     return response.data.items;
   } catch (err) {
-    // TODO: 비동기 처리 로직에 따라 변경 필요.
     throw new Error(err.message);
   }
 };
 
 const foodApi = {
-  getFoodInfo: commonAPI.get('/food/search'),
+  getFoodLIst: commonAPI.get('/food/'),
+  getFoodInfo: commonAPI.get('/food/search/'),
   getRecipeList: youTubeApi('/search'),
   getVideoRating: youTubeApi('/videos'),
 };

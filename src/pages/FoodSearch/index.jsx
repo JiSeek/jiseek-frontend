@@ -1,6 +1,15 @@
 import React from 'react';
+import FoodUpload from '../../components/FoodSearch/FoodUpload';
 
-const FoodSearch = () => <div>FoodSearch</div>;
+function FoodSearch (){
+    return(
+    <div>
+        <div>FoodSearch</div>
+        <FoodUpload />
+    </div>
+    );
+};
+
 
 export default FoodSearch;
 

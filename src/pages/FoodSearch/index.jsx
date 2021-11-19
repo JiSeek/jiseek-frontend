@@ -1,7 +1,8 @@
 import React from 'react';
+import FoodSearch from '../../components/FoodSearch'
 
-const FoodSearch = () => <div>FoodSearch</div>;
-
+// const FoodSearch = () => <div>FoodSearch</div>;
+<FoodSearch/>
 export default FoodSearch;
 
 // TEST 코드

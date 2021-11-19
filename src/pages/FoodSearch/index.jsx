@@ -1,8 +1,16 @@
 import React from 'react';
-import FoodSearch from '../../components/FoodSearch'
+import FoodUpload from '../../components/FoodSearch/FoodUpload';
 
-// const FoodSearch = () => <div>FoodSearch</div>;
-<FoodSearch/>
+function FoodSearch (){
+    return(
+    <div>
+        <div>FoodSearch</div>
+        <FoodUpload />
+    </div>
+    );
+};
+
+
 export default FoodSearch;
 
 // TEST 코드

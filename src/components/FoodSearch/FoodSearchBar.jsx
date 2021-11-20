@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const FoodSearchBar = ({
   keyword,
   focusItem,
-  foundList,
+  foundNames,
   onInput,
   onKeyUp,
   onKeyDown,
@@ -15,6 +15,7 @@ const FoodSearchBar = ({
   onBlur,
 }) => (
   <StyledSearchBar>
+    <input style={{ display: 'none' }} />
     <input
       value={keyword}
       onInput={onInput}
@@ -26,13 +27,15 @@ const FoodSearchBar = ({
       placeholder="음식명을 입력해주세요."
     />
     <StyledList
-      empty={foundList.length === 0}
+      empty={foundNames.length === 0}
       onClick={onListClick}
       onMouseOver={onMouseOver}
     >
-      {foundList.map((name, idx) => (
+      {foundNames.map((name, idx) => (
         <StyledItem focus={idx === focusItem} key={name}>
-          <a href="/#">{name}</a>
+          <a href="/#" rel="search">
+            {name}
+          </a>
         </StyledItem>
       ))}
     </StyledList>
@@ -42,7 +45,7 @@ const FoodSearchBar = ({
 FoodSearchBar.propTypes = {
   keyword: PropTypes.string,
   focusItem: PropTypes.number,
-  foundList: PropTypes.arrayOf(PropTypes.string),
+  foundNames: PropTypes.arrayOf(PropTypes.string),
   onInput: PropTypes.func,
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
@@ -55,7 +58,7 @@ FoodSearchBar.propTypes = {
 FoodSearchBar.defaultProps = {
   keyword: '',
   focusItem: -1,
-  foundList: [],
+  foundNames: [],
   onInput: null,
   onKeyUp: null,
   onKeyDown: null,
@@ -70,11 +73,12 @@ const StyledSearchBar = styled.div`
 `;
 
 const StyledList = styled.ul`
+  display: ${(props) => (props.empty ? 'none' : 'block')};
   padding: 0;
   margin: 0;
   list-style: none;
   text-align: center;
-  border: ${(props) => (props.empty ? 'none' : 'solid 1px black')};
+  border: solid 1px black;
 `;
 
 const StyledItem = styled.li`

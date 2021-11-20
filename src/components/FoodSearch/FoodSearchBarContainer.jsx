@@ -1,38 +1,34 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
-import jiseekApi from '../../api';
+import PropTypes from 'prop-types';
 import Trie from '../../utils/Trie';
 import FoodSearchBar from './FoodSearchBar';
 
-const FoodSearchBarContainer = () => {
+const FoodSearchBarContainer = ({ foodTable, setListFind }) => {
   const [keyword, setKeyword] = useState('');
   const [focusItem, setFocusItem] = useState(-1);
-  const [foundList, setFoundList] = useState([]);
-  // TODO: 예외처리 예정.
-  // , error, status, isFetching
-  const { data } = useQuery('foodlist', jiseekApi.getFoodLIst, {
-    staleTime: Infinity,
-  });
+  const [foundNames, setFoundNames] = useState([]);
 
   const foodList = useMemo(() => {
-    const foodNames = new Trie();
-    if (data) {
-      data.map(({ name }) => name).forEach((name) => foodNames.insert(name));
+    const items = new Trie();
+    const itemList = Object.keys(foodTable);
+    if (itemList.length) {
+      itemList.map((name) => name).forEach((name) => items.insert(name));
     }
-    return foodNames;
-  }, [data]);
+    return items;
+  }, [foodTable]);
 
+  // 현재 입력창 입력값 변경 처리 핸들러
   const handleInput = useCallback(
     (e) => {
       if (e.target.value !== keyword) {
-        setFocusItem(() => -1);
+        setFocusItem(-1);
       }
-      const inputValue = e.target.value;
-      setKeyword(() => inputValue);
+      setKeyword(e.target.value);
     },
     [keyword],
   );
 
+  // 입력한 검색어에 대한 가능한 목록 표시 처리 핸들러
   const handleKeyUp = useCallback(
     (e) => {
       if (
@@ -43,73 +39,80 @@ const FoodSearchBarContainer = () => {
       ) {
         return;
       }
-      setFoundList(() => foodList.find(e.target.value));
+      setFoundNames(foodList.find(e.target.value));
     },
     [foodList],
   );
 
+  // 표시된 음식 목록 탐색을 위한 키보드 네비게이션 함수
   const navigateNext = useCallback(
     (code) => {
       if (code === 'ArrowUp') {
-        return focusItem <= 0 ? foundList.length - 1 : focusItem - 1;
+        return focusItem <= 0 ? foundNames.length - 1 : focusItem - 1;
       }
       if (code === 'ArrowDown' || code === 'Tab') {
-        return focusItem < foundList.length - 1 ? focusItem + 1 : 0;
+        return focusItem < foundNames.length - 1 ? focusItem + 1 : 0;
       }
       return -1;
     },
-    [focusItem, foundList],
+    [focusItem, foundNames],
   );
 
+  // 음식 목록 탐색 및 현재 위치 음식 이름 선택 처리 핸들러
   const handleKeyDown = useCallback(
     (e) => {
       if (e.isComposing || e.keyCode === 229 || !e.target.value) {
         return;
       }
-      if (foundList.length === 0) {
-        return;
-      }
 
-      const focus = navigateNext(e.code);
-      if (focus !== -1) {
-        e.preventDefault();
-        setKeyword(() => foundList[focus]);
-        setFocusItem(() => focus);
+      if (foundNames.length !== 0) {
+        const focus = navigateNext(e.code);
+        if (focus !== -1) {
+          e.preventDefault();
+          setKeyword(foundNames[focus]);
+          setFocusItem(focus);
+        }
       }
 
       if (e.code === 'Enter') {
-        setKeyword(() => foundList[focusItem]);
-        setFoundList(() => []);
-        // TODO: Submit
+        const foodId = foodTable[foundNames[focusItem]];
+        setListFind(foodId ? [foodId] : [-1]);
+        setKeyword('');
+        setFoundNames([]);
       }
     },
-    [foundList, focusItem, navigateNext],
+    [foodTable, foundNames, focusItem, navigateNext, setListFind],
   );
 
   const handleInputFocus = useCallback(
-    (e) => setFoundList(() => foodList.find(e.target.value)),
+    (e) => setFoundNames(foodList.find(e.target.value)),
     [foodList],
   );
 
-  const handleListClick = useCallback((e) => {
-    if (e.target.tagName === 'A') {
-      e.preventDefault();
-      setKeyword(() => e.target.textContent);
-      setFoundList(() => []);
-    }
-  }, []);
+  // 음식 목록 중 마우스로 선택한 값 적용 처리 핸들러
+  const handleListClick = useCallback(
+    (e) => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+        setListFind([foodTable[e.target.textContent]]);
+        setKeyword('');
+        setFoundNames([]);
+      }
+    },
+    [setListFind, foodTable],
+  );
 
   const handleMouseOver = useCallback(
     (e) =>
       e.target.tagName === 'A' &&
-      setFocusItem(() => foundList.indexOf(e.target.textContent)),
-    [foundList],
+      setFocusItem(foundNames.indexOf(e.target.textContent)),
+    [foundNames],
   );
 
   const handleBlur = useCallback((e) => {
     if (e.relatedTarget?.tagName !== 'A') {
-      setFocusItem(() => -1);
-      setFoundList(() => []);
+      setFocusItem(-1);
+      setFoundNames([]);
     }
   }, []);
 
@@ -118,7 +121,7 @@ const FoodSearchBarContainer = () => {
       <FoodSearchBar
         keyword={keyword}
         focusItem={focusItem}
-        foundList={foundList}
+        foundNames={foundNames}
         onInput={handleInput}
         onKeyUp={handleKeyUp}
         onKeyDown={handleKeyDown}
@@ -129,6 +132,16 @@ const FoodSearchBarContainer = () => {
       />
     </div>
   );
+};
+
+FoodSearchBarContainer.propTypes = {
+  foodTable: PropTypes.objectOf(PropTypes.number),
+  setListFind: PropTypes.func,
+};
+
+FoodSearchBarContainer.defaultProps = {
+  foodTable: {},
+  setListFind: null,
 };
 
 export default FoodSearchBarContainer;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import FoodSearchContainer from '../../components/FoodSearch/FoodSearchContainer';
+import FoodSearchComponent from '../../components/FoodSearch';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,7 +15,7 @@ const FoodSearch = () => (
   <div>
     FoodSearch
     <QueryClientProvider client={queryClient}>
-      <FoodSearchContainer />
+      <FoodSearchComponent />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </div>

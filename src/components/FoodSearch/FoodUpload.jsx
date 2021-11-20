@@ -49,5 +49,4 @@ FoodUpload.propTypes = {
     getImgUrl: PropTypes.func.isRequired,
 };
 
-
 export default FoodUpload;

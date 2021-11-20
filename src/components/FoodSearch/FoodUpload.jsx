@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 
 
     
-function FoodUpload({getImgUrl}: Props){
+function FoodUpload({getImgUrl}){
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewImgUrl, setPreviewImgUrl] = useState("");
@@ -70,11 +70,7 @@ function FoodUpload({getImgUrl}: Props){
     
 )}
 
-FoodUpload.defaultProps = {
-    getImgUrl: null
-}
-
-FoodUpload.propsTypes = {
+FoodUpload.propTypes = {
     getImgUrl: PropTypes.func.isRequired,
 };
 

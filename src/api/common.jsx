@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const JISEEK_BASE_URL = process.env.REACT_APP_JISEEK_API_BASE_URL;
 const YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3';
-// const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
-const YOUTUBE_API_KEY = 'AIzaSyDamlZ1jhFzoeB0PhvQR3MKEIfusx9Y73Q';
+const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 
 const basicIns = axios.create({
   baseURL: JISEEK_BASE_URL,

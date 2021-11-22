@@ -18,6 +18,7 @@ const FoodRecipes = ({ food }) => {
           fields: 'items(id(videoId))', // 영상 id를 결과값으로 도출
           maxResults: 10,
         });
+        console.log(resultIds)
         const idList = resultIds.map(({ id }) => id.videoId);
         const searchDetails = async () => {
           try {
@@ -33,7 +34,7 @@ const FoodRecipes = ({ food }) => {
             );
             const detailList = resultDetails.map((detail) => detail[0]);
             // TODO: 코드 완료되면 테스트용 console.log 지우기
-            // detailList.map((a) => console.log(a.snippet.title));
+            detailList.map((a) => console.log(a.snippet.title));
             const detailListCleaned = [];
             detailList.map((data) => {
               // 띄어쓰기를 제거한 영상 제목에 찾고자 하는 음식 명이 정확히 들어있는지 확인
@@ -50,8 +51,8 @@ const FoodRecipes = ({ food }) => {
                 parseInt(a.statistics.viewCount, 10),
             );
             // TODO: 코드 완료되면 테스트용 console.log 지우기
-            // console.log('cleaned');
-            // detailListCleaned.map((a) => console.log(a.snippet.title));
+            console.log('cleaned');
+            detailListCleaned.map((a) => console.log(a.snippet.title));
             setRecipes(detailListCleaned.slice(0, 4));
           } catch (e) {
             console.log(e);

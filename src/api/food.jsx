@@ -2,7 +2,10 @@ import axios from 'axios';
 import commonAPI from './common';
 
 const YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3';
-const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+// TODO: Youtube API 키 원래대로 돌리기
+// const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+// const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY_SUB;
+const YOUTUBE_API_KEY = "AIzaSyAu_idjnlqJevCb_K3jcBj8_1pGaFW6FIc";
 
 const youTubeApi = (url) => async (data) => {
   try {

@@ -1,5 +1,13 @@
 import { createQueryApi, createMutationApi, youTubeApi } from './common';
 
+/*
+  GET Api의 url은 react-query로 전달하는 고유키 값을 합친 것입니다.
+  별도의 Arguments가 필요한 경우 객체 형태로 전달하면 됩니다.
+    예) jiseekAPi.get({food: '불고기', token: 'sdf324sdf'})
+
+  GET 이외의 Api는 Arguments로 url과 전송할 데이터(객체 형태)를 전달합니다.
+    예) jiseekApi.post('/food/', {token: 'sdfs234sdf', 'taste': '매운맛'})
+ */
 const jiseekApi = {
   get: createQueryApi,
   post: createMutationApi('post'),

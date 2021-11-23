@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import jiseekApi from '../../api';
 
 // 음식 레시피 검색
+// TODO: 레시피가 아닌 영상 제거하는 과정 필요
 const FoodRecipes = ({ food }) => {
   const [recipes, setRecipes] = useState([]);
   useEffect(() => {
@@ -75,6 +76,8 @@ const FoodRecipes = ({ food }) => {
           <YoutubeContent key={recipe.id} youtube={recipe} />
         ))
       )}
+      {/* 더 많은 레시피를 확인할 수 있게 유튜브로 이동 */}
+      <a href={`https://www.youtube.com/results?search_query=${food}레시피`} target="_blank" rel="noreferrer">레시피 더보기</a>
     </div>
   );
 };

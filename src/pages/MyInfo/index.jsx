@@ -1,5 +1,5 @@
 import React from 'react';
 
-const MyInfo = () => <div>MyInfo</div>;
+const MyInfoPage = () => <div>MyInfo</div>;
 
-export default MyInfo;
+export default MyInfoPage;

@@ -6,3 +6,7 @@ export const throttle = (func, delay) => {
     }
   };
 };
+
+const REDIRECT_BASE_URL = process.env.REACT_APP_LOGIN_REDIRECT_BASE_URL;
+export const createRedirectUrl = (type = '') =>
+  `${REDIRECT_BASE_URL}/${type}/callback`;

@@ -21,8 +21,9 @@ const useFoodUpload = () => {
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   const { mutate, reset, isLoading, isError } = useMutation(
-    (image) => jiseekApi.post('/food', { image }),
+    (image) => jiseekApi.post('/food/', { image }),
     {
+      mutationKey: 'foodUpload',
       onMutate: () => queryClient.cancelQueries('food'),
       onError: (err) => console.error('임시 에러처리', err),
       onSuccess: () => {

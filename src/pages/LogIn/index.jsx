@@ -1,17 +1,17 @@
 import React from 'react';
 import { useLocation, useMatch, Navigate, Outlet } from 'react-router-dom';
-import { useSessionContext } from '../../contexts/SessionContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 import { KakaoLogIn } from '../../components/LogIn';
 import { useLangContext } from '../../contexts/LangContext';
 
 const LogInPage = () => {
   const location = useLocation();
   const match = useMatch({ path: '/login', end: true });
-  const { token } = useSessionContext();
+  const { token } = useAuthContext();
   const [lang] = useLangContext();
   const from = location.state?.from?.pathname || '/';
 
-  if (token) {
+  if (token.access) {
     return <Navigate to={from} replace />;
   }
 

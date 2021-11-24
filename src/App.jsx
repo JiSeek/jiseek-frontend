@@ -10,10 +10,11 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { LangProvider } from './contexts/LangContext';
-import { SessionProvider, useSessionContext } from './contexts/SessionContext';
+// import { LangProvider } from './contexts/LangContext';
+// import { SessionProvider, useSessionContext } from './contexts/AuthContext';
 import { NavigationBar } from './components/common';
 import {
+  Initialize,
   MainPage,
   RegisterPage,
   LogInPage,
@@ -26,6 +27,7 @@ import {
   LogOutPage,
   NotFound,
 } from './pages';
+import { useAuthContext } from './contexts/AuthContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,46 +39,48 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <BrowserRouter>
-    <LangProvider>
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
-          <Routes>
-            <Route path="/" element={<NavigationBar />}>
-              <Route index element={<MainPage />} />
-              <Route path="food" element={<FoodSearchPage />} />
-              <Route path="board" element={<BoardPage />}>
-                <Route path=":id" element={<BoardDetailPage />} />
-              </Route>
-              <Route path="register" element={<RegisterPage />} />
-              <Route path="login" element={<LogInPage />}>
-                <Route path="auth/:type/callback" element={<LogInAuthPage />} />
-              </Route>
-              <Route path="logout" element={<LogOutPage />} />
-              <Route
-                path="mypage"
-                element={
-                  <RequireAuth>
-                    <MyPage />
-                  </RequireAuth>
-                }
-              >
-                <Route path=":info" element={<MyInfoPage />} />
-              </Route>
+    {/* <LangProvider> */}
+    {/* <SessionProvider> */}
+    <QueryClientProvider client={queryClient}>
+      <Initialize>
+        <Routes>
+          <Route path="/" element={<NavigationBar />}>
+            <Route index element={<MainPage />} />
+            <Route path="food" element={<FoodSearchPage />} />
+            <Route path="board" element={<BoardPage />}>
+              <Route path=":id" element={<BoardDetailPage />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </SessionProvider>
-    </LangProvider>
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="login" element={<LogInPage />}>
+              <Route path="auth/:type/callback" element={<LogInAuthPage />} />
+            </Route>
+            <Route path="logout" element={<LogOutPage />} />
+            <Route
+              path="mypage"
+              element={
+                <RequireAuth>
+                  <MyPage />
+                </RequireAuth>
+              }
+            >
+              <Route path=":info" element={<MyInfoPage />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Initialize>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+    {/* </SessionProvider> */}
+    {/* </LangProvider> */}
   </BrowserRouter>
 );
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  const { token } = useSessionContext();
+  const { token } = useAuthContext();
 
-  if (!token) {
+  if (!token.access) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 

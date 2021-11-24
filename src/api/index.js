@@ -1,4 +1,5 @@
-import { createQueryApi, createMutationApi, youTubeApi } from './common';
+import { JISEEK_BASE_URL, createQueryApi, createMutationApi } from './common';
+import youTubeApi from './youTube';
 
 /*
   GET Api의 url은 react-query로 전달하는 고유키 값을 합친 것입니다.
@@ -9,11 +10,11 @@ import { createQueryApi, createMutationApi, youTubeApi } from './common';
     예) jiseekApi.post('/food/', {token: 'sdfs234sdf', 'taste': '매운맛'})
  */
 const jiseekApi = {
-  get: createQueryApi,
-  post: createMutationApi('post'),
-  put: createMutationApi('put'),
-  patch: createMutationApi('patch'),
-  delete: createMutationApi('delete'),
+  get: createQueryApi(JISEEK_BASE_URL),
+  post: createMutationApi(JISEEK_BASE_URL)('post'),
+  put: createMutationApi(JISEEK_BASE_URL)('put'),
+  patch: createMutationApi(JISEEK_BASE_URL)('patch'),
+  delete: createMutationApi(JISEEK_BASE_URL)('delete'),
   getRecipeList: youTubeApi('/search'),
   getVideoRating: youTubeApi('/videos'),
 };

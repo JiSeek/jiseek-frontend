@@ -3,11 +3,18 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import jiseekApi from '../../api';
 
+// TODO: 임시 에러만 처리 21.11.24 JS
+
 // 음식 레시피 검색
 // TODO: 레시피가 아닌 영상 제거하는 과정 필요
 const FoodRecipes = ({ food }) => {
   const [recipes, setRecipes] = useState([]);
+  // TODO: 임시 처리
+
   useEffect(() => {
+    if (!food) {
+      return;
+    }
     const searchRecipes = async () => {
       try {
         const resultIds = await jiseekApi.getRecipeList({
@@ -18,66 +25,76 @@ const FoodRecipes = ({ food }) => {
           part: 'snippet',
           fields: 'items(id(videoId))', // 영상 id를 결과값으로 도출
           maxResults: 10,
-        });
-        console.log(resultIds)
+        })();
+        // console.log(resultIds);
         const idList = resultIds.map(({ id }) => id.videoId);
-        const searchDetails = async () => {
-          try {
-            const resultDetails = await Promise.all(
-              idList.map((eachId) =>
-                jiseekApi.getVideoRating({
-                  id: eachId,
-                  part: 'snippet, statistics, contentDetails, status',
-                  fields:
-                    'items(id, snippet(title, description, publishedAt), statistics(viewCount), contentDetails(duration))',
-                }),
-              ),
-            );
-            const detailList = resultDetails.map((detail) => detail[0]);
-            // TODO: 코드 완료되면 테스트용 console.log 지우기
-            detailList.map((a) => console.log(a.snippet.title));
-            const detailListCleaned = [];
-            detailList.map((data) => {
-              // 띄어쓰기를 제거한 영상 제목에 찾고자 하는 음식 명이 정확히 들어있는지 확인
-              const checkTitle = data.snippet.title.replace(/\s/g, '');
-              if (checkTitle.includes(food)) {
-                detailListCleaned.push(data);
-              }
-              return detailListCleaned;
-            });
-            // 조회수 높은 순으로 정렬
-            detailListCleaned.sort(
-              (a, b) =>
-                parseInt(b.statistics.viewCount, 10) -
-                parseInt(a.statistics.viewCount, 10),
-            );
-            // TODO: 코드 완료되면 테스트용 console.log 지우기
-            console.log('cleaned');
-            detailListCleaned.map((a) => console.log(a.snippet.title));
-            setRecipes(detailListCleaned.slice(0, 4));
-          } catch (e) {
-            console.log(e);
+
+        const resultDetails = await Promise.all(
+          idList.map((eachId) =>
+            jiseekApi.getVideoRating({
+              id: eachId,
+              part: 'snippet, statistics, contentDetails, status',
+              fields:
+                'items(id, snippet(title, description, publishedAt), statistics(viewCount), contentDetails(duration))',
+            })(),
+          ),
+        );
+        const detailList = resultDetails.map((detail) => detail[0]);
+        // TODO: 코드 완료되면 테스트용 console.log 지우기
+        console.log(resultDetails);
+
+        const detailListCleaned = [];
+        detailList.map((data) => {
+          // 띄어쓰기를 제거한 영상 제목에 찾고자 하는 음식 명이 정확히 들어있는지 확인
+          const checkTitle = data.snippet.title.replace(/\s/g, '');
+          if (checkTitle.includes(food)) {
+            detailListCleaned.push(data);
           }
-        };
-        searchDetails();
+          return detailListCleaned;
+        });
+        // 조회수 높은 순으로 정렬
+        detailListCleaned.sort(
+          (a, b) =>
+            parseInt(b.statistics.viewCount, 10) -
+            parseInt(a.statistics.viewCount, 10),
+        );
+        // TODO: 코드 완료되면 테스트용 console.log 지우기
+        console.log('cleaned');
+        setRecipes(detailListCleaned.slice(0, 4));
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
     searchRecipes();
   }, [food]);
 
+  if (!food) {
+    return <span>결과 없음!!</span>;
+  }
+
+  console.log(recipes);
+
   return (
     <div>
-      {recipes === [] ? (
+      {recipes.length === 0 ? (
         <h1>Loading...</h1>
       ) : (
-        recipes.map((recipe) => (
-          <YoutubeContent key={recipe.id} youtube={recipe} />
-        ))
+        <ul>
+          {recipes.map((recipe) => (
+            <li key={recipe.id}>
+              <YoutubeContent youtube={recipe} />
+            </li>
+          ))}
+        </ul>
       )}
       {/* 더 많은 레시피를 확인할 수 있게 유튜브로 이동 */}
-      <a href={`https://www.youtube.com/results?search_query=${food}레시피`} target="_blank" rel="noreferrer">레시피 더보기</a>
+      <a
+        href={`https://www.youtube.com/results?search_query=${food}레시피`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        레시피 더보기
+      </a>
     </div>
   );
 };
@@ -116,9 +133,11 @@ export const YoutubeContent = ({ youtube }) => {
 };
 
 FoodRecipes.propTypes = {
-  food: PropTypes.node.isRequired,
+  food: PropTypes.string.isRequired,
 };
 
 YoutubeContent.propTypes = {
-  youtube: PropTypes.node.isRequired,
+  youtube: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  ).isRequired,
 };

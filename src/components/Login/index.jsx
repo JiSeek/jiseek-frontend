@@ -1,5 +1,2 @@
-// import React from 'react';
-
-const Login = () => {};
-
-export default Login;
+// TODO: 임시, 통합화 필요
+export { default as KakaoLogIn } from './kakao';

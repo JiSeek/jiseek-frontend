@@ -1,5 +1,5 @@
 import React from 'react';
 
-const BoardDetails = () => <div>BoardDetails</div>;
+const BoardDetailPage = () => <div>BoardDetails</div>;
 
-export default BoardDetails;
+export default BoardDetailPage;

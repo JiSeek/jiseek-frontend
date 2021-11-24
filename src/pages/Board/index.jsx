@@ -1,5 +1,14 @@
 import React from 'react';
+import { useMatch, Outlet } from 'react-router-dom';
 
-const Board = () => <div>Board</div>;
+const BoardPage = () => {
+  const match = useMatch({ path: '/board', end: true });
 
-export default Board;
+  return (
+    <div>
+      {match && 'Board'}
+      <Outlet />
+    </div>
+  );
+};
+export default BoardPage;

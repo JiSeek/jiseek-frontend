@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSessionContext } from '../../contexts/SessionContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const LogOutPage = () => {
-  const { clearToken } = useSessionContext();
+  const { clearToken } = useAuthContext();
 
   useEffect(() => clearToken(), [clearToken]);
 

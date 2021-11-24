@@ -1,3 +1,4 @@
+export { default as Initialize } from './Initialize';
 export { default as MainPage } from './Main';
 export { default as RegisterPage } from './Register';
 export { default as LogInPage } from './LogIn';

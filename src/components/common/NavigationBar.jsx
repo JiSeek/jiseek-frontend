@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useResolvedPath, useMatch, Outlet } from 'react-router-dom';
 import { useLangContext } from '../../contexts/LangContext';
-import { useSessionContext } from '../../contexts/SessionContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const login = (lang) => {
   if (lang === 'ko') {
@@ -38,12 +38,12 @@ const logout = (lang) => {
 
 const UtilBar = () => {
   const [lang, setLang] = useLangContext();
-  const { token } = useSessionContext();
+  const { token } = useAuthContext();
   const onChange = useCallback((e) => setLang(e.target.value), [setLang]);
 
   return (
     <ul>
-      {token
+      {token.access
         ? login(lang).map(([name, url]) => (
             <li key={name}>
               <Link to={url}>{name}</Link>

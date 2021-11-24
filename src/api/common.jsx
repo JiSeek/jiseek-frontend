@@ -48,7 +48,7 @@ export const createMutationApi =
   };
 
 // YouTube Data API로부터 음식 레시피 정보를 얻어오는 API
-export const youTubeApi = (url) => (data) => async () => {
+export const youTubeApi = (url) => async (data) => {
   try {
     const response = await axios({
       baseURL: YOUTUBE_BASE_URL,

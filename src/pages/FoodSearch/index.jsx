@@ -12,7 +12,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const FoodSearch = () => (
+const FoodSearchPage = () => (
   <div>
     FoodSearch
     <QueryClientProvider client={queryClient}>
@@ -23,4 +23,4 @@ const FoodSearch = () => (
   </div>
 );
 
-export default FoodSearch;
+export default FoodSearchPage;

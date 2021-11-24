@@ -9,26 +9,25 @@ const FoodSearchBar = ({
   onInput,
   onKeyUp,
   onKeyDown,
-  onInputFocus,
-  onListClick,
+  onFocusInput,
+  onClickList,
   onMouseOver,
   onBlur,
 }) => (
   <StyledSearchBar>
-    <input style={{ display: 'none' }} />
     <input
       value={keyword}
       onInput={onInput}
       onKeyUp={onKeyUp}
       onKeyDown={onKeyDown}
-      onClick={onInputFocus}
-      onFocus={onInputFocus}
+      onClick={onFocusInput}
+      onFocus={onFocusInput}
       onBlur={onBlur}
       placeholder="음식명을 입력해주세요."
     />
     <StyledList
       empty={foundNames.length === 0}
-      onClick={onListClick}
+      onClick={onClickList}
       onMouseOver={onMouseOver}
     >
       {foundNames.map((name, idx) => (
@@ -49,8 +48,8 @@ FoodSearchBar.propTypes = {
   onInput: PropTypes.func,
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
-  onInputFocus: PropTypes.func,
-  onListClick: PropTypes.func,
+  onFocusInput: PropTypes.func,
+  onClickList: PropTypes.func,
   onMouseOver: PropTypes.func,
   onBlur: PropTypes.func,
 };
@@ -62,8 +61,8 @@ FoodSearchBar.defaultProps = {
   onInput: null,
   onKeyUp: null,
   onKeyDown: null,
-  onInputFocus: null,
-  onListClick: null,
+  onFocusInput: null,
+  onClickList: null,
   onMouseOver: null,
   onBlur: null,
 };

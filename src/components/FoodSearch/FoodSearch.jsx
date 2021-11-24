@@ -6,7 +6,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 //
 import jiseekApi from '../../api';
 import { useFoodIdMap, useFoodUpload } from '../../hooks/FoodSearch';
-import SlideTabContainer from './SlideTabContainer';
+import SearchTabContainer from './SearchTabContainer';
 import FoodSearchBarContainer from './FoodSearchBarContainer';
 import useImageSlider from '../../hooks/common/useImageSlider';
 import FoodRecipes from './FoodRecipes';
@@ -62,7 +62,7 @@ const FoodSearch = () => {
 
   return (
     <div>
-      <SlideTabContainer
+      <SearchTabContainer
         disabled={foodInfoStatus === 'loading'}
         imageTab={imageTab}
         setImageTab={setImageTab}

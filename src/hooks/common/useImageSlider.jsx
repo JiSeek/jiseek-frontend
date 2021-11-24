@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 // 임시 스타일드 요건 뺄거...
 import styled, { css } from 'styled-components';
-import ArrowTypeNavBar from '../../components/common/ArrowTypeNavBar';
-import BubbleTypeNavBar from '../../components/common/BubbleTypeNavBar';
+import { ArrowTypeNavBar, BubbleTypeNavBar } from '../../components/common';
 import { Bulgogi, Meat, MeatGui } from '../../assets/images';
 
 /*
@@ -130,12 +129,12 @@ const useImageSlider = (imageList = [], options = {}) => {
         <ArrowTypeNavBar
           // lang={}
           label={setOptions.label}
+          name={imageList[slideIdx]}
+          curIndex={slideIdx}
           min={0}
           max={imageList.length - 1}
-          current={slideIdx}
           onPrev={() => setSlideIdx((old) => old - 1)}
           onNext={() => setSlideIdx((old) => old + 1)}
-          element={<span>{`${slideIdx + 1}. ${imageList[slideIdx]}`}</span>}
         />
       ) : (
         <BubbleTypeNavBar /> // TODO: 아직 미구현

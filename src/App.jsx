@@ -12,7 +12,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { LangProvider } from './contexts/LangContext';
 import { SessionProvider, useSessionContext } from './contexts/SessionContext';
-import { NavigationBar } from './components/common';
+import { MainNavigationBar } from './components/common';
 import {
   MainPage,
   RegisterPage,
@@ -41,7 +41,7 @@ const App = () => (
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <Routes>
-            <Route path="/" element={<NavigationBar />}>
+            <Route path="/" element={<MainNavigationBar />}>
               <Route index element={<MainPage />} />
               <Route path="food" element={<FoodSearchPage />} />
               <Route path="board" element={<BoardPage />}>

@@ -12,7 +12,7 @@ const LogInAuthPage = () => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
-    (token) => jiseekApi.post(`/api/v1/user/login/${type}`, { token }),
+    (token) => jiseekApi.post(`/user/login/${type}`, { token }),
     {
       onSuccess: (data) => {
         const { access_token: token, ...user } = data;

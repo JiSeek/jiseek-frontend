@@ -11,11 +11,11 @@ export const createQueryApi =
   (sendData = {}) =>
   async ({ queryKey }) => {
     try {
-      const url = `/${queryKey.join('/')}`;
+      const url = `/${queryKey.join('/')}/`;
       const { token, ...params } = sendData;
       const response = await axios({
         baseURL,
-        url: baseURL === JISEEK_BASE_URL ? wrapUrl(url) : url,
+        url,
         method: 'get',
         headers: {
           'content-Type': 'application/json',

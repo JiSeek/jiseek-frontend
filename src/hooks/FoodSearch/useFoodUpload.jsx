@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import FoodUpload from '../../components/FoodSearch/FoodUpload';
 import jiseekApi from '../../api';
-import { wrapUrl } from '../../api/common';
 
 /*
   Return Values:
@@ -22,7 +21,7 @@ const useFoodUpload = () => {
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   const { mutate, reset, isLoading, isError } = useMutation(
-    (image) => jiseekApi.post(wrapUrl('/food'), { image }),
+    (image) => jiseekApi.post('/food', { image }),
     {
       onMutate: () => queryClient.cancelQueries('food'),
       onError: (err) => console.error('임시 에러처리', err),

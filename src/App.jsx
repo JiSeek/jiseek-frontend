@@ -13,17 +13,19 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { LangProvider } from './contexts/LangContext';
 import { SessionProvider, useSessionContext } from './contexts/SessionContext';
 import { NavigationBar } from './components/common';
-import MainPage from './pages';
-import RegisterPage from './pages/Register';
-import LogInPage from './pages/LogIn';
-import FoodSearchPage from './pages/FoodSearch';
-import BoardPage from './pages/Board';
-import BoardDetailPage from './pages/BoardDetails';
-import MyPage from './pages/MyPage';
-import MyInfoPage from './pages/MyInfo';
-import LogInAuthPage from './pages/LogInAuth';
-import LogOutPage from './pages/LogOut';
-import NotFound from './pages/NotFound';
+import {
+  MainPage,
+  RegisterPage,
+  LogInPage,
+  FoodSearchPage,
+  BoardPage,
+  BoardDetailPage,
+  MyPage,
+  MyInfoPage,
+  LogInAuthPage,
+  LogOutPage,
+  NotFound,
+} from './pages';
 
 const queryClient = new QueryClient({
   defaultOptions: {

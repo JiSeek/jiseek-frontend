@@ -10,7 +10,6 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { MainNavigationBar } from './components/common';
 import {
   Initialize,
   MainPage,
@@ -26,6 +25,7 @@ import {
   NotFound,
 } from './pages';
 import { useAuthContext } from './contexts';
+import RootPage from './pages/RootPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,7 +40,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <Initialize>
         <Routes>
-          <Route path="/" element={<MainNavigationBar />}>
+          <Route path="/" element={<RootPage />}>
             <Route index element={<MainPage />} />
             <Route path="food" element={<FoodSearchPage />} />
             <Route path="board" element={<BoardPage />}>

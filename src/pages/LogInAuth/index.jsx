@@ -33,6 +33,7 @@ const LogInAuthPage = () => {
 
   useEffect(() => mutate(params.get('code')), [params, mutate]);
 
+  // TODO: 로딩 중 멀 넣을지 고민해봐야할듯...?
   return <></>;
 };
 

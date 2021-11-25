@@ -3,8 +3,6 @@ import axios from 'axios';
 export const JISEEK_BASE_URL = process.env.REACT_APP_JISEEK_API_BASE_URL;
 const REDIRECT_BASE_URL = process.env.REACT_APP_LOGIN_REDIRECT_BASE_URL;
 
-export const wrapUrl = (url) => `/api/v1${url}/`;
-
 // Query를 위한 API(사용 가능한 메소드: GET)
 export const createQueryApi =
   (baseURL) =>

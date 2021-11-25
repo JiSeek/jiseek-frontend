@@ -4,14 +4,18 @@ import { useNavigate } from 'react-router-dom'
 import jiseekApi from '../../api';
 
 function BoardUpload() {
-    const [ todayNow, setTodayNow ] = useState();
     const navigate = useNavigate();
+    const [ todayNow, setTodayNow ] = useState();
     const [ selectedImg, setSelectedImg ] = useState({file: '', url: ''});
     const [ text, setText ] = useState('');
-
     const { mutate } = useMutation( 
         (content, image, time) => { 
-            jiseekApi.post('/board/', { content, image, created_at:time, modified_at:'' })
+            jiseekApi.post('/board/', { 
+                token: 'aaa', 
+                content, 
+                image, 
+                created_at: time, 
+                modified_at:'' })
         },
         {
             onSuccess: () => navigate('/board/'),
@@ -56,9 +60,21 @@ function BoardUpload() {
         <>  
             <button type='button' onClick={handleBack}>X</button>
             <form action='#'>
-                <input type='file' name='image' multiple accept='image/*' onChange={handleSelectImg} />
-                {selectedImg && <img src={selectedImg.url} alt='이미지' />}
-                <input type='text' placeholder='텍스트 입력...' value={text} onChange={handleInputText}/>
+                <input 
+                    type='file' 
+                    name='image' 
+                    multiple 
+                    accept='image/*' 
+                    onChange={handleSelectImg} 
+                />
+                {selectedImg && 
+                    <img src={selectedImg.url} alt='이미지' />}
+                <input 
+                    type='text' 
+                    placeholder='텍스트 입력...' 
+                    value={text} 
+                    onChange={handleInputText}
+                />
                 <button type='submit' onClick={handleSubmit} >게시</button>
             </form>
         </>

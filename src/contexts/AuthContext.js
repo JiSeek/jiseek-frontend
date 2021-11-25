@@ -1,15 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useReducer,
-  // useState,
-} from 'react';
+import { createContext, useCallback, useContext, useReducer } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
-import authReducer, { actions, initialState } from '../reducer/authReducer';
+import { authReducer, initialState, actions } from '../reducer';
 import { storeAuth } from '../utils';
-// import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
 

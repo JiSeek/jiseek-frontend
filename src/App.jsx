@@ -10,9 +10,7 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-// import { LangProvider } from './contexts/LangContext';
-// import { SessionProvider, useSessionContext } from './contexts/AuthContext';
-import { NavigationBar } from './components/common';
+import { MainNavigationBar } from './components/common';
 import {
   Initialize,
   MainPage,
@@ -27,7 +25,7 @@ import {
   LogOutPage,
   NotFound,
 } from './pages';
-import { useAuthContext } from './contexts/AuthContext';
+import { useAuthContext } from './contexts';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,12 +37,10 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <BrowserRouter>
-    {/* <LangProvider> */}
-    {/* <SessionProvider> */}
     <QueryClientProvider client={queryClient}>
       <Initialize>
         <Routes>
-          <Route path="/" element={<NavigationBar />}>
+          <Route path="/" element={<MainNavigationBar />}>
             <Route index element={<MainPage />} />
             <Route path="food" element={<FoodSearchPage />} />
             <Route path="board" element={<BoardPage />}>
@@ -71,8 +67,6 @@ const App = () => (
       </Initialize>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-    {/* </SessionProvider> */}
-    {/* </LangProvider> */}
   </BrowserRouter>
 );
 

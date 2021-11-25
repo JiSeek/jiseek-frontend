@@ -8,19 +8,19 @@ import FormLessButton from './FormLessButton';
 const ArrowTypeNavBar = ({
   lang,
   label,
+  name,
+  curIndex,
   min,
   max,
-  current,
   onPrev,
   onNext,
-  element,
 }) => (
   <StyledNav aria-labelledby={lang === 'ko' ? label.ko : label.en}>
-    <FormLessButton hidden={current <= min} onClick={onPrev}>
+    <FormLessButton hidden={curIndex <= min} onClick={onPrev}>
       <FontAwesomeIcon icon={faAngleLeft} size="lg" />
     </FormLessButton>
-    {element}
-    <FormLessButton hidden={current >= max} onClick={onNext}>
+    <span>{`${curIndex + 1}. ${name}`}</span>
+    <FormLessButton hidden={curIndex >= max} onClick={onNext}>
       <FontAwesomeIcon icon={faAngleRight} size="lg" />
     </FormLessButton>
   </StyledNav>
@@ -29,23 +29,23 @@ const ArrowTypeNavBar = ({
 ArrowTypeNavBar.propTypes = {
   lang: PropTypes.string,
   label: PropTypes.objectOf(PropTypes.string),
+  name: PropTypes.string,
+  curIndex: PropTypes.number,
   min: PropTypes.number,
   max: PropTypes.number,
-  current: PropTypes.number,
   onPrev: PropTypes.func,
   onNext: PropTypes.func,
-  element: PropTypes.element,
 };
 
 ArrowTypeNavBar.defaultProps = {
   lang: 'ko',
   label: { ko: '', en: '' },
+  name: '',
+  curIndex: 0,
   min: 0,
   max: 0,
-  current: 0,
   onPrev: null,
   onNext: null,
-  element: null,
 };
 
 // 임시 껍데기

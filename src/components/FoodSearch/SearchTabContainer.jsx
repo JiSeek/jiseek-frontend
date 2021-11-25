@@ -1,10 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import SearchTab from './SearchTab';
 
-const SlideTabContainer = ({ disabled, imageTab, setImageTab }) => {
+const SearchTabContainer = ({ disabled, imageTab, setImageTab }) => {
   const [value, setValue] = useState(0);
 
-  const handleMoveEnd = useCallback(
+  const onChange = useCallback(
+    (e) => setValue(() => Number(e.target.value)),
+    [setValue],
+  );
+
+  const onMoveEnd = useCallback(
     () =>
       setValue((val) => {
         if (imageTab) {
@@ -15,11 +21,6 @@ const SlideTabContainer = ({ disabled, imageTab, setImageTab }) => {
     [setValue, imageTab],
   );
 
-  const handleInput = useCallback(
-    (e) => setValue(() => e.target.value),
-    [setValue],
-  );
-
   useEffect(() => {
     if (value === 0 || value === 100) {
       setImageTab(() => !value);
@@ -28,33 +29,25 @@ const SlideTabContainer = ({ disabled, imageTab, setImageTab }) => {
 
   // TODO: 슬라이드 탭바 프레젠테이셔널 만들기!
   return (
-    <label htmlFor="input-type-tab">
-      <input
-        type="range"
-        id="input-type-tab"
-        value={value}
-        disabled={disabled}
-        onInput={handleInput}
-        onMouseUp={handleMoveEnd}
-        onMouseLeave={handleMoveEnd}
-        onTouchEnd={handleMoveEnd}
-        min="0"
-        max="100"
-      />
-    </label>
+    <SearchTab
+      value={value}
+      disabled={disabled}
+      onChange={onChange}
+      onMoveEnd={onMoveEnd}
+    />
   );
 };
 
-SlideTabContainer.propTypes = {
+SearchTabContainer.propTypes = {
   disabled: PropTypes.bool,
   imageTab: PropTypes.bool,
   setImageTab: PropTypes.func,
 };
 
-SlideTabContainer.defaultProps = {
+SearchTabContainer.defaultProps = {
   disabled: false,
   imageTab: true,
   setImageTab: null,
 };
 
-export default SlideTabContainer;
+export default SearchTabContainer;

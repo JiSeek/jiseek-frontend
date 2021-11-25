@@ -30,7 +30,3 @@ export const setWorker = (on, func, delay) => {
 
 export const storeAuth = (data) =>
   window.localStorage.setItem('jiseek_auth', JSON.stringify(data));
-// 임시 보류
-// const config = window.localStorage.getItem('jiseek');
-// const oldCfg = config ? JSON.parse(config) : {};
-// JSON.stringify({ ...oldCfg, auth: data }),

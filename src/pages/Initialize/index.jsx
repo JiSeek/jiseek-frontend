@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useQueryClient } from 'react-query';
-import AuthContext, { initialTkn, useAuth } from '../../contexts/AuthContext';
-import LangContext from '../../contexts/LangContext';
+import { AuthContext, LangContext, initialTkn, useAuth } from '../../contexts';
 import { setWorker, storeAuth } from '../../utils';
 
 const getRefreshTime = (hour) => hour * 60 * 60;

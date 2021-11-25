@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
-import { useAuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
 
 const LogInAuthPage = () => {
@@ -11,7 +11,6 @@ const LogInAuthPage = () => {
   const { updateToken } = useAuthContext();
   const queryClient = useQueryClient();
 
-  console.log(type);
   const { mutate } = useMutation(
     (token) => jiseekApi.post(`/user/login/${type}/`, { token }),
     {

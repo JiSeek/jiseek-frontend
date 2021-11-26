@@ -62,15 +62,21 @@ const menu = (lang) => {
 };
 
 const NavigationBar = ({ lang }) => (
-  <Navbar>
-    <Link to="/">
-      <Logo src={logo} alt="logo" />
-    </Link>
-    {menu(lang).map(([tab, url]) => (
-      <StyledCustomLink to={url}>{tab}</StyledCustomLink>
-    ))}
+  <>
+    <Navbar>
+      <Link to="/">
+        <Logo src={logo} alt="logo" />
+      </Link>
+      <StyledUl>
+        {menu(lang).map(([tab, url]) => (
+          <li key={tab}>
+            <StyledCustomLink to={url}>{tab}</StyledCustomLink>
+          </li>
+        ))}
+      </StyledUl>
+    </Navbar>
     <StyledHr />
-  </Navbar>
+  </>
 );
 
 NavigationBar.propTypes = {
@@ -87,15 +93,27 @@ const Navbar = styled.nav`
   text-align: center;
   height: 80px;
   background-color: #fbfbfb;
-  /* TODO: 네비게이션 바와 메인 컨텐츠의 영역이 분리되어있어서 sticky 속성이 제대로 적용되지 않음 */
   position: sticky;
   top: 0;
   z-index: 999;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const Logo = styled.img`
   height: 50px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
+  margin-top: 15px;
+  display: inline-block;
+`;
+
+const StyledUl = styled.ul`
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
 `;
 
 const StyledCustomLink = styled(CustomLink)`

@@ -48,15 +48,15 @@ const UtilBar = ({ token, lang, onLangChange }) => {
     <StyledUtilBar>
       {token
         ? login(lang).map(([name, url]) => (
-              <StyledLink
-                to={url}
-                state={{ from: url === '/logout' ? location : null }}
-              >
-                {name}
-              </StyledLink>
+            <StyledLink
+              to={url}
+              state={{ from: url === '/logout' ? location : null }}
+            >
+              {name}
+            </StyledLink>
           ))
         : logout(lang).map(([name, url]) => (
-              <StyledLink to={url}>{name}</StyledLink>
+            <StyledLink to={url}>{name}</StyledLink>
           ))}
       <select name="lang" onChange={onLangChange} value={lang}>
         {[
@@ -86,12 +86,15 @@ UtilBar.defaultProps = {
 
 export default UtilBar;
 
-const StyledUtilBar = styled.div`
+const StyledUtilBar = styled.ul`
+  list-style: none;
   background-color: #998883;
   height: 48px;
   width: 100%;
   text-align: right;
   line-height: 48px;
+  margin:0;
+  padding:0;
 `;
 
 const StyledLink = styled(Link)`
@@ -99,5 +102,5 @@ const StyledLink = styled(Link)`
   color: #fffdfa;
   font-size: 14px;
   font-weight: bold;
-  margin: 50px;
+  margin: 30px;
 `;

@@ -52,5 +52,4 @@ export const createMutationApi =
     }
   };
 
-export const createRedirectUrl = (type = '') =>
-  `${REDIRECT_BASE_URL}/${type}/callback`;
+export const createRedirectUrl = (type = '') => `${REDIRECT_BASE_URL}/${type}`;

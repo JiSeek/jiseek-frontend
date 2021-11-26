@@ -40,17 +40,20 @@ CustomLink.defaultProps = {
 const menu = (lang) => {
   if (lang === 'ko') {
     return [
+      ['메인 페이지', '/'],
       ['영양정보 확인', '/food'],
       ['커뮤니티', '/board'],
     ];
   }
   if (lang === 'en') {
     return [
+      ['Home', '/'],
       ['Search Nutrients', '/food'],
       ['Community', '/board'],
     ];
   }
   return [
+    ['메인 페이지', '/'],
     ['영양정보 확인', '/food'],
     ['커뮤니티', '/board'],
   ];

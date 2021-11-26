@@ -8,14 +8,10 @@ import jiseekApi from '../../api';
 import { useFoodIdMap, useFoodUpload } from '../../hooks/FoodSearch';
 import SearchTab from './SearchTabContainer';
 import FoodSearchBar from './FoodSearchBarContainer';
-import useImageSlider from '../../hooks/common/useImageSlider';
 import FoodRecipes from './FoodRecipes';
-
-const foodKeys = {
-  allList: 'food',
-  detailById: (id) => ['food', id],
-  // detailByName: (name) => ['food', name],
-};
+import { foodKeys } from '../../constants';
+import { useImageSlider } from '../../hooks/common';
+import { LikeButton } from '../common';
 
 // TODO: 전반적인 예외 처리 + 게시판 연동 & sns링크 공유 기능 구현.
 const FoodSearch = () => {
@@ -78,6 +74,11 @@ const FoodSearch = () => {
             <>
               <h2>사진 분석 결과</h2>
               {RenderImageSlider()}
+              <LikeButton
+                target="food"
+                id={foodIdMap[listFind[slideIdx]]}
+                initState={false}
+              />
             </>
           )}
         </section>

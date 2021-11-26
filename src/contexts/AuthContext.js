@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useReducer } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
+import { userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
 import { storeAuth } from '../utils';
 
@@ -27,14 +28,30 @@ export const useAuth = () => {
     storeAuth(data);
     dispatch(actions.updateToken(data));
   }, []);
+
   const clearToken = useCallback(() => {
     storeAuth(initialTkn);
     dispatch(actions.clearToken());
   }, []);
 
+  // TODO: 새로고침이 다시 불러오기 개선
+  // 토큰으로 사용자 정보 불러오기
+  useQuery(userKeys.info, jiseekApi.get({ token: token.access_token }), {
+    staleTime: Infinity,
+    enabled: !!token.access_token,
+    // 테스트 용 코드
+    onSuccess: (data) => console.log('사용자 정보 GET!!', data),
+    onError: (err) => console.error('사용자 정보 GET FAIL!!', err),
+  });
+
+  // 토큰 Refresh
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
-    (refresh) => jiseekApi.post('/refresh/', { refresh }),
+    () =>
+      jiseekApi.post('/user/access-token/refresh/', {
+        token: token.access,
+        refresh: token.refresh,
+      }),
     {
       mutationKey: 'tokenRefresh',
       retryDelay: (attempt) =>
@@ -44,7 +61,7 @@ export const useAuth = () => {
         const expired = current >= token.expTime;
         return expired;
       },
-      onError: ({ err, context }) => {
+      onError: (err, _, context) => {
         console.error('토큰 갱신 실패!(임시 에러처리)', err);
         if (context.expired) {
           clearToken();
@@ -58,10 +75,7 @@ export const useAuth = () => {
     },
   );
 
-  const refreshToken = useCallback(
-    () => mutate(token.refresh),
-    [token.refresh, mutate],
-  );
+  const refreshToken = useCallback(() => mutate(), [mutate]);
 
   return { token, updateToken, refreshToken, clearToken };
 };

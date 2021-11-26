@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useQueryClient } from 'react-query';
 import { AuthContext, LangContext, initialTkn, useAuth } from '../../contexts';
-import { setWorker, storeAuth } from '../../utils';
+import { storeAuth } from '../../utils';
 
 const getRefreshTime = (hour) => hour * 60 * 60;
 
@@ -10,13 +10,14 @@ const Initialize = ({ children }) => {
   const queryClient = useQueryClient();
   const { token, updateToken, refreshToken, clearToken } = useAuth();
   const [lang, setLang] = useState('ko');
+  const timerId = useRef(null);
 
   // App 초기 구동 시 초기화 루틴
   useEffect(() => {
     const authCfg = window.localStorage.getItem('jiseek_auth');
     if (authCfg) {
       const auth = JSON.parse(authCfg);
-      const expired = auth.expires_at - new Date().getTime() <= 0;
+      const expired = auth.expires_at - new Date().getTime() / 1000 <= 0;
       if (!expired) {
         updateToken(auth);
       } else {
@@ -29,11 +30,13 @@ const Initialize = ({ children }) => {
     }
   }, [updateToken, setLang]);
 
-  // 토큰 리프레쉬 루틴 -> TODO: 동작안함, 수정필요
   useEffect(() => {
-    const remainTime = token.expTime - new Date().getTime();
+    const remainTime = token.expTime - new Date().getTime() / 1000;
     if (remainTime <= 0) {
-      setWorker(false);
+      // console.log('3', timerId);
+      clearTimeout(timerId.current);
+      timerId.current = null;
+      // console.log('4', timerId);
       queryClient.setMutationDefaults('refreshToken', { retry: false });
       return;
     }
@@ -41,9 +44,9 @@ const Initialize = ({ children }) => {
     const refreshTime = getRefreshTime(1);
     const delay =
       remainTime >= refreshTime ? remainTime - refreshTime : remainTime;
-    setWorker(true, refreshToken, delay);
-    console.log('2', delay);
-  }, [queryClient, token.expTime, refreshToken]);
+    timerId.current = setTimeout(() => refreshToken(), delay);
+    // console.log('2', delay, timerId);
+  }, [queryClient, token.expTime, refreshToken, timerId]);
 
   const changeLang = useCallback((language) => {
     if (language !== 'ko' && language !== 'en') {

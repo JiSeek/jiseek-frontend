@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const login = (lang) => {
   if (lang === 'ko') {
@@ -40,31 +40,40 @@ const logout = (lang) => {
   ];
 };
 
-const UtilBar = ({ token, lang, onLangChange }) => (
-  <ul>
-    {token
-      ? login(lang).map(([name, url]) => (
-          <li key={name}>
-            <Link to={url}>{name}</Link>
-          </li>
-        ))
-      : logout(lang).map(([name, url]) => (
-          <li key={name}>
-            <Link to={url}>{name}</Link>
-          </li>
+const UtilBar = ({ token, lang, onLangChange }) => {
+  const location = useLocation();
+  console.log('222333', location.pathname);
+  return (
+    <ul>
+      {token
+        ? login(lang).map(([name, url]) => (
+            <li key={name}>
+              <Link
+                to={url}
+                state={{ from: url === '/logout' ? location : null }}
+              >
+                {name}
+              </Link>
+            </li>
+          ))
+        : logout(lang).map(([name, url]) => (
+            <li key={name}>
+              <Link to={url}>{name}</Link>
+            </li>
+          ))}
+      <select name="lang" onChange={onLangChange} value={lang}>
+        {[
+          ['ko', 'KOR'],
+          ['en', 'ENG'],
+        ].map(([code, option]) => (
+          <option key={option} value={code}>
+            {option}
+          </option>
         ))}
-    <select name="lang" onChange={onLangChange} value={lang}>
-      {[
-        ['ko', 'KOR'],
-        ['en', 'ENG'],
-      ].map(([code, option]) => (
-        <option key={option} value={code}>
-          {option}
-        </option>
-      ))}
-    </select>
-  </ul>
-);
+      </select>
+    </ul>
+  );
+};
 
 UtilBar.propTypes = {
   token: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

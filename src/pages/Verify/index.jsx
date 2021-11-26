@@ -27,7 +27,7 @@ const VerifyPage = () => {
         const { user, ...auth } = data;
         updateToken(auth);
         queryClient.setQueryData(userKeys.info, user);
-        // navigate('/', { replace: true });
+        navigate('/', { replace: true });
       },
       onError: () => {
         //       // 임시 땜빵 처리

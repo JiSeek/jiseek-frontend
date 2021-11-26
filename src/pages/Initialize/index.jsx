@@ -30,7 +30,6 @@ const Initialize = ({ children }) => {
     }
   }, [updateToken, setLang]);
 
-  // 토큰 리프레쉬 루틴 -> TODO: 훅으로 개선 완료, 테스트 필요
   useEffect(() => {
     const remainTime = token.expTime - new Date().getTime() / 1000;
     if (remainTime <= 0) {

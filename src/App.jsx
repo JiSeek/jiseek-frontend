@@ -10,7 +10,6 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { MainNavigationBar } from './components/common';
 import {
   Initialize,
   MainPage,
@@ -21,11 +20,12 @@ import {
   BoardDetailPage,
   MyPage,
   MyInfoPage,
-  LogInAuthPage,
+  VerifyPage,
   LogOutPage,
   NotFound,
 } from './pages';
 import { useAuthContext } from './contexts';
+import RootPage from './pages/RootPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,16 +40,15 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <Initialize>
         <Routes>
-          <Route path="/" element={<MainNavigationBar />}>
+          <Route path="/" element={<RootPage />}>
             <Route index element={<MainPage />} />
             <Route path="food" element={<FoodSearchPage />} />
             <Route path="board" element={<BoardPage />}>
               <Route path=":id" element={<BoardDetailPage />} />
             </Route>
             <Route path="register" element={<RegisterPage />} />
-            <Route path="login" element={<LogInPage />}>
-              <Route path="auth/:type/callback" element={<LogInAuthPage />} />
-            </Route>
+            <Route path="login" element={<LogInPage />} />
+            <Route path="verify/:type" element={<VerifyPage />} />
             <Route path="logout" element={<LogOutPage />} />
             <Route
               path="mypage"

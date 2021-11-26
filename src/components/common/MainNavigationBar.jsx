@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useResolvedPath, useMatch, Outlet } from 'react-router-dom';
+import styled from 'styled-components';
 import { useLangContext } from '../../contexts/LangContext';
 import { useAuthContext } from '../../contexts/AuthContext';
+import logo from '../../images/logo.png';
 
 const login = (lang) => {
   if (lang === 'ko') {
@@ -42,29 +44,25 @@ const UtilBar = () => {
   const onChange = useCallback((e) => setLang(e.target.value), [setLang]);
 
   return (
-    <ul>
+    <StyledUtilBar>
       {token.access
         ? login(lang).map(([name, url]) => (
-            <li key={name}>
-              <Link to={url}>{name}</Link>
-            </li>
+            <StyledLink to={url}>{name}</StyledLink>
           ))
         : logout(lang).map(([name, url]) => (
-            <li key={name}>
-              <Link to={url}>{name}</Link>
-            </li>
+            <StyledLink to={url}>{name}</StyledLink>
           ))}
       <select name="lang" onChange={onChange} value={lang}>
         {[
-          ['ko', 'KOR'],
-          ['en', 'ENG'],
+          ['ko', '한국어'],
+          ['en', 'English'],
         ].map(([code, option]) => (
           <option key={option} value={code}>
             {option}
           </option>
         ))}
       </select>
-    </ul>
+    </StyledUtilBar>
   );
 };
 
@@ -106,12 +104,14 @@ CustomLink.defaultProps = {
 const menu = (lang) => {
   if (lang === 'ko') {
     return [
-      ['영양정보 확인', '/food'],
+      ['메인 페이지', '/'],
+      ['영양 정보 확인', '/food'],
       ['커뮤니티', '/board'],
     ];
   }
   if (lang === 'en') {
     return [
+      ['Main Page', '/'],
       ['Search Nutrients', '/food'],
       ['Community', '/board'],
     ];
@@ -124,17 +124,22 @@ export default () => {
 
   return (
     <>
+      {/* TODO: sticky 속성 사용을 위해 부모 컴포넌트 높이 고정 필요 */}
       <header>
-        <nav>
-          <ul>
-            {menu(lang).map(([tab, url]) => (
-              <li key={tab}>
-                <CustomLink to={url}>{tab}</CustomLink>
-              </li>
-            ))}
-          </ul>
-          <UtilBar />
-        </nav>
+        <UtilBar />
+        <Navbar>
+          <Link to='/'>
+            <img
+              src={logo}
+              alt="logo"
+              style={{ height: '50px', verticalAlign: 'middle' }}
+            />
+          </Link>
+          {menu(lang).map(([tab, url]) => (
+            <StyledCustomLink to={url}>{tab}</StyledCustomLink>
+          ))}
+          <StyledHr />
+        </Navbar>
       </header>
       <main>
         <Outlet />
@@ -142,3 +147,40 @@ export default () => {
     </>
   );
 };
+
+const Navbar = styled.nav`
+  text-align: center;
+  height: 80px;
+  position: sticky;
+  top: 0;
+`;
+
+const StyledCustomLink = styled(CustomLink)`
+  text-decoration: none;
+  color: #231815;
+  margin-left:75px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 80px;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #fffdfa;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 50px;
+`;
+
+const StyledUtilBar = styled.div`
+  background-color: #998883;
+  height: 48px;
+  width: 100%;
+  text-align: right;
+  line-height: 48px;
+`;
+
+const StyledHr = styled.hr`
+  size: 2px;
+  color: #d7ccc0;
+`;

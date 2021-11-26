@@ -20,7 +20,7 @@ import {
   BoardDetailPage,
   MyPage,
   MyInfoPage,
-  LogInAuthPage,
+  VerifyPage,
   LogOutPage,
   NotFound,
 } from './pages';
@@ -47,9 +47,8 @@ const App = () => (
               <Route path=":id" element={<BoardDetailPage />} />
             </Route>
             <Route path="register" element={<RegisterPage />} />
-            <Route path="login" element={<LogInPage />}>
-              <Route path="auth/:type/callback" element={<LogInAuthPage />} />
-            </Route>
+            <Route path="login" element={<LogInPage />} />
+            <Route path="verify/:type" element={<VerifyPage />} />
             <Route path="logout" element={<LogOutPage />} />
             <Route
               path="mypage"

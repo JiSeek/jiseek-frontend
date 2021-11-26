@@ -7,6 +7,7 @@ const FoodSearchBar = ({
   focusItem,
   foundNames,
   onInput,
+  // onDebounceInput,
   onKeyUp,
   onKeyDown,
   onFocusInput,
@@ -18,6 +19,7 @@ const FoodSearchBar = ({
     <input
       value={keyword}
       onInput={onInput}
+      // onInput={onDebounceInput}
       onKeyUp={onKeyUp}
       onKeyDown={onKeyDown}
       onClick={onFocusInput}
@@ -46,6 +48,7 @@ FoodSearchBar.propTypes = {
   focusItem: PropTypes.number,
   foundNames: PropTypes.arrayOf(PropTypes.string),
   onInput: PropTypes.func,
+  // onDebounceInput: PropTypes.func,
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
   onFocusInput: PropTypes.func,
@@ -59,6 +62,7 @@ FoodSearchBar.defaultProps = {
   focusItem: -1,
   foundNames: [],
   onInput: null,
+  // onDebounceInput: null,
   onKeyUp: null,
   onKeyDown: null,
   onFocusInput: null,

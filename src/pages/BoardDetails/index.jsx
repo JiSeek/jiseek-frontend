@@ -6,11 +6,12 @@ const BoardDetailPage = () => {
   const location = useLocation();
   console.log('디테일', location);
 
-  return 
+  return (
     <div>
       BoardDetails
       <BoardUpload />
-    </div>;
+    </div>
+  );
 };
 
 export default BoardDetailPage;

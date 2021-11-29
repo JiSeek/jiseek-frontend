@@ -1,8 +1,13 @@
 // 음식 찾기 고유키 정의
 export const foodKeys = Object.freeze({
-  allList: 'food',
-  detailById: (id) => ['food', id],
-  // detailByName: (name) => ['food', name],
+  all: 'foods',
+  detailById: (id) => ['foods', id],
+  // detailByName: (name) => ['foods', name],
+});
+
+export const recipeKeys = Object.freeze({
+  all: 'recipes',
+  detailById: (id) => ['recipes', id],
 });
 
 // 사용자 정보 고유키 정의

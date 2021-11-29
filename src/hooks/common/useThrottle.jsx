@@ -1,17 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 
 const useThrottle = () => {
-  const [timer, setTimer] = useState(null);
+  const timer = useRef(null);
 
   const throttle = useCallback(
     (func, delay) =>
       (...args) => {
-        if (!timer) {
-          const timerId = setTimeout(func.bind(this, ...args), delay);
-          setTimer(() => timerId);
+        if (!timer.current) {
+          timer.current = setTimeout(() => {
+            func.call(this, ...args);
+            timer.current = null;
+          }, delay);
         }
       },
-    [timer],
+    [],
   );
 
   return throttle;

@@ -1,8 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useQueryClient } from 'react-query';
-import { AuthContext, LangContext, initialTkn, useAuth } from '../../contexts';
-import { storeAuth } from '../../utils';
+import {
+  AuthContext,
+  LangContext,
+  initialTkn,
+  useAuth,
+  ModalProvider,
+} from '../../contexts';
+import { setLocalStorage } from '../../utils';
 
 const getRefreshTime = (hour) => hour * 60 * 60;
 
@@ -17,26 +23,26 @@ const Initialize = ({ children }) => {
     const authCfg = window.localStorage.getItem('jiseek_auth');
     if (authCfg) {
       const auth = JSON.parse(authCfg);
-      const expired = auth.expires_at - new Date().getTime() / 1000 <= 0;
+      const expired =
+        auth.expires_at - parseInt(new Date().getTime() / 1000, 10) <= 0;
       if (!expired) {
         updateToken(auth);
       } else {
-        storeAuth(initialTkn);
+        setLocalStorage('jiseek_auth', initialTkn);
       }
     }
     const langCfg = window.localStorage.getItem('jiseek_lang');
-    if (langCfg) {
-      setLang(langCfg);
-    }
+    setLang(langCfg || 'ko');
   }, [updateToken, setLang]);
 
   useEffect(() => {
-    const remainTime = token.expTime - new Date().getTime() / 1000;
+    const remainTime =
+      token.expTime - parseInt(new Date().getTime() / 1000, 10);
     if (remainTime <= 0) {
-      // console.log('3', timerId);
+      // console.log('3', timerId, remainTime);
       clearTimeout(timerId.current);
       timerId.current = null;
-      // console.log('4', timerId);
+      // console.log('4', timerId, remainTime);
       queryClient.setMutationDefaults('refreshToken', { retry: false });
       return;
     }
@@ -44,7 +50,8 @@ const Initialize = ({ children }) => {
     const refreshTime = getRefreshTime(1);
     const delay =
       remainTime >= refreshTime ? remainTime - refreshTime : remainTime;
-    timerId.current = setTimeout(() => refreshToken(), delay);
+    // console.log('refresy delay', delay);
+    timerId.current = setTimeout(() => refreshToken(), delay * 1000);
     // console.log('2', delay, timerId);
   }, [queryClient, token.expTime, refreshToken, timerId]);
 
@@ -57,11 +64,13 @@ const Initialize = ({ children }) => {
   }, []);
 
   return (
-    <LangContext.Provider value={[lang, changeLang]}>
-      <AuthContext.Provider value={{ token, updateToken, clearToken }}>
-        {children}
-      </AuthContext.Provider>
-    </LangContext.Provider>
+    <ModalProvider>
+      <LangContext.Provider value={[lang, changeLang]}>
+        <AuthContext.Provider value={{ token, updateToken, clearToken }}>
+          {children}
+        </AuthContext.Provider>
+      </LangContext.Provider>
+    </ModalProvider>
   );
 };
 

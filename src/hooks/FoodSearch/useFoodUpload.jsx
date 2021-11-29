@@ -16,12 +16,12 @@ const useFoodUpload = () => {
   // TODO: 업로드한 이미지 URL 정보도 필요할 듯, FoodUpload 컴포넌트 프리뷰와 분리가 필요할 수도...
   // const [imageUrl setImageUrl] = useState('');
   const [foodImg, setFoodImg] = useState('');
-  const [analysis, setAnalysis] = useState({});
+  const [analysis, setAnalysis] = useState([]);
   const queryClient = useQueryClient();
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   const { mutate, reset, isLoading, isError } = useMutation(
-    (image) => jiseekApi.post('/food/', { image }),
+    (image) => jiseekApi.post('/foods/', { image }),
     {
       mutationKey: 'foodUpload',
       onMutate: () => queryClient.cancelQueries('food'),
@@ -29,18 +29,30 @@ const useFoodUpload = () => {
       onSuccess: () => {
         // TODO: 결과 데이터 형식에 따라 수정 필요
         // 테스트 데이터
-        setAnalysis(() =>
-          [
-            [1, '불고기', 99, 1, 2, 3, 4],
-            [10, '쇠고기', 80, 1, 2, 3, 4],
-            [15, '쇠고기 구이', 77, 1, 2, 3, 4],
-          ].reduce(
-            (prev, [, name, accuracy, ...coordinate]) => ({
-              ...prev,
-              [name]: { accuracy, coordinate },
-            }),
-            {},
-          ),
+        setAnalysis(
+          () =>
+            [
+              [1, '불고기', 99, 1, 2, 3, 4],
+              [10, '쇠고기', 80, 1, 2, 3, 4],
+              [15, '쇠고기 구이', 77, 1, 2, 3, 4],
+            ].map(([id, name, accuracy, ...position]) => ({
+              id,
+              name,
+              accuracy,
+              position,
+            })),
+
+          // [
+          //   [1, '불고기', 99, 1, 2, 3, 4],
+          //   [10, '쇠고기', 80, 1, 2, 3, 4],
+          //   [15, '쇠고기 구이', 77, 1, 2, 3, 4],
+          // ].reduce(
+          //   (prev, [, name, accuracy, ...coordinate]) => ({
+          //     ...prev,
+          //     [name]: { accuracy, coordinate },
+          //   }),
+          //   {},
+          // ),
         );
       },
     },

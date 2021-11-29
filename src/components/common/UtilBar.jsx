@@ -42,7 +42,6 @@ const logout = (lang) => {
 
 const UtilBar = ({ token, lang, onLangChange }) => {
   const location = useLocation();
-  console.log('222333', location.pathname);
   return (
     <ul>
       {token

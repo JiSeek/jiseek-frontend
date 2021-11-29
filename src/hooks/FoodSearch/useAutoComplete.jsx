@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
 import Trie from '../../utils/Trie';
-// import { useDebounce } from '../common';
 
 /*
   Arguments:
@@ -18,8 +17,6 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
   const [keyword, setKeyword] = useState('');
   const [focusItem, setFocusItem] = useState(-1);
   const [foundNames, setFoundNames] = useState([]);
-  // const [delay, setDelay] = useState(100);
-  // const debouce = useDebounce();
 
   const dataPool = useMemo(() => {
     const pool = new Trie();
@@ -41,7 +38,11 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
   );
 
   // TODO: 동작 안함 보류...
-  // const onDebounceInput = debouce(onInput, delay);
+  // const onDebounceInput = useCallback(
+  //   (e) => {
+  //   },
+  //   [],
+  // );
 
   // 입력한 검색어에 대한 가능한 목록 표시 처리 핸들러
   const onKeyUp = useCallback(
@@ -92,7 +93,7 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
       if (e.code === 'Enter') {
         if (typeof setTarget === 'function') {
           const target = foundNames[focusItem];
-          setTarget(target ? [target] : ['']);
+          setTarget(target || '');
         }
         setKeyword('');
         setFoundNames([]);
@@ -112,7 +113,7 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
       if (e.target.tagName === 'A') {
         e.preventDefault();
         if (typeof setTarget === 'function') {
-          setTarget([e.target.textContent]);
+          setTarget(e.target.textContent);
         }
         setKeyword('');
         setFoundNames([]);
@@ -139,7 +140,6 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
     keyword,
     focusItem,
     foundNames,
-    // setDelay,
     onInput,
     // onDebounceInput,
     onKeyUp,

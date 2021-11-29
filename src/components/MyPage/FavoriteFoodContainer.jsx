@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
 import jiseekApi from '../../api';
 import { myPagekeys } from '../../constants';
-import { useLangContext, useAuthContext } from '../../contexts';
-import { getLocaleDate } from '../../utils';
+import { useAuthContext, useModalContext } from '../../contexts';
 import { LikeButton } from '../common';
+// import { useLangContext } from '../../contexts';
 
-const FavoritePostContainer = () => {
-  const [lang] = useLangContext();
+const FavoriteFoodContainer = () => {
+  // const [lang] = useLangContext();
+  const openModal = useModalContext();
   const { token } = useAuthContext();
   const { data, isLoading, isError } = useQuery(
-    myPagekeys.favPost,
+    myPagekeys.favFood,
     jiseekApi.get({ token: token.access }),
     { staleTime: Infinity },
   );
 
-  // const location = useLocation();
-  // console.log('마이페이지', location);
+  // TODO: 임시 무지성 코딩
+  const onClick = useCallback(() => openModal('test'), [openModal]);
 
   // TODO: 프레젠테이셔널 분리해야댐
   return (
@@ -26,18 +26,20 @@ const FavoritePostContainer = () => {
         <div>기다려</div>
       ) : (
         <div style={{ display: 'flex' }}>
-          {data.map(({ pk, content, created }) => (
+          {data.map(({ pk, name, image }) => (
             <div key={pk}>
               <ul>
                 <li>{pk}</li>
-                <li>{getLocaleDate(created, lang)}</li>
-                <li>{content}</li>
-                <Link to={`/board/${pk}`}>게시글 가기</Link>
+                <li>{name}</li>
+                <li>{image}</li>
+                <button value={pk} onClick={onClick} type="button">
+                  상세정보 보기
+                </button>
               </ul>
               <LikeButton
-                type="board"
+                type="food"
                 id={Number(pk)}
-                data={{ id: pk, content, created_at: created }}
+                data={{ id: pk, name, image }}
                 like
               />
             </div>
@@ -48,4 +50,4 @@ const FavoritePostContainer = () => {
   );
 };
 
-export default FavoritePostContainer;
+export default FavoriteFoodContainer;

@@ -3,6 +3,8 @@ export { default as MainPage } from './Main';
 export { default as RegisterPage } from './Register';
 export { default as LogInPage } from './LogIn';
 export { default as FoodSearchPage } from './FoodSearch';
+export { default as FoodSearchNameTab } from './FoodSearchNameTab';
+export { default as FoodSearchImageTab } from './FoodSearchImageTab';
 export { default as BoardPage } from './Board';
 export { default as BoardDetailPage } from './BoardDetails';
 export { default as MyPage } from './MyPage';

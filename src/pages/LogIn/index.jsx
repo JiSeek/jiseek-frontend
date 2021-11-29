@@ -11,6 +11,7 @@ const LogInPage = () => {
   const [lang] = useLangContext();
   const from = location.state?.from?.pathname || '/';
 
+  console.log('sdfsdfsdfsdfsdfsdfsdfsdf');
   if (token.access) {
     return <Navigate to={from} replace />;
   }

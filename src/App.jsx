@@ -15,7 +15,6 @@ import {
   MainPage,
   RegisterPage,
   LogInPage,
-  FoodSearchPage,
   BoardPage,
   BoardDetailPage,
   MyPage,
@@ -23,6 +22,7 @@ import {
   VerifyPage,
   LogOutPage,
   NotFound,
+  FoodSearchPage,
 } from './pages';
 import { useAuthContext } from './contexts';
 import RootPage from './pages/RootPage';
@@ -42,14 +42,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<RootPage />}>
             <Route index element={<MainPage />} />
-            <Route path="food" element={<FoodSearchPage />} />
-            <Route path="board" element={<BoardPage />}>
-              <Route path=":id" element={<BoardDetailPage />} />
-            </Route>
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LogInPage />} />
             <Route path="verify/:type" element={<VerifyPage />} />
             <Route path="logout" element={<LogOutPage />} />
+            <Route path="food/*" element={<FoodSearchPage />} />
+            <Route path="board" element={<BoardPage />}>
+              <Route path=":id" element={<BoardDetailPage />} />
+            </Route>
             <Route
               path="mypage"
               element={
@@ -58,7 +58,8 @@ const App = () => (
                 </RequireAuth>
               }
             >
-              <Route path=":info" element={<MyInfoPage />} />
+              <Route path="info" element={<MyInfoPage />} />
+              <Route path="ch_pswrd" element={<MyInfoPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
@@ -70,8 +71,8 @@ const App = () => (
 );
 
 const RequireAuth = ({ children }) => {
-  const location = useLocation();
   const { token } = useAuthContext();
+  const location = useLocation();
 
   if (!token.access) {
     return <Navigate to="/login" state={{ from: location }} />;

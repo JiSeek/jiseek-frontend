@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FoodSearchBar from './FoodSearchBar';
-import { useAutoComplete } from '../../hooks/FoodSearch';
+import { useAutoComplete } from '../../hooks/foodSearch';
 
-const FoodSearchBarContainer = ({ foodNames, setListFind }) => {
+const FoodSearchBarContainer = ({ foodNames, setFindTarget }) => {
   const {
     keyword,
     focusItem,
@@ -16,7 +16,7 @@ const FoodSearchBarContainer = ({ foodNames, setListFind }) => {
     onClickList,
     onMouseOver,
     onBlur,
-  } = useAutoComplete(foodNames, setListFind);
+  } = useAutoComplete(foodNames, setFindTarget);
 
   return (
     <div>
@@ -39,12 +39,12 @@ const FoodSearchBarContainer = ({ foodNames, setListFind }) => {
 
 FoodSearchBarContainer.propTypes = {
   foodNames: PropTypes.arrayOf(PropTypes.string),
-  setListFind: PropTypes.func,
+  setFindTarget: PropTypes.func,
 };
 
 FoodSearchBarContainer.defaultProps = {
   foodNames: [],
-  setListFind: null,
+  setFindTarget: null,
 };
 
 export default FoodSearchBarContainer;

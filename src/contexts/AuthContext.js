@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
 import { userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
-import { storeAuth } from '../utils';
+import { setLocalStorage } from '../utils';
 
 const AuthContext = createContext();
 
@@ -22,15 +22,15 @@ export const initialTkn = {
 };
 
 export const useAuth = () => {
-  const [token, dispatch] = useReducer(authReducer, initialState);
+  const [token, dispatch] = useReducer(authReducer, initialState.auth);
 
   const updateToken = useCallback((data) => {
-    storeAuth(data);
+    setLocalStorage('jiseek_auth', data);
     dispatch(actions.updateToken(data));
   }, []);
 
   const clearToken = useCallback(() => {
-    storeAuth(initialTkn);
+    setLocalStorage('jiseek_auth', initialTkn);
     dispatch(actions.clearToken());
   }, []);
 
@@ -54,6 +54,7 @@ export const useAuth = () => {
       }),
     {
       mutationKey: 'tokenRefresh',
+      retry: true,
       retryDelay: (attempt) =>
         Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 60 * 1000),
       onMutate: () => {

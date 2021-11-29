@@ -1,16 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 
 const useDebounce = () => {
-  const [timer, setTimer] = useState(null);
+  const timer = useRef(null);
 
   const debouce = useCallback(
     (func, delay) =>
       (...args) => {
-        clearTimeout(timer);
+        clearTimeout(timer.current);
         const timerId = setTimeout(func.bind(this, ...args), delay);
-        setTimer(() => timerId);
+        timer.current = timerId;
       },
-    [timer],
+    [],
   );
 
   return debouce;

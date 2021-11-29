@@ -18,6 +18,7 @@ import {
   FoodSearchPage,
   BoardPage,
   BoardDetailsPage,
+  BoardUploadPage,
   MyPage,
   MyInfoPage,
   VerifyPage,
@@ -26,7 +27,6 @@ import {
 } from './pages';
 import { useAuthContext } from './contexts';
 import RootPage from './pages/RootPage';
-import BoardUploadPage from './pages/BoardUpload';
 
 const queryClient = new QueryClient({
   defaultOptions: {

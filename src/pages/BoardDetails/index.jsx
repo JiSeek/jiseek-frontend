@@ -1,16 +1,14 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { BoardUpload } from '../../components/BoardDetails';
+import { BoardDetails } from '../../components/BoardDetails';
 
-const BoardDetailPage = () => {
-  const location = useLocation();
-  console.log('디테일', location);
-
-  return 
+const BoardDetailsPage = () => {
+  console.log('디테일');
+  return (
     <div>
       BoardDetails
-      <BoardUpload />
-    </div>;
+      <BoardDetails />
+    </div>
+  );
 };
 
-export default BoardDetailPage;
+export default BoardDetailsPage;

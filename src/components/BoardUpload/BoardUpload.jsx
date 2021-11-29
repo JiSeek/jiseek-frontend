@@ -2,8 +2,10 @@ import React, { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom'
 import jiseekApi from '../../api';
+import { useAuthContext } from '../../contexts';
 
 function BoardUpload() {
+    const { token } = useAuthContext;
     const navigate = useNavigate();
     const [ todayNow, setTodayNow ] = useState();
     const [ selectedImg, setSelectedImg ] = useState({file: '', url: ''});
@@ -11,19 +13,20 @@ function BoardUpload() {
     const { mutate } = useMutation( 
         (content, image, time) => { 
             jiseekApi.post('/board/', { 
-                token: 'aaa', 
+                token: token.access, 
                 content, 
                 image, 
                 created_at: time, 
                 modified_at:'' })
         },
         {
+            // 서버에서 id받아서 상세 페이지로 이동
             onSuccess: () => navigate('/board/'),
         }
     )
     
     const handleBack = () => {
-        navigate('/board/')
+        navigate('/board')
     }
 
     const getTodayNow = () => {

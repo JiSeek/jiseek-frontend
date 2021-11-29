@@ -17,7 +17,7 @@ import {
   LogInPage,
   FoodSearchPage,
   BoardPage,
-  BoardDetailPage,
+  BoardDetailsPage,
   MyPage,
   MyInfoPage,
   VerifyPage,
@@ -26,6 +26,7 @@ import {
 } from './pages';
 import { useAuthContext } from './contexts';
 import RootPage from './pages/RootPage';
+import BoardUploadPage from './pages/BoardUpload';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,7 +45,8 @@ const App = () => (
             <Route index element={<MainPage />} />
             <Route path="food" element={<FoodSearchPage />} />
             <Route path="board" element={<BoardPage />}>
-              <Route path=":id" element={<BoardDetailPage />} />
+              <Route path="upload" element={<BoardUploadPage />} />
+              <Route path=":id" element={<BoardDetailsPage />} />
             </Route>
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LogInPage />} />

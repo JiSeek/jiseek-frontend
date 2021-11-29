@@ -1,1 +1,1 @@
-export { default as BoardUpload } from './BoardUpload';
+export { default as BoardDetails } from './BoardDetails';

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 const login = (lang) => {
   if (lang === 'ko') {
@@ -43,34 +44,30 @@ const logout = (lang) => {
 const UtilBar = ({ token, lang, onLangChange }) => {
   const location = useLocation();
   return (
-    <ul>
+    <StyledUtilBar>
       {token
         ? login(lang).map(([name, url]) => (
-            <li key={name}>
-              <Link
-                to={url}
-                state={{ from: url === '/logout' ? location : null }}
-              >
-                {name}
-              </Link>
-            </li>
+            <StyledLink
+              to={url}
+              state={{ from: url === '/logout' ? location : null }}
+            >
+              {name}
+            </StyledLink>
           ))
         : logout(lang).map(([name, url]) => (
-            <li key={name}>
-              <Link to={url}>{name}</Link>
-            </li>
+            <StyledLink to={url}>{name}</StyledLink>
           ))}
       <select name="lang" onChange={onLangChange} value={lang}>
         {[
-          ['ko', 'KOR'],
-          ['en', 'ENG'],
+          ['ko', '한국어'],
+          ['en', 'English'],
         ].map(([code, option]) => (
           <option key={option} value={code}>
             {option}
           </option>
         ))}
       </select>
-    </ul>
+    </StyledUtilBar>
   );
 };
 
@@ -87,3 +84,22 @@ UtilBar.defaultProps = {
 };
 
 export default UtilBar;
+
+const StyledUtilBar = styled.ul`
+  list-style: none;
+  background-color: #998883;
+  height: 48px;
+  width: 100%;
+  text-align: right;
+  line-height: 48px;
+  margin:0;
+  padding:0;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #fffdfa;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 30px;
+`;

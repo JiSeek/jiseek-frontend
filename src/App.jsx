@@ -16,7 +16,8 @@ import {
   RegisterPage,
   LogInPage,
   BoardPage,
-  BoardDetailPage,
+  BoardDetailsPage,
+  BoardUploadPage,
   MyPage,
   MyInfoPage,
   VerifyPage,
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="logout" element={<LogOutPage />} />
             <Route path="food/*" element={<FoodSearchPage />} />
             <Route path="board" element={<BoardPage />}>
+              <Route path="upload" element={<BoardUploadPage />} />
               <Route path=":id" element={<BoardDetailPage />} />
             </Route>
             <Route

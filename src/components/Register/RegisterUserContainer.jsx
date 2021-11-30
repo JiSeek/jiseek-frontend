@@ -17,7 +17,7 @@ const initialValues = {
     password1: '',
     password2: '',
   },
-};
+}; 
 
 const RegisterUserContainer = () => {
   const navigate = useNavigate();

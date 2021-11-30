@@ -6,7 +6,8 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import jiseekApi from '../../api';
 import { useFoodIdMap } from '../../hooks/FoodSearch';
 import { foodKeys } from '../../constants';
-import { FoodRecipes, FoodSearchBar } from '../../components/FoodSearch';
+import { FoodSearchBar, Nutrition } from '../../components/FoodSearch';
+// FoodRecipes
 
 const FoodSearchPage = () => {
   // const [lang] = useLangContext();
@@ -27,8 +28,6 @@ const FoodSearchPage = () => {
     },
   );
 
-  console.log('sdfnskfnsdlkfnsld', foodInfo);
-
   return (
     <article>
       <h2>음식명 검색</h2>
@@ -44,11 +43,11 @@ const FoodSearchPage = () => {
               <FontAwesomeIcon icon={faSpinner} spin />
             ) : (
               <span>
-                영양정보 결과 컴포넌트(프레젠테이셔널) | {foodInfo?.data}
+                영양정보 결과 컴포넌트(프레젠테이셔널)<Nutrition foodInfo={foodInfo}/> | {foodInfo?.data}
               </span>
             )}
           </section>
-          <section>
+          {/* <section>
             <h2>음식 레시피</h2>
             {foodInfoStatus === 'loading' ? ( // 임시땜빵
               <FontAwesomeIcon icon={faSpinner} spin />
@@ -58,7 +57,7 @@ const FoodSearchPage = () => {
                 <FoodRecipes food={findTarget || ''} />
               </>
             )}
-          </section>
+          </section> */}
         </>
       )}
     </article>

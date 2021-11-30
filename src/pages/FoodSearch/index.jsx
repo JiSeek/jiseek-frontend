@@ -1,7 +1,8 @@
 import React from 'react';
 import { Routes, Route, useLocation, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { FoodSearchImageTab, FoodSearchNameTab } from '..';
+import FoodSearchImageTab from '../FoodSearchImageTab';
+import FoodSearchNameTab from '../FoodSearchNameTab';
 // import { CustomLink } from '../../components/common';
 import { useLangContext } from '../../contexts';
 

@@ -27,6 +27,8 @@ const FoodSearchPage = () => {
     },
   );
 
+  console.log('sdfnskfnsdlkfnsld', foodInfo);
+
   return (
     <article>
       <h2>음식명 검색</h2>

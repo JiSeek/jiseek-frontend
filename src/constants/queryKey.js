@@ -6,7 +6,7 @@ export const foodKeys = Object.freeze({
 });
 
 export const recipeKeys = Object.freeze({
-  all: 'recipes',
+  recipeList: (name) => ['recipes', name],
   detailById: (id) => ['recipes', id],
 });
 

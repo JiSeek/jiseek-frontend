@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 // // 임시 떔빵
 import jiseekApi from '../../api';
-import { useFoodIdMap } from '../../hooks/foodSearch';
+import { useFoodIdMap } from '../../hooks/FoodSearch';
 import { foodKeys } from '../../constants';
 import { FoodRecipes, FoodSearchBar } from '../../components/FoodSearch';
 

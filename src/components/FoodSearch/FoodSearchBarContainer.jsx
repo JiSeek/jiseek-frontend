@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FoodSearchBar from './FoodSearchBar';
-import { useAutoComplete } from '../../hooks/foodSearch';
+import { useAutoComplete } from '../../hooks/FoodSearch';
 
 const FoodSearchBarContainer = ({ foodNames, setFindTarget }) => {
   const {

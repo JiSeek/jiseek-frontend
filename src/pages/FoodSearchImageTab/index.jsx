@@ -3,7 +3,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useFoodUpload } from '../../hooks/foodSearch';
+import { useFoodUpload } from '../../hooks/FoodSearch';
 import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
 import { foodKeys, myPagekeys } from '../../constants';

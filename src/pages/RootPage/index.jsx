@@ -1,33 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import { UtilBar, NavigationBar } from '../../components/common';
+import { NavigationBar } from '../../components/common';
+import '../../styles/FontStyle.css';
+import Footer from '../../components/common/Footer';
 
 const RootPage = () => (
-  // 네비게이션바 Sticky 적용을 위해 컴포넌트를 하나의 부모 컴포넌트로 묶음
-  <StickyOption>
-    <UtilBar />
-    <NavigationBar />
-    <Outlet />
-  </StickyOption>
+  <TotalStyle>
+    <StickyOption>
+      <StickyHeader>
+        <nav>
+          <NavigationBar />
+        </nav>
+      </StickyHeader>
+      <Outlet />
+    </StickyOption>
+    <Footer />
+  </TotalStyle>
 );
-
-// const RootPage = () => (
-//   <div>
-//     <header>
-//       <nav>
-//         <UtilBar />
-//           <NavigationBar />
-//       </nav>
-//     </header>
-//     <main>
-//       <Outlet />
-//     </main>
-//   </div>
-// );
 
 export default RootPage;
 
-const StickyOption = styled.nav`
+const TotalStyle = styled.div`
+  font-family: 'Pretendard';
+  font-weight: 400;
+  color: #231815;
+  /* max-width: 1320px; */
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+`;
+
+const StickyOption = styled.main`
   height: auto;
+`;
+
+const StickyHeader = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 1;
 `;

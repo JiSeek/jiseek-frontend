@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, useMatch, useResolvedPath } from 'react-router-dom';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 
 // Link props 전달 Eslint 에러 방지
 /* eslint-disable react/jsx-props-no-spreading */
@@ -13,7 +14,7 @@ const CustomLink = ({ children, to, ...props }) => {
   return (
     <Link to={match?.pathnameBase || to} {...props}>
       {children}
-      {match && '(요거)'}
+      {match && <SelectBar />}
     </Link>
   );
 };
@@ -37,3 +38,15 @@ CustomLink.defaultProps = {
 };
 
 export default CustomLink;
+
+
+const SelectBar = styled.div`
+  width: 160px;
+  height: 16px;
+  background: #af9c96;
+  border-radius: 30px 30px 0 0;
+  position: absolute;
+  top: 54px;
+  /* TODO: 메뉴 위치와 정확하게 맞게끔 수정 필요 */
+  transform: translateX(-18%);
+`;

@@ -24,6 +24,7 @@ import {
   LogOutPage,
   NotFound,
   FoodSearchPage,
+  PasswordChangePage,
 } from './pages';
 import { useAuthContext } from './contexts';
 import RootPage from './pages/RootPage';
@@ -61,7 +62,7 @@ const App = () => (
               }
             >
               <Route path="info" element={<MyInfoPage />} />
-              <Route path="ch_pswrd" element={<MyInfoPage />} />
+              <Route path="ch_pswrd" element={<PasswordChangePage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

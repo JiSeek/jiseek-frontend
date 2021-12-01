@@ -110,9 +110,9 @@ const useImageSlider = (imageList = [], options = {}) => {
                 src={images[idx]}
                 alt={`${name}`} // 여기서 분석 클래스명 쓰면 될듯 함.
                 value={`${name}`}
-                onClick={(e) =>
-                  console.log('테스트, 누르면 확대하도록?!', e.target.value)
-                }
+                // onClick={(e) =>
+                //   console.log('테스트, 누르면 확대하도록?!', e.target.value)
+                // }
                 onMouseDown={onDragDown}
                 onMouseMove={onDragMove}
                 onMouseUp={onDragUp}

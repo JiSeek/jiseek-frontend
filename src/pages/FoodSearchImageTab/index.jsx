@@ -20,7 +20,8 @@ const FoodSearchImageTab = () => {
   const [listFind, setListFind] = useState(); // 임시 포맷 정해지면 변경해야됨.
   const {
     analysis,
-    // status: analysisStatus,
+    setAnalysis,
+    // foodUpload,
     RenderFoodUpload,
   } = useFoodUpload();
 
@@ -51,11 +52,12 @@ const FoodSearchImageTab = () => {
 
   useEffect(() => {
     console.log(
+      listFind,
       favList,
       analysis[slideIdx],
       favList.indexOf(analysis[slideIdx]?.id),
     );
-  }, [favList, analysis, slideIdx]);
+  }, [favList, analysis, slideIdx, listFind]);
 
   useEffect(
     () => analysis && setListFind(() => analysis.map(({ name }) => name)),
@@ -106,6 +108,9 @@ const FoodSearchImageTab = () => {
               }
             >
               게시하기
+            </button>
+            <button type="button" onClick={() => setAnalysis([])}>
+              다시 검사하기
             </button>
           </section>
           <section>

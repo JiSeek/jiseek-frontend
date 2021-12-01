@@ -73,7 +73,6 @@ const NavbarBackground = styled.div`
   box-shadow: 0px 2px 6px #af9c96;
   position: relative;
   z-index: 3;
-  /* margin-bottom: 10px; */
 `;
 
 const Navbar = styled.nav`

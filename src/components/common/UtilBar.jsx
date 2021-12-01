@@ -102,10 +102,10 @@ const StyledLink = styled(Link)`
   color: #6b5b56;
   font-size: 1rem;
   font-weight: 700;
-  /* margin: 0 0.2em;
-  padding: 0px 0px 2px 3px;
-  position: relative; */
 `;
+
+// language option 적용 되지 않음
+// styled component 문제로 의심되어 주석처리
 
 // const StyledSelect = styled.select`
 //   width: 85px;

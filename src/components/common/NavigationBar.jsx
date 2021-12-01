@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../images/logo.png';
+import UtilBar from './UtilBar';
 
 // Link props 전달 Eslint 에러 방지
 /* eslint-disable react/jsx-props-no-spreading */
@@ -16,7 +17,7 @@ const CustomLink = ({ children, to, ...props }) => {
   return (
     <Link to={to} {...props}>
       {children}
-      {match && '(요거)'}
+      {match && <SelectBar />}
     </Link>
   );
 };
@@ -62,7 +63,7 @@ const menu = (lang) => {
 };
 
 const NavigationBar = ({ lang }) => (
-  <>
+  <NavbarBackground>
     <Navbar>
       <Link to="/">
         <Logo src={logo} alt="logo" />
@@ -74,9 +75,9 @@ const NavigationBar = ({ lang }) => (
           </li>
         ))}
       </StyledUl>
+      <UtilBar />
     </Navbar>
-    <StyledHr />
-  </>
+  </NavbarBackground>
 );
 
 NavigationBar.propTypes = {
@@ -89,44 +90,57 @@ NavigationBar.defaultProps = {
 
 export default NavigationBar;
 
+const NavbarBackground = styled.div`
+  width: 100vw;
+  background: #d7ccc0;
+  box-shadow: 0px 2px 6px #af9c96;
+  position: relative;
+  z-index: 3;
+  margin-bottom: 10px;
+`;
+
 const Navbar = styled.nav`
-  text-align: center;
-  height: 80px;
-  background-color: #fbfbfb;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr;
+  height: 70px;
+  max-width: 1320px;
+  margin: auto;
+  padding: 0 3%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 `;
 
 const Logo = styled.img`
-  height: 50px;
-  /* vertical-align: middle; */
-  margin-top: 15px;
-  display: inline-block;
+  height: 80%;
+  padding: 8% 0;
+  width: 100px;
 `;
 
 const StyledUl = styled.ul`
-  display: inline-block;
   list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  letter-spacing: 0.05rem;
 `;
 
 const StyledCustomLink = styled(CustomLink)`
   text-decoration: none;
+  display: block;
+  padding: 50px;
   color: #231815;
-  margin-left: 75px;
   font-size: 18px;
-  font-weight: bold;
-  line-height: 80px;
+  font-weight: 800;
+  line-height: 70px;
 `;
 
-const StyledHr = styled.hr`
-  size: 2px;
-  color: #d7ccc0;
-  margin: 0;
+const SelectBar = styled.div`
+  width: 160px;
+  height: 16px;
+  background: #af9c96;
+  border-radius: 30px 30px 0 0;
+  position: absolute;
+  top: 54px;
+  /* TODO: 메뉴 위치와 정확하게 맞게끔 수정 필요 */
+  transform: translateX(-18%);
 `;

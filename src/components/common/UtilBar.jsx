@@ -58,16 +58,16 @@ const UtilBar = ({ token, lang, onLangChange }) => {
         : logout(lang).map(([name, url]) => (
             <StyledLink to={url}>{name}</StyledLink>
           ))}
-      <select name="lang" onChange={onLangChange} value={lang}>
+      <StyledSelect name="lang" onChange={onLangChange} value={lang}>
         {[
           ['ko', '한국어'],
           ['en', 'English'],
         ].map(([code, option]) => (
-          <option key={option} value={code}>
+          <StyledOption key={option} value={code}>
             {option}
-          </option>
+          </StyledOption>
         ))}
-      </select>
+      </StyledSelect>
     </StyledUtilBar>
   );
 };
@@ -88,19 +88,37 @@ export default UtilBar;
 
 const StyledUtilBar = styled.ul`
   list-style: none;
-  background-color: #998883;
-  height: 48px;
-  width: 100%;
   text-align: right;
-  line-height: 48px;
-  margin:0;
-  padding:0;
+  width: 130px;
+  padding-left: 0;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: #fffdfa;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 30px;
+  color: #6b5b56;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-block;
+  margin: 0 0.2em;
+  padding: 0px 0px 2px 3px;
+  position: relative;
+`;
+
+const StyledSelect = styled.select`
+  width: 85px;
+  height: 22px;
+  margin: 2px 0px;
+  padding: 2px 1px;
+  font-family: inherit;
+  font-size: 12px;
+  text-align: center;
+  background: #fffdfa;
+  border-radius: 5px;
+  border: 1px solid #231815;
+`;
+
+const StyledOption = styled.option`
+  text-align: center;
+  margin-right: 50px;
+  /* TODO: option도 커스텀하기 */
 `;

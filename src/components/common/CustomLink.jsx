@@ -39,14 +39,11 @@ CustomLink.defaultProps = {
 
 export default CustomLink;
 
-
 const SelectBar = styled.div`
-  width: 160px;
+  width: 100%;
   height: 16px;
   background: #af9c96;
   border-radius: 30px 30px 0 0;
   position: absolute;
-  top: 54px;
-  /* TODO: 메뉴 위치와 정확하게 맞게끔 수정 필요 */
-  transform: translateX(-18%);
+  top: 64px;
 `;

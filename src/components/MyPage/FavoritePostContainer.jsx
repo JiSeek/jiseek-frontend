@@ -13,7 +13,7 @@ const FavoritePostContainer = () => {
   const { data, isLoading, isError } = useQuery(
     myPagekeys.favPost,
     jiseekApi.get({ token: token.access }),
-    { staleTime: Infinity },
+    { staleTime: Infinity, refetchOnWindowFocus: true },
   );
 
   // const location = useLocation();

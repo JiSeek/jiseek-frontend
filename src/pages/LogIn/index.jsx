@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useMatch, Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { KakaoLogIn } from '../../components/LogIn';
+import { JiseekLogin, KakaoLogIn } from '../../components/LogIn';
 import { useLangContext } from '../../contexts/LangContext';
 
 const LogInPage = () => {
@@ -11,7 +11,6 @@ const LogInPage = () => {
   const [lang] = useLangContext();
   const from = location.state?.from?.pathname || '/';
 
-  console.log('sdfsdfsdfsdfsdfsdfsdfsdf');
   if (token.access) {
     return <Navigate to={from} replace />;
   }
@@ -20,13 +19,17 @@ const LogInPage = () => {
   return (
     <div>
       {match && (
-        <ul>
-          <li>
-            <KakaoLogIn lang={lang} />
-          </li>
-          <li>GoogleLogin</li>
-          <li>NaverLogin</li>
-        </ul>
+        <section>
+          <h2>로그인</h2>
+          <JiseekLogin />
+          <ul>
+            <li>
+              <KakaoLogIn lang={lang} />
+            </li>
+            <li>GoogleLogin</li>
+            <li>NaverLogin</li>
+          </ul>
+        </section>
       )}
       <Outlet />
     </div>

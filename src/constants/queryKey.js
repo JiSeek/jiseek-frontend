@@ -2,7 +2,6 @@
 export const foodKeys = Object.freeze({
   all: 'foods',
   detailById: (id) => ['foods', id],
-  // detailByName: (name) => ['foods', name],
 });
 
 export const recipeKeys = Object.freeze({
@@ -23,4 +22,15 @@ export const userKeys = Object.freeze({
 export const myPagekeys = Object.freeze({
   favPost: ['mypage', 'board-favs'],
   favFood: ['mypage', 'food-favs'],
+});
+
+// Mutation 키 정의
+export const mutationKey = Object.freeze({
+  login: 'userLogin',
+  like: 'likeTarget',
+  userInfo: 'userInfoUpdate',
+  password: 'userPassword',
+  signUp: 'signUp',
+  token: 'tokenRefresh',
+  foodUpload: 'foodUpload',
 });

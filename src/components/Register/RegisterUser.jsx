@@ -1,74 +1,61 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType, func, object } from 'prop-types';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
+import { StyledErrorMsg } from '../common';
 
-const RegisterUser = ({
-  watch,
-  storeChanged,
-  onSubmit,
-  register,
-  control,
-  errors,
-}) => (
-  // const [readOnly] = useState(true);
-
+const RegisterUser = ({ hookForm, storeChanged }) => (
   /* eslint-disable react/jsx-props-no-spreading */
-  <StyledRegisterForm
-    onSubmit={onSubmit}
-    autoComplete="off"
-    role="presentation"
-  >
+  <StyledRegisterForm onSubmit={hookForm.onSubmit}>
     <label htmlFor="user-email">
       <input
-        defaultValue={watch('publicTypes.email')}
         type="email"
         id="user-email"
         placeholder="이메일"
-        {...register('publicTypes.email', { onChange: () => storeChanged() })}
+        {...hookForm.register('publicTypes.email', {
+          onBlur: () => storeChanged(),
+        })}
       />
       <StyledErrorMsg>
-        {errors.publicTypes?.email && errors.publicTypes?.email.message}
+        {hookForm.errors.publicTypes?.email &&
+          hookForm.errors.publicTypes?.email.message}
       </StyledErrorMsg>
     </label>
-
     <label htmlFor="user-password">
       <input
         type="password"
         id="user-passward"
         placeholder="비밀번호"
-        autoComplete="new-password"
-        readOnly
-        onFocus={(e) => e.target.removeAttribute('readonly')}
-        {...register('privateTypes.password1')}
+        {...hookForm.register('privateTypes.password1')}
       />
       <StyledErrorMsg>
-        {errors.privateTypes?.password1 &&
-          errors.privateTypes?.password1.message}
+        {hookForm.errors.privateTypes?.password1 &&
+          hookForm.errors.privateTypes?.password1.message}
       </StyledErrorMsg>
     </label>
-    <label htmlFor="user-password--verify">
+    <label htmlFor="user-password--confirm">
       <input
         type="password"
-        id="user-passward--verify"
+        id="user-passward--confirm"
         placeholder="비밀번호 확인"
-        autoComplete="false"
-        {...register('privateTypes.password2')}
+        {...hookForm.register('privateTypes.password2')}
       />
       <StyledErrorMsg>
-        {errors.privateTypes?.password2 &&
-          errors.privateTypes?.password2.message}
+        {hookForm.errors.privateTypes?.password2 &&
+          hookForm.errors.privateTypes?.password2.message}
       </StyledErrorMsg>
     </label>
     <label htmlFor="user-name">
       <input
         id="user-name"
         placeholder="닉네임"
-        {...register('publicTypes.name', { onChange: () => storeChanged() })}
+        {...hookForm.register('publicTypes.name', {
+          onBlur: () => storeChanged(),
+        })}
       />
     </label>
     <Controller
-      control={control}
+      control={hookForm.control}
       name="publicTypes.isKorean"
       render={({ field: { value, onChange } }) => (
         <StyledNation>
@@ -83,6 +70,7 @@ const RegisterUser = ({
               onChange={() => {
                 storeChanged();
                 onChange(true);
+                console.log('ffff', value);
               }}
             />
           </StyledCheckBox>
@@ -95,6 +83,7 @@ const RegisterUser = ({
               onChange={() => {
                 storeChanged();
                 onChange(false);
+                console.log('eee', value);
               }}
             />
           </StyledCheckBox>
@@ -106,18 +95,12 @@ const RegisterUser = ({
 );
 
 RegisterUser.propTypes = {
-  watch: PropTypes.func.isRequired,
+  hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
   storeChanged: PropTypes.func,
-  onSubmit: PropTypes.func,
-  register: PropTypes.func.isRequired,
-  control: PropTypes.objectOf(PropTypes.any).isRequired,
-  errors: PropTypes.objectOf(PropTypes.any),
 };
 
 RegisterUser.defaultProps = {
   storeChanged: null,
-  onSubmit: null,
-  errors: {},
 };
 
 // 임시 디자인 처리
@@ -155,11 +138,6 @@ const StyledCheckBox = styled.label`
   > input {
     display: none;
   }
-`;
-
-const StyledErrorMsg = styled.span`
-  color: red;
-  font-size: 0.8rem;
 `;
 
 export default RegisterUser;

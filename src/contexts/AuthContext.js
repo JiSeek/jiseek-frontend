@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useReducer } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
-import { userKeys } from '../constants';
+import { mutationKey, userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
 import { setLocalStorage } from '../utils';
 
@@ -36,24 +36,24 @@ export const useAuth = () => {
 
   // TODO: 새로고침이 다시 불러오기 개선
   // 토큰으로 사용자 정보 불러오기
-  useQuery(userKeys.info, jiseekApi.get({ token: token.access_token }), {
+  useQuery(userKeys.info, jiseekApi.get({ token: token.access }), {
+    cacheTime: Infinity, // TODO: 상태 확인하기!!
     staleTime: Infinity,
-    enabled: !!token.access_token,
+    enabled: !!token.access,
     // 테스트 용 코드
-    onSuccess: (data) => console.log('사용자 정보 GET!!', data),
     onError: (err) => console.error('사용자 정보 GET FAIL!!', err),
   });
 
   // 토큰 Refresh
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(
+  const tokenRefresh = useMutation(
     () =>
       jiseekApi.post('/user/access-token/refresh/', {
         token: token.access,
         refresh: token.refresh,
       }),
     {
-      mutationKey: 'tokenRefresh',
+      mutationKey: mutationKey.token,
       retry: true,
       retryDelay: (attempt) =>
         Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 60 * 1000),
@@ -76,7 +76,7 @@ export const useAuth = () => {
     },
   );
 
-  const refreshToken = useCallback(() => mutate(), [mutate]);
+  const refreshToken = useCallback(() => tokenRefresh.mutate(), [tokenRefresh]);
 
   return { token, updateToken, refreshToken, clearToken };
 };

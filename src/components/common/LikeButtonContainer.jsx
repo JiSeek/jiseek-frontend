@@ -5,7 +5,7 @@ import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
 import FormLessButton from './FormLessButton';
 import LikeButton from './LikeButton';
-import { myPagekeys } from '../../constants';
+import { mutationKey, myPagekeys } from '../../constants';
 
 // TODO: 성능 개선 로직... 보류
 // const addNewData = (list, type, data) => {
@@ -46,10 +46,10 @@ const LikeButtonContainer = ({ type, id, like }) => {
   );
 
   const queryClinet = useQueryClient();
-  const { mutate } = useMutation(
+  const likeTarget = useMutation(
     () => jiseekApi.put(`/mypage/${type}/like/${id}/`, { token: token.access }),
     {
-      mutationKey: 'like',
+      mutationKey: mutationKey.like,
       onMutate: async () => {
         // 성능 개선을 위한 선반영 후복구 로직... 보류
         // await queryClinet.cancelQueries(key.current);
@@ -72,8 +72,9 @@ const LikeButtonContainer = ({ type, id, like }) => {
     },
   );
 
+  console.log(likeTarget.isLoading);
   return (
-    <FormLessButton onClick={() => mutate()}>
+    <FormLessButton onClick={() => likeTarget.mutate()}>
       <LikeButton like={like} />
     </FormLessButton>
   );

@@ -1,7 +1,1 @@
-// import React from 'react';
-
-// const MyInfo = () => {
-
-// }
-
-// export default
+export { default as MyInfoForm } from './MyInfoFormContainer';

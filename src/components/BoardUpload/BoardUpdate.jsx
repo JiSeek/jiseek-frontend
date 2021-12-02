@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import jiseekApi from '../../api';
 import { useAuthContext } from '../../contexts';
 
-function BoardUpload() {
+function BoardUpdate() {
     const { token } = useAuthContext;
     const navigate = useNavigate();
     const [ todayNow, setTodayNow ] = useState();
@@ -18,7 +18,7 @@ function BoardUpload() {
                 content, 
                 photo, 
                 created_at, 
-                modified_at:created_at })
+                modified_at:null })
         },
         {
             // 서버에서 id받아서 상세 페이지로 이동
@@ -27,6 +27,13 @@ function BoardUpload() {
     );
     // onSuccess or MutateAsync 중 뭐가 맞을까나
     mutation.mutateAsync(content, photo, created_at).then(data => navigate(`/board/${data}`));
+
+
+    // const mutat_update = useMutation(() => {
+    //     jiseekApi.patch();
+    // }, {
+    //     mutationKey: queryClient.setMutationDefaults,
+    // });
 
     const handleBack = () => {
         navigate(-1);
@@ -85,4 +92,4 @@ function BoardUpload() {
     );
 }
 
-export default BoardUpload;
+export default BoardUpdate;

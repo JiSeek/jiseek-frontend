@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom'
 import jiseekApi from '../../api';
-import { useAuthContext } from '../../contexts';
+// import { useAuthContext } from '../../contexts';
 
 function BoardUpload() {
-    const { token } = useAuthContext;
+    // const { token } = useAuthContext;
     const navigate = useNavigate();
     const [ todayNow, setTodayNow ] = useState();
     const [ selectedImg, setSelectedImg ] = useState({file: '', url: ''});
     const [ text, setText ] = useState('');
+    const [ characters, setChracters ] = useState(0);
     
     const mutation = useMutation( 
         (content, photo, createdAt) => { 
             jiseekApi.post({ 
-                token: token.access, 
+                // token: token.access, 
                 content, 
                 photo, 
                 createdAt, 
@@ -55,6 +56,8 @@ function BoardUpload() {
         setText(e.target.value);
     };
 
+    useEffect(() => setChracters(text.length), [text]);
+
     const handleSubmit = () => {
             getTodayNow();
             mutation.mutate(text, selectedImg, todayNow);
@@ -73,12 +76,13 @@ function BoardUpload() {
                 />
                 {selectedImg && 
                     <img src={selectedImg.url} alt='이미지' />}
-                <input 
+                <textarea 
                     type='text' 
                     placeholder='텍스트 입력...' 
                     value={text} 
                     onChange={handleInputText}
                 />
+                <div>{characters}/255</div>
                 <button type='submit' onClick={handleSubmit} >게시</button>
             </form>
         </>

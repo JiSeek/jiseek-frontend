@@ -7,32 +7,32 @@ import { boardKeys } from "../../constants";
 import { useAuthContext } from "../../contexts";
 
 // ***props값 이렇게 받아올 수 있나?***
-function BoardDetails({ board_id }) {
+function BoardDetails({ boardId }) {
     const { token } = useAuthContext;
     const navigate = useNavigate();
     const [isLogged, setBeLogged] = useState(false);
-    const { data, isLoading, isError, error, isSuccess} = useQuery(boardKeys.detailsById, jiseekApi.get({ board_id }));
+    const { data, isLoading, isError, error, isSuccess} = useQuery(boardKeys.detailsById, jiseekApi.get({ boardId }));
     
     // ***프론트에서 현재 로그인한 유저아이디를 알아낼 방법이 있나?***
     if (isSuccess) {
-        if (token === data.user_id) {
+        if (token === data.userId) {
             setBeLogged(true);
         }
     }
 
     const mutation = useMutation(() => {
-        jiseekApi.delete({ board_id }); // ***check***
+        jiseekApi.delete({ boardId }); // ***check***
     },{
         onSuccess: () => navigate('/board'),
     });
     
     // 후에 모달 창으로 바꾸든지 해야되겠다..
     const handleDelete = () => {
-        if (!confirm('게시물을 삭제하시겠습니까?')){
-
+        if (!window.confirm('게시물을 삭제하시겠습니까?')){
+            console.log('임시') // 임시처리
         }
         else {
-            mutation.mutate(board_id);
+            mutation.mutate(boardId);
         }
     }; 
 
@@ -42,12 +42,10 @@ function BoardDetails({ board_id }) {
 
     return (
         <div>
-            { isLoading ? (
+            { isLoading ?
                 <div>로딩아이콘</div>
-                ) : isError ? (
-                    <div>{ error }</div>
-                    ) : ( <>
-                        <div>{ data.user_id }</div>
+                : <>
+                        <div>{ data.userId }</div>
                         { isLogged &&
                             <>
                                 <button type='button' onClick={handleUpdate}>수정</button>
@@ -57,16 +55,18 @@ function BoardDetails({ board_id }) {
                         <img src={ data.photo } alt='이미지'/>
                         <div>{ data.count }</div>
                         <div>{ data.content }</div>
-                        <div>{ created_at }</div>
-                        <div>{ modified_at }</div>
-                    </> )
+                        <div>{ data.created_at }</div>
+                    </>
+            }
+            { isError && 
+                <>{error}</>
             }
         </div>
     );
 }
 
 BoardDetails.propTypes = {
-    board_id : PropTypes.number.isRequired,
+    boardId : PropTypes.number.isRequired,
 };
 
 export default BoardDetails;

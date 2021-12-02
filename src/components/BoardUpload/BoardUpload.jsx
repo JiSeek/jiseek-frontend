@@ -12,21 +12,21 @@ function BoardUpload() {
     const [ text, setText ] = useState('');
     
     const mutation = useMutation( 
-        (content, photo, created_at) => { 
+        (content, photo, createdAt) => { 
             jiseekApi.post({ 
                 token: token.access, 
                 content, 
                 photo, 
-                created_at, 
-                modified_at:created_at })
+                createdAt, 
+                modifiedAt:createdAt })
         },
         {
             // 서버에서 id받아서 상세 페이지로 이동
-            onSuccess: (board_id) => navigate(`/board/${board_id}`),
+            onSuccess: (boardId) => navigate(`/board/${boardId}`),
         }
     );
     // onSuccess or MutateAsync 중 뭐가 맞을까나
-    mutation.mutateAsync(content, photo, created_at).then(data => navigate(`/board/${data}`));
+    mutation.mutateAsync().then(data => navigate(`/board/${data}`));
 
     const handleBack = () => {
         navigate(-1);

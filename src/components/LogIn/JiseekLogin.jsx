@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes, { oneOfType, func, object } from 'prop-types';
 import { StyledErrorMsg } from '../common';
 
-const JiseekLogin = ({ hookForm, isSubmitting }) => (
+const JiseekLogIn = ({ hookForm, isSubmitting }) => (
   /* eslint-disable react/jsx-props-no-spreading */
   <form onSubmit={hookForm.onSubmit}>
     <label htmlFor="login-email">
@@ -33,13 +33,13 @@ const JiseekLogin = ({ hookForm, isSubmitting }) => (
   </form>
 );
 
-JiseekLogin.propTypes = {
+JiseekLogIn.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
   isSubmitting: PropTypes.bool,
 };
 
-JiseekLogin.defaultProps = {
+JiseekLogIn.defaultProps = {
   isSubmitting: false,
 };
 
-export default JiseekLogin;
+export default JiseekLogIn;

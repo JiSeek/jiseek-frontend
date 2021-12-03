@@ -17,20 +17,29 @@ import { Bulgogi } from '../../assets/images';
 
 const FoodSearchPage = () => {
   // const [lang] = useLangContext();
-
-  // ------
   const [findTarget, setFindTarget] = useState('');
   // status: foodIdMapStatus
   const { foodIdMap } = useFoodIdMap();
 
   // 현재 음식 결과 조회 쿼리
   const { data: foodInfo, status: foodInfoStatus } = useQuery(
-    foodKeys.detailById(foodIdMap[findTarget]),
+    foodKeys.detailById(foodIdMap[findTarget] || -1),
     jiseekApi.get(),
     {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: !!findTarget, // TODO: 발생 의존성 처리 고민...
+      onSuccess: (data) => {
+        console.log('ㅇㄴㄹㄴㅇㄹ눙리ㅏ누리ㅏ', data);
+      },
+      onError: (err) => {
+        // TODO: 에러 메시지 추가 + 아이콘이랑
+        console.log('dfsdmlfs;mf', err);
+        setFindTarget('');
+      },
+      onSettled: () => {
+        console.log('3247498237498');
+      },
     },
   );
 

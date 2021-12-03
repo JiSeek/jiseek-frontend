@@ -35,7 +35,8 @@ function Board() {
                 :
                 <GridContainer>
                     { boardList && Object.entries(boardList).map( (board) => (
-                        <Link to={`/board/${board.id}`}>    
+                        // 객체에서 배열 바꿀 필요없이 바로 map하는 방법
+                        <Link to={`/board/${board.id}`}>   
                             <div className='items' key={board.id}>
                                 <img src={board.photo} alt='이미지' />
                             </div>

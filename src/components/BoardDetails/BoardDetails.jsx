@@ -1,29 +1,45 @@
-import React, { useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+// import React, { useState } from "react";
+import React from "react";
+// import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuthContext } from '../../contexts';
 import jiseekApi from "../../api";
+// import { boardKeys, userKeys } from "../../constants";
 import { boardKeys } from "../../constants";
-import { useAuthContext } from "../../contexts";
 
-// ***props값 이렇게 받아올 수 있나?***
-function BoardDetails({ boardId }) {
+function BoardDetails() {
     const { token } = useAuthContext;
+    // const queryClient = useQueryClient();
+    // const pk = queryClient.getQueryData(userKeys.info)?.pk;
     const navigate = useNavigate();
-    const [isLogged, setBeLogged] = useState(false);
-    const { data, isLoading, isError, error, isSuccess} = useQuery(boardKeys.detailsById, jiseekApi.get({ boardId }));
-    
-    // ***프론트에서 현재 로그인한 유저아이디를 알아낼 방법이 있나?***
-    if (isSuccess) {
-        if (token === data.userId) {
-            setBeLogged(true);
-        }
+    const params = useParams();
+    // const [ writer, setWriter] = useState(false);
+    const { 
+        data: boardDetails, 
+        isLoading, 
+        isError, 
+        error, 
+        isSuccess } = useQuery(boardKeys.detailsById(params.id), jiseekApi.get());
+
+    if (isError) {
+        console.log('error:', error);
+    } else {
+        console.log('data',boardDetails);
     }
 
-    const mutation = useMutation(() => {
-        jiseekApi.delete({ boardId }); // ***check***
-    },{
-        onSuccess: () => navigate('/board'),
+    // if (isSuccess) {
+    //     if (pk === boardDetails.user) {
+    //         setWriter(true);
+    //     }
+    // }
+    if (isSuccess) {console.log('임시');}
+
+    const mutation = useMutation((id) => {
+        jiseekApi.delete(`/boards/${id}`, { token: token.access });
+    }, {
+        onSuccess: (da) => console.log('성공',da),
+        onError: (er) => console.log('오류',er),
     });
     
     // 후에 모달 창으로 바꾸든지 해야되겠다..
@@ -32,12 +48,12 @@ function BoardDetails({ boardId }) {
             console.log('임시') // 임시처리
         }
         else {
-            mutation.mutate(boardId);
+            mutation.mutate(params.id);
         }
     }; 
 
     const handleUpdate = () => {
-        navigate('/board/upload');
+        navigate('/boards/upload/');
     };
 
     return (
@@ -45,28 +61,32 @@ function BoardDetails({ boardId }) {
             { isLoading ?
                 <div>로딩아이콘</div>
                 : <>
-                        <div>{ data.userId }</div>
-                        { isLogged &&
-                            <>
-                                <button type='button' onClick={handleUpdate}>수정</button>
-                                <button type='button' onClick={handleDelete}>삭제</button>
-                            </>
-                        }
-                        <img src={ data.photo } alt='이미지'/>
-                        <div>{ data.count }</div>
-                        <div>{ data.content }</div>
-                        <div>{ data.created_at }</div>
-                    </>
+                    <div>{ boardDetails.user.name }</div>
+                    {/* { writer &&
+                        <>
+                            <button type='button' onClick={handleUpdate}>수정</button>
+                            <button type='button' onClick={handleDelete}>삭제</button>
+                        </>
+                    } */}
+                    <button type='button' onClick={handleUpdate}>수정</button>
+                    <button type='button' onClick={handleDelete}>삭제</button>
+                    <img src={ boardDetails.photo } alt='이미지'/>
+                    <div>{ boardDetails.count }</div>
+                    <div>{ boardDetails.content }</div>
+                    <div>{ boardDetails.created }</div>
+                    {/* { writer &&
+                        <>
+                            <div>{ boardDetails.is_fav }</div>
+                            <div>{ boardDetails.like_users }</div>
+                        </>
+                    } */}
+                </>
             }
             { isError && 
-                <>{error}</>
+                <div>{error}</div>
             }
         </div>
     );
 }
-
-BoardDetails.propTypes = {
-    boardId : PropTypes.number.isRequired,
-};
 
 export default BoardDetails;

@@ -7,7 +7,7 @@ import { boardKeys } from '../../constants';
 
 function Board() {
     const navigate = useNavigate();
-    const { isLoading, isError, error, data: boardList } = useQuery(boardKeys.superior, jiseekApi.get()); 
+    const { data: boardList, isLoading, isError, error } = useQuery(boardKeys.superior, jiseekApi.get()); 
     
     if (isError) {
         return (
@@ -34,9 +34,8 @@ function Board() {
                 <div>로딩 아이콘</div>
                 :
                 <GridContainer>
-                    { boardList && Object.entries(boardList).map( (board) => (
-                        // 객체에서 배열 바꿀 필요없이 바로 map하는 방법
-                        <Link to={`/board/${board.id}`}>   
+                    { boardList && Object.values(boardList.results).map( (board) => (
+                        <Link to={`/board/${board.id}`}>
                             <div className='items' key={board.id}>
                                 <img src={board.photo} alt='이미지' />
                             </div>
@@ -52,7 +51,7 @@ function Board() {
 
 const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(5, 1fr); // 1fr 1fr 1fr 반복
+    grid-template-columns: repeat(5, 1fr);
     gap: 2rem;
     place-items: stretch;
 `

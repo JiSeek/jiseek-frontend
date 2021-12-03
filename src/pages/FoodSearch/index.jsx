@@ -29,7 +29,7 @@ const FoodSearchPage = () => {
       <StyledNav>
         <div />
         <NavLink
-          to="name"
+          to="."
           style={({ isActive }) => (isActive ? activeState : undefined)}
         >
           음식 이름 검색

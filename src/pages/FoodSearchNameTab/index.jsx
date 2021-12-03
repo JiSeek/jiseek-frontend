@@ -88,10 +88,11 @@ const Result = styled.section`
 `;
 
 const FoodImage = styled.div`
-  padding-right: 1.5rem;
+  /* padding-right: 1.5rem; */
 `;
 
 const GridResult = styled.span`
   display: grid;
+  grid-gap: 3rem;
   grid-template-columns: 1fr 1fr;
 `;

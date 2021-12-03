@@ -3,19 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CustomLink from './CustomLink';
-import logoKr from '../../assets/images/logo/logo.png';
-import logoEn from '../../assets/images/logo/logo_eng.png';
+import logo from '../../assets/images/logo/logo_ver2.png';
 import UtilBar from './UtilBarContainer';
-
-const logo = (lang) => {
-  if (lang === 'ko') {
-    return logoKr;
-  }
-  if (lang === 'en') {
-    return logoEn;
-  }
-  return logoKr;
-};
 
 const menu = (lang) => {
   if (lang === 'ko') {
@@ -40,26 +29,23 @@ const menu = (lang) => {
 };
 
 const NavigationBar = ({ lang }) => (
-  <>
-    <NavbarTop />
-    <NavbarBackground>
-      <Navbar>
-        <Link to="/">
-          <Logo src={logo(lang)} alt="logo" />
-        </Link>
-        <div />
-        <StyledUl>
-          {menu(lang).map(([tab, url]) => (
-            <StyledLi key={tab}>
-              <StyledCustomLink to={url}>{tab}</StyledCustomLink>
-            </StyledLi>
-          ))}
-        </StyledUl>
-        <div />
-        <UtilBar />
-      </Navbar>
-    </NavbarBackground>
-  </>
+  <NavbarBackground>
+    <Navbar>
+      <Link to="/">
+        <Logo src={logo} alt="logo" />
+      </Link>
+      <div />
+      <StyledUl>
+        {menu(lang).map(([tab, url]) => (
+          <StyledLi key={tab}>
+            <StyledCustomLink to={url}>{tab}</StyledCustomLink>
+          </StyledLi>
+        ))}
+      </StyledUl>
+      <div />
+      <UtilBar />
+    </Navbar>
+  </NavbarBackground>
 );
 
 NavigationBar.propTypes = {
@@ -72,15 +58,16 @@ NavigationBar.defaultProps = {
 
 export default NavigationBar;
 
-const NavbarTop = styled.div`
-  background: #998883;
-  width: 100vw;
-  height: 8px;
-`;
+// const NavbarTop = styled.div`
+//   background: #998883;
+//   width: 100vw;
+//   height: 8px;
+// `;
 
 const NavbarBackground = styled.div`
   width: 100vw;
-  background: #faf6f2;
+  /* background: #faf6f2; */
+  background: #fbfbfbe4;
   box-shadow: 0px 2px 8px #c7b3ad;
   position: relative;
   z-index: 3;
@@ -126,4 +113,9 @@ const StyledCustomLink = styled(CustomLink)`
   font-weight: 800;
   display: flex;
   justify-content: center;
+  transition: 0.2s ease-in-out;
+
+  :hover {
+    color: #6B5B56;
+  }
 `;

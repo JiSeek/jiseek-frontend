@@ -75,20 +75,25 @@ export default FoodSearchBar;
 
 const StyledSearchBar = styled.div`
   width: fit-content;
+  position: relative;
 `;
 
 const StyledInput = styled.input`
   font-family: inherit;
   text-align: center;
   border: none;
-  border-bottom: 1px solid #d7ccc0;
-  padding: 0.5rem 0;
+  border-bottom: 2px solid #d7ccc0;
+  padding: 0.7rem 0 0.5rem 0;
   width: 17rem;
-  box-shadow: 0px 1px 1px #d3c7c3;
   background: #fbfbfb;
 
   ::placeholder {
     color: #a69b90;
+  }
+
+  :focus {
+  transition: 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   }
 `;
 

@@ -44,14 +44,14 @@ function Board() {
                     }
                 </GridContainer>
             }
-            <button type='button' onClick={handleClick}>글쓰기</button>
+            <button type='button' onClick={handleClick}>게시물 작성</button>
         </>
     );
 }
 
 const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr); // 1fr 1fr 1fr 반복
+    grid-template-columns: repeat(5, 1fr); // 1fr 1fr 1fr 반복
     gap: 2rem;
     place-items: stretch;
 `

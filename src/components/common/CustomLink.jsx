@@ -40,10 +40,9 @@ CustomLink.defaultProps = {
 export default CustomLink;
 
 const SelectBar = styled.div`
-  width: 100%;
-  height: 16px;
+  width: 70%;
+  height: 0.5rem;
   background: #af9c96;
-  border-radius: 30px 30px 0 0;
   position: absolute;
-  top: 64px;
+  bottom: 0;
 `;

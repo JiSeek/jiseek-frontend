@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'; 
-import { NavLink, useNavigate } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import { useQuery } from 'react-query';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
@@ -13,11 +13,11 @@ function Board() {
         return (
             <>
                 <div>{error}</div>
-                <NavLink to={navigate(-1)}>
+                <Link to={navigate(-1)}>
                     <button type='button'>
                         이전 페이지로 돌아가기
                     </button>
-                </NavLink>
+                </Link>
             </>
         );
     }
@@ -35,11 +35,11 @@ function Board() {
                 :
                 <GridContainer>
                     { boardList && Object.entries(boardList).map( (board) => (
-                        <NavLink to={`/board/${board.id}`}>    
+                        <Link to={`/board/${board.id}`}>    
                             <div className='items' key={board.id}>
                                 <img src={board.photo} alt='이미지' />
                             </div>
-                        </NavLink>
+                        </Link>
                     ))
                     }
                 </GridContainer>

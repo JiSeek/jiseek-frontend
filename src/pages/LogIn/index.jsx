@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useMatch, Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { JiseekLogin, KakaoLogIn } from '../../components/LogIn';
+import { JiseekLogIn, KakaoLogIn, NaverLogIn } from '../../components/LogIn';
 import { useLangContext } from '../../contexts/LangContext';
 
 const LogInPage = () => {
@@ -21,13 +21,13 @@ const LogInPage = () => {
       {match && (
         <section>
           <h2>로그인</h2>
-          <JiseekLogin />
+          <JiseekLogIn />
           <ul>
             <li>
               <KakaoLogIn lang={lang} />
+              <NaverLogIn lang={lang} />
             </li>
             <li>GoogleLogin</li>
-            <li>NaverLogin</li>
           </ul>
         </section>
       )}

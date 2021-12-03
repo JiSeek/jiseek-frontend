@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-export const JISEEK_BASE_URL = process.env.REACT_APP_JISEEK_API_BASE_URL;
 const REDIRECT_BASE_URL = process.env.REACT_APP_LOGIN_REDIRECT_BASE_URL;
 
 // Query를 위한 API(사용 가능한 메소드: GET)
@@ -16,7 +15,7 @@ export const createQueryApi =
         url,
         method: 'get',
         headers: {
-          'content-Type': 'application/json',
+          'Content-Type': 'application/json',
           Authorization: token ? `Bearer ${token}` : '',
         },
         timeout: 3000,
@@ -40,7 +39,7 @@ export const createMutationApi =
         url,
         method,
         headers: {
-          'content-Type': 'application/json',
+          'Content-Type': 'application/json',
           Authorization: token ? `Bearer ${token}` : '',
         },
         timeout: 3000,
@@ -51,5 +50,16 @@ export const createMutationApi =
       throw new Error(err);
     }
   };
+
+export const createOAuth2BaseUrl = (type = '') => {
+  switch (type) {
+    case 'kakao':
+      return 'https://kauth.kakao.com/oauth';
+    case 'naver':
+      return 'https://nid.naver.com/oauth2.0';
+    default:
+      return '';
+  }
+};
 
 export const createRedirectUrl = (type = '') => `${REDIRECT_BASE_URL}/${type}`;

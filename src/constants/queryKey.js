@@ -15,7 +15,6 @@ export const userKeys = Object.freeze({
   info: ['user', 'info'],
   socialAuth: (type) => ['user', 'login', type],
   emailAuth: ['user', 'account-confirm-email'],
-  logout: ['user', 'logout-all'],
 });
 
 // 마이 페이지 고유키 정의
@@ -26,7 +25,8 @@ export const myPagekeys = Object.freeze({
 
 // Mutation 키 정의
 export const mutationKey = Object.freeze({
-  login: 'userLogin',
+  logIn: 'userLogIn',
+  logOut: 'userLogOut',
   like: 'likeTarget',
   userInfo: 'userInfoUpdate',
   password: 'userPassword',

@@ -55,7 +55,12 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
       ) {
         return;
       }
-      setFoundNames(dataPool.find(e.target.value));
+      const foundLIst = dataPool.find(e.target.value);
+      setFoundNames(() => foundLIst);
+      const targetIdx = foundLIst.indexOf(e.target.value);
+      if (targetIdx !== -1) {
+        setFocusItem(targetIdx);
+      }
     },
     [dataPool],
   );
@@ -93,7 +98,15 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
       if (e.code === 'Enter') {
         if (typeof setTarget === 'function') {
           const target = foundNames[focusItem];
-          setTarget(target || '');
+          setTarget(() => {
+            if (target) {
+              return target;
+            }
+            // if (foundNames.indexOf(e.target.value) !== -1) {
+            return e.target.value;
+            // }
+            // return '';
+          });
         }
         setKeyword('');
         setFoundNames([]);

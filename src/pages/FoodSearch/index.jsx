@@ -1,5 +1,11 @@
 import React from 'react';
-import { Routes, Route, useLocation, NavLink } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  NavLink,
+  Navigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import FoodSearchImageTab from '../FoodSearchImageTab';
 import FoodSearchNameTab from '../FoodSearchNameTab';
@@ -11,7 +17,7 @@ const FoodSearchPage = () => {
   const [lang] = useLangContext();
   console.log('테스트', lang, location);
   const activeState = {
-    textDecoration: 'none',
+    textDecoration: 'underline',
     // color: 'red',
   };
 
@@ -19,24 +25,22 @@ const FoodSearchPage = () => {
     <div>
       <nav>
         <StyledNavLink
-          to="name"
+          to="."
           style={({ isActive }) => (isActive ? activeState : undefined)}
         >
           음식명 검색
         </StyledNavLink>
-        <NavLink
+        <StyledNavLink
           to="image"
           style={({ isActive }) => (isActive ? activeState : undefined)}
         >
           음식사진 검색
-        </NavLink>
-
-        {/* <CustomLink to="name">음식명 검색</CustomLink>
-        <CustomLink to="image">음식사진 검색</CustomLink> */}
+        </StyledNavLink>
       </nav>
       <Routes>
-        <Route path="name" element={<FoodSearchNameTab />} />
+        <Route path="/" element={<FoodSearchNameTab />} />
         <Route path="image" element={<FoodSearchImageTab />} />
+        <Route path="*" element={<Navigate to="/not_found" />} />
       </Routes>
     </div>
   );
@@ -45,6 +49,7 @@ const FoodSearchPage = () => {
 const StyledNavLink = styled(NavLink)`
   /* text-decoration: none; */
   color: black;
+  font-size: 1rem;
 `;
 
 export default FoodSearchPage;

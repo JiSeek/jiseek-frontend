@@ -47,46 +47,61 @@ const RegisterUser = ({ hookForm, storeChanged }) => (
     </label>
     <label htmlFor="user-name">
       <input
+        type="text"
         id="user-name"
         placeholder="닉네임"
         {...hookForm.register('publicTypes.name', {
           onBlur: () => storeChanged(),
         })}
       />
+      <StyledErrorMsg>
+        {hookForm.errors.publicTypes?.name &&
+          hookForm.errors.publicTypes?.name.message}
+      </StyledErrorMsg>
     </label>
     <Controller
       control={hookForm.control}
-      name="publicTypes.isKorean"
-      render={({ field: { value, onChange } }) => (
+      name="publicTypes.nation"
+      render={({ field: { onChange } }) => (
         <StyledNation>
           <legend>국가</legend>
           <span>국가</span>
-          <StyledCheckBox htmlFor="user-korean" checked={value}>
+          <StyledCheckBox
+            htmlFor="user-korean"
+            checked={hookForm.getValues('publicTypes.nation') === 'korea'}
+          >
             대한민국
             <input
               type="radio"
               id="user-korean"
               name="user-nation"
-              onChange={() => {
+              value="korea"
+              onChange={(e) => {
+                onChange(e.target.value);
                 storeChanged();
-                onChange(true);
-                console.log('ffff', value);
               }}
             />
           </StyledCheckBox>
-          <StyledCheckBox htmlFor="user-foreigner" checked={!value}>
+          <StyledCheckBox
+            htmlFor="user-foreigner"
+            checked={hookForm.getValues('publicTypes.nation') === 'others'}
+          >
             그 외
             <input
               type="radio"
               id="user-foreigner"
               name="user-nation"
-              onChange={() => {
+              value="others"
+              onChange={(e) => {
+                onChange(e.target.value);
                 storeChanged();
-                onChange(false);
-                console.log('eee', value);
               }}
             />
           </StyledCheckBox>
+          <StyledErrorMsg>
+            {hookForm.errors.publicTypes?.nation &&
+              hookForm.errors.publicTypes?.nation.message}
+          </StyledErrorMsg>
         </StyledNation>
       )}
     />

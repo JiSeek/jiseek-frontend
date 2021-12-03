@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import MyInfoForm from './MyInfoForm';
@@ -9,6 +10,7 @@ import { useAuthContext } from '../../contexts';
 
 // TODO: 파일 업로드 처리
 const MyInfoFormContainer = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(userKeys.info);
   const { token } = useAuthContext();
@@ -42,17 +44,25 @@ const MyInfoFormContainer = () => {
     {
       mutationKey: mutationKey.userInfo,
       onSuccess: (data) => {
+        // TODO: 에러 메시지가 일루 올지 확인 필요
         setValue('image', data.image);
         setValue('name', data.name);
         queryClient.setQueryData(userKeys.info, data);
+        navigate('/mypage');
       },
       onError: (err) => console.error('임시 에러처리', err),
     },
   );
 
   const onSubmit = useCallback(
-    (updateData) => userInfoUpdate.mutate(updateData),
-    [userInfoUpdate],
+    (updateData) => {
+      // TODO: 기존엔 s3 이미지 url일텐데 파일을 올리면 이미지 파일이라서...
+      if (user.name === updateData.name && user.image === updateData.image) {
+        return;
+      }
+      userInfoUpdate.mutate(updateData);
+    },
+    [userInfoUpdate, user],
   );
 
   return (

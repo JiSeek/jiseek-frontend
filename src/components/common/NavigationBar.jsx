@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { string, number, element, func } from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CustomLink from './CustomLink';
 import logo from '../../assets/images/logo/logo_ver2.png';
-import UtilBar from './UtilBarContainer';
 
 const menu = (lang) => {
   if (lang === 'ko') {
@@ -28,32 +27,34 @@ const menu = (lang) => {
   ];
 };
 
-const NavigationBar = ({ lang }) => (
-  <NavbarBackground>
-    <Navbar>
-      <Link to="/">
-        <Logo src={logo} alt="logo" />
-      </Link>
-      <div />
-      <StyledUl>
-        {menu(lang).map(([tab, url]) => (
-          <StyledLi key={tab}>
-            <StyledCustomLink to={url}>{tab}</StyledCustomLink>
-          </StyledLi>
-        ))}
-      </StyledUl>
-      <div />
-      <UtilBar />
-    </Navbar>
-  </NavbarBackground>
+const NavigationBar = ({ lang, children }) => (
+    <NavbarBackground>
+      <Navbar>
+        <Link to="/">
+          <Logo src={logo} alt="logo" />
+        </Link>
+        <div />
+        <StyledUl>
+          {menu(lang).map(([tab, url]) => (
+            <StyledLi key={tab}>
+              <StyledCustomLink to={url}>{tab}</StyledCustomLink>
+            </StyledLi>
+          ))}
+        </StyledUl>
+        <div />
+        {children}
+      </Navbar>
+    </NavbarBackground>
 );
 
 NavigationBar.propTypes = {
   lang: PropTypes.string,
+  children: PropTypes.oneOfType([string, number, element, func]),
 };
 
 NavigationBar.defaultProps = {
   lang: '',
+  children: null,
 };
 
 export default NavigationBar;

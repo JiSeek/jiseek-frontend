@@ -1,5 +1,11 @@
 import React from 'react';
-import { Routes, Route, useLocation, NavLink } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  NavLink,
+  Navigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import FoodSearchImageTab from '../FoodSearchImageTab';
 import FoodSearchNameTab from '../FoodSearchNameTab';
@@ -38,8 +44,9 @@ const FoodSearchPage = () => {
         <div />
       </StyledNav>
       <Routes>
-        <Route path="name" element={<FoodSearchNameTab />} />
+        <Route path="/" element={<FoodSearchNameTab />} />
         <Route path="image" element={<FoodSearchImageTab />} />
+        <Route path="*" element={<Navigate to="/not_found" />} />
       </Routes>
     </StyledSearch>
   );

@@ -56,25 +56,31 @@ const FoodRecipesContainer = ({ food }) => {
           ),
         );
         const detailList = response.map((data) => data[0]);
-        // TODO: 보류 필터링하면 검색 결과가 안뜨는 문제.
-        // const cleanedList = detailList.filter(({ snippet }) => {
-        //   // 띄어쓰기를 제거한 영상 제목에 찾고자 하는 음식 명이 정확히 들어있는지 확인
-        //   const title = snippet.title.replace(/\s/g, '');
-        //   return title.includes(food);
-        // });
-        // console.log(cleanedList);
-        // cleanedList.sort(
-        //   (a, b) =>
-        //     parseInt(b.statistics.viewCount, 10) -
-        //     parseInt(a.statistics.viewCount, 10),
-        // );
-        // setRecipes(() => cleanedList);
+
+        // 좋아요순으로 내림차 정렬
         detailList.sort(
           (a, b) =>
             parseInt(b.statistics.viewCount, 10) -
             parseInt(a.statistics.viewCount, 10),
         );
-        setRecipes(() => detailList);
+
+        // 해당 검색어를 정확히 포함하는 레시피 영상이 있는지 검사
+        const includeList = [];
+        const excludeList = detailList.filter((video) => {
+          const title = video.snippet.title.replace(/\s/g, '');
+          if (title.includes(food)) {
+            includeList.push(video);
+            return false;
+          }
+          return true;
+        });
+
+        // 정확한 단어를 포함하는 영상이 부족할 시 추가 보충 작업
+        if (includeList.length < 4) {
+          includeList.push(...excludeList.slice(0, 4 - includeList.length));
+        }
+
+        setRecipes(() => includeList.slice(0, 4));
       } catch (err) {
         // TODO: 에러 처리 필요.
         console.error('에러러러', err);

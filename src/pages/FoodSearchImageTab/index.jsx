@@ -9,7 +9,7 @@ import jiseekApi from '../../api';
 import { foodKeys, myPagekeys } from '../../constants';
 import { useImageSlider } from '../../hooks/common';
 import { LikeButton } from '../../components/common';
-// import { FoodRecipes } from '../../components/FoodSearch';
+import { FoodRecipes } from '../../components/FoodSearch';
 
 const FoodSearchImageTab = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const FoodSearchImageTab = () => {
   // const [lang] = useLangContext();
   const { token } = useAuthContext();
   const [favList, setFavList] = useState([]);
-  const [listFind, setListFind] = useState(); // 임시 포맷 정해지면 변경해야됨.
+  const [listFind, setListFind] = useState([]); // 임시 포맷 정해지면 변경해야됨.
   const {
     analysis,
     setAnalysis,
@@ -25,6 +25,7 @@ const FoodSearchImageTab = () => {
     RenderFoodUpload,
   } = useFoodUpload();
 
+  // TODO: 이미지 전송했을 때 시도하도록 개선하기.
   // 좋아요한 음식 리스트 가져오기
   const { status: likeStatus } = useQuery(
     myPagekeys.favFood,
@@ -128,8 +129,7 @@ const FoodSearchImageTab = () => {
             {foodInfoStatus === 'loading' ? ( // 임시땜빵
               <FontAwesomeIcon icon={faSpinner} spin />
             ) : (
-              <></>
-              // <FoodRecipes food={analysis[slideIdx].name} />
+              <FoodRecipes food={analysis[slideIdx].name} />
             )}
           </section>
         </>

@@ -16,16 +16,17 @@ const useFoodIdMap = () => {
     foodKeys.all,
     jiseekApi.get(),
     { staleTime: Infinity, cacheTime: Infinity },
+    // TODO: 데이터 로드 실패 시 재시도 안되는 문제
   );
 
   // 전체 음식 이름 -> ID 매핑 테이블
-  const foodIdMap = useMemo(() => {
-    const table = { '': -1 };
-    data?.forEach(({ id, name }) => {
-      table[name] = id;
-    });
-    return table;
-  }, [data]);
+  const foodIdMap = useMemo(
+    () =>
+      data
+        ? data.reduce((table, { id, name }) => ({ ...table, [name]: id }), {})
+        : {},
+    [data],
+  );
 
   return { foodIdMap, isLoading, isError, status };
 };

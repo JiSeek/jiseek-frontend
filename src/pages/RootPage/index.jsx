@@ -24,8 +24,8 @@ export default RootPage;
 const TotalStyle = styled.div`
   font-family: 'Pretendard';
   font-weight: 400;
-  color: #231815;
-  /* max-width: 1320px; */
+  color: #6B5B56;
+  background: #FBFBFB;
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;

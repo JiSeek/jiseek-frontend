@@ -60,7 +60,7 @@ const UtilBar = ({ token, lang, onLangChange }) => {
               {name}
             </StyledLink>
           ))}
-      <select name="lang" onChange={onLangChange} value={lang}>
+      <StyledSelect name="lang" onChange={onLangChange} value={lang}>
         {[
           ['ko', '한국어'],
           ['en', 'English'],
@@ -69,7 +69,7 @@ const UtilBar = ({ token, lang, onLangChange }) => {
             {option}
           </option>
         ))}
-      </select>
+      </StyledSelect>
     </StyledUtilBar>
   );
 };
@@ -93,7 +93,7 @@ const StyledUtilBar = styled.ul`
   text-align: center;
   padding-left: 0;
   display: grid;
-  grid-template-columns: 0.8fr 1.3fr 1.5fr;
+  grid-template-columns: 1fr 1.5fr 1.5fr;
   align-items: center;
 `;
 
@@ -104,21 +104,18 @@ const StyledLink = styled(Link)`
   font-weight: 700;
 `;
 
-// language option 적용 되지 않음
-// styled component 문제로 의심되어 주석처리
-
-// const StyledSelect = styled.select`
-//   width: 85px;
-//   height: 22px;
-//   /* margin: 2px 0px; */
-//   padding: 2px 1px;
-//   font-family: inherit;
-//   font-size: 12px;
-//   text-align: center;
-//   background: #fffdfa;
-//   border-radius: 5px;
-//   border: 1px solid #231815;
-// `;
+const StyledSelect = styled.select`
+  width: 85px;
+  height: 22px;
+  /* margin: 2px 0px; */
+  padding: 2px 1px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: center;
+  background: none;
+  border-radius: 5px;
+  border: 1px solid #231815;
+`;
 
 // const StyledOption = styled.option`
 //   text-align: center;

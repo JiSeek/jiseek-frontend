@@ -57,24 +57,27 @@ const FoodRecipesContainer = ({ food }) => {
         );
         const detailList = response.map((data) => data[0]);
         // TODO: 보류 필터링하면 검색 결과가 안뜨는 문제.
-        // const cleanedList = detailList.filter(({ snippet }) => {
-        //   // 띄어쓰기를 제거한 영상 제목에 찾고자 하는 음식 명이 정확히 들어있는지 확인
-        //   const title = snippet.title.replace(/\s/g, '');
-        //   return title.includes(food);
-        // });
-        // console.log(cleanedList);
-        // cleanedList.sort(
-        //   (a, b) =>
-        //     parseInt(b.statistics.viewCount, 10) -
-        //     parseInt(a.statistics.viewCount, 10),
-        // );
-        // setRecipes(() => cleanedList);
-        detailList.sort(
+        const includeList = detailList.filter(({ snippet }) => {
+          // 띄어쓰기를 제거한 영상 제목에 찾고자 하는 음식 명이 정확히 들어있는지 확인
+          const title = snippet.title.replace(/\s/g, '');
+          return title.includes(food);
+        });
+        const excludeList = detailList.filter(({ snippet }) => {
+          const title = snippet.title.replace(/\s/g, '');
+          return !title.includes(food);
+        });
+        includeList.sort(
           (a, b) =>
             parseInt(b.statistics.viewCount, 10) -
             parseInt(a.statistics.viewCount, 10),
         );
-        setRecipes(() => detailList);
+        excludeList.sort(
+          (a, b) =>
+            parseInt(b.statistics.viewCount, 10) -
+            parseInt(a.statistics.viewCount, 10),
+        );
+        const recipesList = includeList.concat(excludeList);
+        setRecipes(() => recipesList.slice(0, 4));
       } catch (err) {
         // TODO: 에러 처리 필요.
         console.error('에러러러', err);

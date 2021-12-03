@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -6,8 +7,13 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import jiseekApi from '../../api';
 import { useFoodIdMap } from '../../hooks/FoodSearch';
 import { foodKeys } from '../../constants';
-import { FoodSearchBar, Nutrition } from '../../components/FoodSearch';
-// FoodRecipes
+import {
+  FoodSearchBar,
+  Nutrition,
+  FoodRecipes,
+} from '../../components/FoodSearch';
+import { LoadingDot } from '../../assets/images/images';
+import { Bulgogi } from '../../assets/images';
 
 const FoodSearchPage = () => {
   // const [lang] = useLangContext();
@@ -30,24 +36,30 @@ const FoodSearchPage = () => {
 
   return (
     <article>
-      <h2>음식명 검색</h2>
-      <FoodSearchBar
-        foodNames={Object.keys(foodIdMap)}
-        setFindTarget={setFindTarget}
-      />
+      <Center>
+        <FoodSearchBar
+          foodNames={Object.keys(foodIdMap)}
+          setFindTarget={setFindTarget}
+        />
+      </Center>
       {findTarget && (
         <>
-          <section>
-            <h2>영양정보 분석 결과</h2>
+          <Result>
             {foodInfoStatus === 'loading' ? (
-              <FontAwesomeIcon icon={faSpinner} spin />
+              <Center>
+                <img src={LoadingDot} alt="loading" />
+              </Center>
             ) : (
-              <span>
-                영양정보 결과 컴포넌트(프레젠테이셔널)<Nutrition foodInfo={foodInfo}/> | {foodInfo?.data}
-              </span>
+              <GridResult>
+                <FoodImage>
+                  <div style={{ textAlign: 'center' }}>{findTarget}</div>
+                  <img src={Bulgogi} alt="test" style={{ width: '100%' }} />
+                </FoodImage>
+                <Nutrition foodInfo={foodInfo} /> | {foodInfo?.data}
+              </GridResult>
             )}
-          </section>
-          {/* <section>
+          </Result>
+          <section>
             <h2>음식 레시피</h2>
             {foodInfoStatus === 'loading' ? ( // 임시땜빵
               <FontAwesomeIcon icon={faSpinner} spin />
@@ -57,7 +69,7 @@ const FoodSearchPage = () => {
                 <FoodRecipes food={findTarget || ''} />
               </>
             )}
-          </section> */}
+          </section>
         </>
       )}
     </article>
@@ -65,3 +77,21 @@ const FoodSearchPage = () => {
 };
 
 export default FoodSearchPage;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Result = styled.section`
+  padding: 2rem 0;
+`;
+
+const FoodImage = styled.div`
+  padding-right: 1.5rem;
+`;
+
+const GridResult = styled.span`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;

@@ -16,7 +16,7 @@ const FoodSearchBar = ({
   onBlur,
 }) => (
   <StyledSearchBar>
-    <input
+    <StyledInput
       value={keyword}
       onInput={onInput}
       // onInput={onDebounceInput}
@@ -71,8 +71,25 @@ FoodSearchBar.defaultProps = {
   onBlur: null,
 };
 
+export default FoodSearchBar;
+
 const StyledSearchBar = styled.div`
   width: fit-content;
+`;
+
+const StyledInput = styled.input`
+  font-family: inherit;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #d7ccc0;
+  padding: 0.5rem 0;
+  width: 17rem;
+  box-shadow: 0px 1px 1px #d3c7c3;
+  background: #fbfbfb;
+
+  ::placeholder {
+    color: #a69b90;
+  }
 `;
 
 const StyledList = styled.ul`
@@ -81,21 +98,23 @@ const StyledList = styled.ul`
   margin: 0;
   list-style: none;
   text-align: center;
-  border: solid 1px black;
+  border: solid 1px #a69b90;
+  position: absolute;
+  width: 17rem;
+  background: #fbfbfb;
 `;
 
 const StyledItem = styled.li`
-  background: ${(props) => (props.focus ? 'gray' : 'transparent')};
+  padding: 0.6rem 0;
+  background: ${(props) => (props.focus ? '#D7CCC0' : 'transparent')};
+  font: inherit;
 
   > a {
     display: block;
     text-decoration: none;
-    color: black;
   }
 
   > span {
     pointer-events: none;
   }
 `;
-
-export default FoodSearchBar;

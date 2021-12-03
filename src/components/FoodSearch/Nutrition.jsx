@@ -96,18 +96,21 @@ function Nutrition({ foodInfo }) {
       <div id="bar-chart-container">
         <Bar
           data={summary}
-          width={300}
-          height={200}
+          width={600}
+          height={500}
           options={{
             maintainAspectRatio: false,
+            responsive: false,
           }}
         />
       </div>
-      <div id="material-table-container">
+      <div id="material-table-container" style={{width:'600px'}}>
         <MaterialTable
           title="Detail Information"
           columns={columns}
           data={detail}
+          width={600}
+          height={300}
           options={{
             search: true,
             sorting: true,

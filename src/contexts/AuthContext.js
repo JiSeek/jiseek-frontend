@@ -5,7 +5,7 @@ import {
   useContext,
   useReducer,
 } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
 import { mutationKey, userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
@@ -30,6 +30,7 @@ export const initialTkn = {
 const getRefreshTime = (hour) => hour * 60 * 60;
 
 export const useAuth = () => {
+  const queryClient = useQueryClient();
   const timerId = useRef(null);
   const [token, dispatch] = useReducer(authReducer, initialState.auth);
 
@@ -43,7 +44,8 @@ export const useAuth = () => {
     timerId.current = null;
     setLocalStorage('jiseek_auth', initialTkn);
     dispatch(actions.clearToken());
-  }, []);
+    queryClient.removeQueries(userKeys.all);
+  }, [queryClient]);
 
   // 토큰 Refresh
   const { mutate: refreshToken } = useMutation(

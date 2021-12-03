@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { string, number, element, func } from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CustomLink from './CustomLink';
 import logo from '../../images/logo.png';
-import UtilBar from './UtilBar';
 
 const menu = (lang) => {
   if (lang === 'ko') {
@@ -28,7 +27,7 @@ const menu = (lang) => {
   ];
 };
 
-const NavigationBar = ({ lang }) => (
+const NavigationBar = ({ lang, children }) => (
   <>
     <NavbarTop />
     <NavbarBackground>
@@ -45,7 +44,7 @@ const NavigationBar = ({ lang }) => (
           ))}
         </StyledUl>
         <div />
-        <UtilBar />
+        {children}
       </Navbar>
     </NavbarBackground>
   </>
@@ -53,10 +52,12 @@ const NavigationBar = ({ lang }) => (
 
 NavigationBar.propTypes = {
   lang: PropTypes.string,
+  children: PropTypes.oneOfType([string, number, element, func]),
 };
 
 NavigationBar.defaultProps = {
   lang: '',
+  children: null,
 };
 
 export default NavigationBar;

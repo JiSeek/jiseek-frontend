@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { useNavigate, useLocation } from 'react-router-dom';
 import jiseekApi from '../../api';
-import { userKeys } from '../../constants';
 import { useAuthContext } from '../../contexts';
 
 const LogOutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { token, clearToken } = useAuthContext();
   const from = location.state?.from?.pathname || '/';
   console.log('111', location, !!token.access && from === '/logout');
@@ -23,7 +21,6 @@ const LogOutPage = () => {
     {
       onSuccess: (data) => {
         console.log('로그아웃 성공!', data);
-        queryClient.removeQueries(userKeys.all);
         clearToken();
         // TODO: 실행 중인 뮤테이션 취소 해야됨.
       },

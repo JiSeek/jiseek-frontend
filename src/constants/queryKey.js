@@ -34,3 +34,10 @@ export const mutationKey = Object.freeze({
   token: 'tokenRefresh',
   foodUpload: 'foodUpload',
 });
+
+// 게시판 페이지 고유키 정의
+export const boardKeys = Object.freeze({ // Object.freeze 속성의 불변성
+  superior: 'boards',
+  detailsById: id => ['boards', id],
+});
+

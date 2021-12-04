@@ -77,13 +77,13 @@ const ErrorMessageArea = styled.div`
 `;
 
 const StyledButton = styled.button`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin-top: 1rem;
   background-color: #407f00;
   color: #f6fff2;
   text-align: center;
-  padding: 1rem 1.5rem;
   width: 100%;
+  height: 50px;
   cursor: pointer;
   border: none;
 `;

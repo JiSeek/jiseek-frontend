@@ -51,7 +51,7 @@ const FoodRecipesContainer = ({ food }) => {
               id,
               part: 'snippet, statistics, contentDetails, status',
               fields:
-                'items(id, snippet(title, description, publishedAt), statistics(viewCount), contentDetails(duration))',
+                'items(id, snippet(title, description, publishedAt, thumbnails), statistics(viewCount), contentDetails(duration))',
             })(),
           ),
         );
@@ -87,7 +87,6 @@ const FoodRecipesContainer = ({ food }) => {
       }
     })();
   }, [food, findList]);
-
   return (
     <>
       {recipes.length === 0 ? (

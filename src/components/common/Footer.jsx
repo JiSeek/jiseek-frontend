@@ -11,8 +11,8 @@ export default Footer;
 
 const FooterBackground = styled.div`
   width: 100vw;
-  height: 200px;
-  background: #40322d;
+  height: 150px;
+  background: #09351b;
 `;
 
 const FooterContent = styled.div`

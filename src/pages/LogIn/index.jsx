@@ -48,6 +48,8 @@ const StyledLogin = styled.div`
 const Title = styled.div`
   font-size: 2.5rem;
   font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.5rem;
 `;
 
 export default LogInPage;

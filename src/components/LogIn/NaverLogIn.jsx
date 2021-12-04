@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KoEnNaverLogInImage } from '../../assets/images/images';
 import { createRedirectUrl } from '../../api/common';
 import { encSha256, setLocalStorage } from '../../utils';
 
@@ -19,10 +18,7 @@ const NaverLogIn = ({ lang }) => {
     <a
       href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_API_CLIENT_ID}&state=${state}&redirect_uri=${REDIRECT_URL}`}
     >
-      <img
-        src={KoEnNaverLogInImage}
-        alt={lang === 'ko' ? '네이버 로그인' : 'Login with Naver'}
-      />
+      {lang === 'ko' ? <div>네이버 로그인</div> : <div>Login with Naver</div>}
     </a>
   );
 };

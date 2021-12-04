@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { KoEnNaverLogInImage } from '../../assets/images/images';
+import LogInButton from './LogInButton';
 import { createRedirectUrl } from '../../api/common';
 import { encSha256, setLocalStorage } from '../../utils';
+import { NaverLogo } from '../../assets/images/images';
 
 const NAVER_API_CLIENT_ID = process.env.REACT_APP_NAVER_API_CLIENT_ID;
 const JISEEK_API_URL = process.env.REACT_APP_JISEEK_API_BASE_URL;
@@ -19,9 +20,11 @@ const NaverLogIn = ({ lang }) => {
     <a
       href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_API_CLIENT_ID}&state=${state}&redirect_uri=${REDIRECT_URL}`}
     >
-      <img
-        src={KoEnNaverLogInImage}
-        alt={lang === 'ko' ? '네이버 로그인' : 'Login with Naver'}
+      <LogInButton
+        logo={NaverLogo}
+        sns={
+          lang === 'ko' ? <div>네이버 로그인</div> : <div>Login with Naver</div>
+        }
       />
     </a>
   );

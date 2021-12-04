@@ -35,6 +35,7 @@ const FoodSearchPage = () => {
       },
     },
   );
+
   return (
     <article>
       <Center>

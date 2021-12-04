@@ -25,21 +25,22 @@ const FoodSearchPage = () => {
 
   return (
     <StyledSearch>
-      <Title>영양 정보 확인</Title>
+      <Title>음식 알아보기</Title>
       <StyledNav>
         <div />
         <NavLink
           to="."
+          end
           style={({ isActive }) => (isActive ? activeState : undefined)}
         >
-          음식 이름 검색
+          이름으로 검색하기
         </NavLink>
         <>|</>
         <NavLink
           to="image"
           style={({ isActive }) => (isActive ? activeState : undefined)}
         >
-          음식 사진 검색
+          사진으로 검색하기
         </NavLink>
         <div />
       </StyledNav>
@@ -62,14 +63,14 @@ const StyledSearch = styled.div`
 
 const Title = styled.div`
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   justify-content: center;
 `;
 
 const StyledNav = styled.nav`
   display: grid;
-  grid-template-columns: 4fr 1fr 1rem 1fr 4fr;
+  grid-template-columns: 4fr 150px 1rem 150px 4fr;
   font-size: 1.2rem;
   text-align: center;
   margin: 2.5rem 0;

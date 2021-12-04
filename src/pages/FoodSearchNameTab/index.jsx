@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 // // 임시 떔빵
 import jiseekApi from '../../api';
 import { useFoodIdMap } from '../../hooks/FoodSearch';
 import { foodKeys } from '../../constants';
-import {
-  FoodSearchBar,
-  Nutrition,
-  FoodRecipes,
-} from '../../components/FoodSearch';
-import { LoadingDot } from '../../assets/images/images';
-import { Bulgogi } from '../../assets/images';
+import { FoodSearchBar, Nutrition } from '../../components/FoodSearch';
+import { LoadingDot, NotFound } from '../../assets/images/images';
 
 const FoodSearchPage = () => {
   // const [lang] = useLangContext();
@@ -42,7 +35,6 @@ const FoodSearchPage = () => {
       },
     },
   );
-
   return (
     <article>
       <Center>
@@ -59,33 +51,46 @@ const FoodSearchPage = () => {
                 <img src={LoadingDot} alt="loading" />
               </Center>
             ) : (
-              <GridResult>
-                <FoodImage>
-                  <div style={{ textAlign: 'center' }}>{findTarget}</div>
-                  <img src={Bulgogi} alt="test" style={{ width: '100%' }} />
-                </FoodImage>
-                <Nutrition foodInfo={foodInfo} /> | {foodInfo?.data}
-              </GridResult>
-            )}
-          </Result>
-          <section>
-            <h2>음식 레시피</h2>
-            {foodInfoStatus === 'loading' ? ( // 임시땜빵
-              <FontAwesomeIcon icon={faSpinner} spin />
-            ) : (
               <>
-                {findTarget}
-                <FoodRecipes food={findTarget || ''} />
+                {foodInfoStatus === 'error' ? (
+                  <Center>
+                    asdklfjalskdjf
+                    <img src={NotFound} alt="not found" />
+                  </Center>
+                ) : (
+                  <>
+                    <Title>{findTarget}</Title>
+                    <GridResult>
+                      <FoodImage>
+                        <img
+                          src={foodInfo.image1}
+                          alt="test"
+                          style={{
+                            width: '100%',
+                            height: '480px',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </FoodImage>
+                      <div>
+                        <Subtitle>영양 정보</Subtitle>
+                        <Nutrition foodInfo={foodInfo} />
+                      </div>
+                      {foodInfo?.data}
+                      <div>
+                        <Subtitle>레시피</Subtitle>
+                      </div>
+                    </GridResult>
+                  </>
+                )}
               </>
             )}
-          </section>
+          </Result>
         </>
       )}
     </article>
   );
 };
-
-export default FoodSearchPage;
 
 const Center = styled.div`
   display: flex;
@@ -96,12 +101,56 @@ const Result = styled.section`
   padding: 2rem 0;
 `;
 
+const GridResult = styled.span`
+  display: grid;
+  margin: 0 2rem;
+  grid-gap: 3rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    'photo chart'
+    'recipes chart';
+
+  div {
+    &:first-child {
+      grid-area: photo;
+    }
+    &:nth-child(2) {
+      grid-area: chart;
+    }
+    &:last-child {
+      grid-area: recipes;
+      width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas: 'photo' 'chart' 'recipes';
+    margin: 0;
+    div {
+      &:nth-child(2) {
+        margin: 0 1.5rem;
+      }
+    }
+  }
+`;
+
 const FoodImage = styled.div`
   /* padding-right: 1.5rem; */
 `;
 
-const GridResult = styled.span`
-  display: grid;
-  grid-gap: 3rem;
-  grid-template-columns: 1fr 1fr;
+const Title = styled.div`
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2.2rem;
 `;
+
+const Subtitle = styled.div`
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+`;
+
+export default FoodSearchPage;

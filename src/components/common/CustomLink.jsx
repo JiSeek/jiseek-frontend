@@ -41,8 +41,9 @@ export default CustomLink;
 
 const SelectBar = styled.div`
   width: 70%;
+  min-width: 120px;
   height: 0.5rem;
-  background: #af9c96;
+  background: #72af2c;
   position: absolute;
   bottom: 0;
 `;

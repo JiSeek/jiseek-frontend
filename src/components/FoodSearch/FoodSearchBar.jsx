@@ -82,13 +82,13 @@ const StyledInput = styled.input`
   font-family: inherit;
   text-align: center;
   border: none;
-  border-bottom: 2px solid #d7ccc0;
+  border-bottom: 2px solid #c1dda0;
   padding: 0.7rem 0 0.5rem 0;
   width: 17rem;
   background: #fbfbfb;
 
   ::placeholder {
-    color: #a69b90;
+    color: #789180;
   }
 
   :focus {
@@ -103,7 +103,7 @@ const StyledList = styled.ul`
   margin: 0;
   list-style: none;
   text-align: center;
-  border: solid 1px #a69b90;
+  border: solid 1px #c1dda0;
   position: absolute;
   width: 17rem;
   background: #fbfbfb;
@@ -111,7 +111,7 @@ const StyledList = styled.ul`
 
 const StyledItem = styled.li`
   padding: 0.6rem 0;
-  background: ${(props) => (props.focus ? '#D7CCC0' : 'transparent')};
+  background: ${(props) => (props.focus ? '#d0e2bc' : 'transparent')};
   font: inherit;
 
   > a {

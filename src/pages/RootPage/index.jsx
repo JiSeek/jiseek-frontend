@@ -13,7 +13,9 @@ const RootPage = () => (
           <NavigationBar />
         </nav>
       </StickyHeader>
-      <Outlet />
+      <OutletHeight>
+        <Outlet />
+      </OutletHeight>
     </StickyOption>
     <Footer />
   </TotalStyle>
@@ -24,8 +26,8 @@ export default RootPage;
 const TotalStyle = styled.div`
   font-family: 'Pretendard';
   font-weight: 400;
-  color: #6B5B56;
-  background: #FBFBFB;
+  color: #001100;
+  background: #fbfbfb;
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;
@@ -39,4 +41,8 @@ const StickyHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 2;
+`;
+
+const OutletHeight = styled.div`
+  min-height: calc(100vh - 8vh - 150px);
 `;

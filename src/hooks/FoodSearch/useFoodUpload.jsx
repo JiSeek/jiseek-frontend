@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import FoodUpload from '../../components/FoodSearch/FoodUpload';
 import jiseekApi from '../../api';
 import { mutationKey } from '../../constants';
+import { useImageUploader } from '../common';
 
 /*
   Return Values:
@@ -15,10 +15,10 @@ import { mutationKey } from '../../constants';
 */
 const useFoodUpload = () => {
   // TODO: 업로드한 이미지 URL 정보도 필요할 듯, FoodUpload 컴포넌트 프리뷰와 분리가 필요할 수도...
-  // const [imageUrl setImageUrl] = useState('');
-  const [foodImg, setFoodImg] = useState('');
   const [analysis, setAnalysis] = useState([]);
   const queryClient = useQueryClient();
+  const { imageUrl, renderImgUploader } = useImageUploader();
+  // return <div>{renderImgUploader()}</div>;
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   // const { mutate, reset, isLoading, isError } = useMutation(
@@ -51,14 +51,15 @@ const useFoodUpload = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      foodUpload.mutate(foodImg);
+      foodUpload.mutate(imageUrl);
     },
-    [foodImg, foodUpload],
+    [imageUrl, foodUpload],
   );
 
   const RenderFoodUpload = () => (
     <form onSubmit={onSubmit}>
-      <FoodUpload setFoodImg={setFoodImg} />
+      {/* <FoodUpload setFoodImg={setFoodImg} /> */}
+      {renderImgUploader()}
     </form>
   );
 

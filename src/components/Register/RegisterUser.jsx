@@ -122,10 +122,36 @@ RegisterUser.defaultProps = {
 const StyledRegisterForm = styled.form`
   display: flex;
   flex-direction: column;
+  margin: auto;
+  width: 400px;
 
   > label {
     display: flex;
     flex-direction: column;
+
+    > input {
+      font-family: inherit;
+      border: none;
+      border-bottom: 2px solid #c1dda0;
+      padding: 0.7rem 0.2rem 0.5rem 1rem;
+      margin-top: 1.2rem;
+      width: 23.5rem;
+      background: #fbfbfb;
+
+      ::placeholder {
+        color: #789180;
+      }
+
+      :focus {
+        transition: 0.3s;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+          rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+      }
+
+      :first-child {
+        margin-top: 0;
+      }
+    }
   }
 `;
 

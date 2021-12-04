@@ -60,6 +60,10 @@ const FoodSearchImageTab = () => {
     );
   }, [favList, analysis, slideIdx, listFind]);
 
+  // useEffect(() => {
+  //   setAnalysis([{ id: '불고기' }, { id: '국수전골' }]);
+  // });
+
   useEffect(
     () => analysis && setListFind(() => analysis.map(({ name }) => name)),
     [analysis],
@@ -71,8 +75,7 @@ const FoodSearchImageTab = () => {
   }
 
   return (
-    <article>
-      <h2>음식사진 검색</h2>
+    <article style={{display:'flex', justifyContent:'center'}}>
       {analysis.length === 0 ? (
         RenderFoodUpload()
       ) : (

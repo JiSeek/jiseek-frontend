@@ -23,7 +23,11 @@ ChartJS.register(
 );
 
 function Nutrition({ foodInfo }) {
-  const detail = Object.entries(foodInfo).map((key) => ({
+  const cleanedInfo = { ...foodInfo };
+  delete cleanedInfo.image1;
+  delete cleanedInfo.image2;
+  delete cleanedInfo.image3;
+  const detail = Object.entries(cleanedInfo).map((key) => ({
     items: key[0],
     values: key[1],
   }));
@@ -92,10 +96,14 @@ function Nutrition({ foodInfo }) {
   };
 
   return (
-    <div style={{}}>
+    <div>
       <div
         id="bar-chart-container"
-        style={{ marginBottom: '2rem', width: '100%', height: '30vh' }}
+        style={{
+          marginBottom: '3.5rem',
+          width: '100%',
+          height: '480px',
+        }}
       >
         <Bar
           data={summary}
@@ -104,10 +112,7 @@ function Nutrition({ foodInfo }) {
           }}
         />
       </div>
-      <div
-        id="material-table-container"
-        style={{ width: '100%', height: '30vh' }}
-      >
+      <div id="material-table-container" style={{ width: '100%', margin: '0' }}>
         <MaterialTable
           title="Detail Information"
           columns={columns}

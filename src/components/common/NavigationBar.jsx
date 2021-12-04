@@ -3,26 +3,26 @@ import PropTypes, { string, number, element, func } from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CustomLink from './CustomLink';
-import logo from '../../assets/images/logo/logo_ver2.png';
+import logo from '../../assets/images/logo/logo_ver3_2.png';
 
 const menu = (lang) => {
   if (lang === 'ko') {
     return [
       ['메인 페이지', '/'],
-      ['영양 정보 확인', '/food'],
+      ['음식 알아보기', '/food'],
       ['커뮤니티', '/board'],
     ];
   }
   if (lang === 'en') {
     return [
       ['Home', '/'],
-      ['Search Nutrients', '/food'],
+      ['Find Food', '/food'],
       ['Community', '/board'],
     ];
   }
   return [
     ['메인 페이지', '/'],
-    ['영양 정보 확인', '/food'],
+    ['음식 알아보기', '/food'],
     ['커뮤니티', '/board'],
   ];
 };
@@ -57,19 +57,11 @@ NavigationBar.defaultProps = {
   children: null,
 };
 
-export default NavigationBar;
-
-// const NavbarTop = styled.div`
-//   background: #998883;
-//   width: 100vw;
-//   height: 8px;
-// `;
 
 const NavbarBackground = styled.div`
   width: 100vw;
-  /* background: #faf6f2; */
   background: #fbfbfbe4;
-  box-shadow: 0px 2px 8px #c7b3ad;
+  box-shadow: 0px -8px 26px 5px rgb(0 0 0 / 20%);
   position: relative;
   z-index: 3;
 `;
@@ -85,8 +77,7 @@ const Navbar = styled.nav`
 `;
 
 const Logo = styled.img`
-  height: 6vh;
-  margin-top: 0.5vh;
+  height: 4.5vh;
 `;
 
 const StyledUl = styled.ul`
@@ -109,7 +100,6 @@ const StyledLi = styled.li`
 const StyledCustomLink = styled(CustomLink)`
   text-decoration: none;
   width: 100%;
-  color: #231815;
   font-size: 1.12rem;
   font-weight: 800;
   display: flex;
@@ -117,6 +107,8 @@ const StyledCustomLink = styled(CustomLink)`
   transition: 0.2s ease-in-out;
 
   :hover {
-    color: #6B5B56;
+    color: #355f42;
   }
 `;
+
+export default NavigationBar;

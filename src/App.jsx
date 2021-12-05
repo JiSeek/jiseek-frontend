@@ -1,11 +1,12 @@
-import React from 'react';
-import propTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import PropTypes, { string, number, func, element } from 'prop-types';
 import './App.css';
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
+  useParams,
   useLocation,
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -19,7 +20,6 @@ import {
   BoardDetailsPage,
   BoardUploadPage,
   MyPage,
-  MyInfoPage,
   VerifyPage,
   LogOutPage,
   NotFound,
@@ -48,22 +48,37 @@ const App = () => (
             <Route path="login" element={<LogInPage />} />
             <Route path="verify/:type" element={<VerifyPage />} />
             <Route path="logout" element={<LogOutPage />} />
-            <Route path="food/*" element={<FoodSearchPage />} />
+            <Route
+              path="food/*"
+              element={
+                <FilteredRoute validSubUrls={['image']} authSubUrls={['image']}>
+                  <FoodSearchPage />
+                </FilteredRoute>
+              }
+            />
             <Route path="board" element={<BoardPage />}>
               <Route path="upload" element={<BoardUploadPage />} />
               <Route path=":id" element={<BoardDetailsPage />} />
             </Route>
             <Route
-              path="mypage"
+              path="mypage/*"
               element={
-                <RequireAuth>
+                <FilteredRoute
+                  validSubUrls={['info']}
+                  authSubUrls={['.', 'info']}
+                >
                   <MyPage />
-                </RequireAuth>
+                </FilteredRoute>
               }
-            >
-              <Route path="info" element={<MyInfoPage />} />
-              <Route path="ch_pswrd" element={<PasswordChangePage />} />
-            </Route>
+            />
+            <Route
+              path="ch_pswrd"
+              element={
+                <FilteredRoute authSubUrls={['.']}>
+                  <PasswordChangePage />
+                </FilteredRoute>
+              }
+            />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -73,22 +88,43 @@ const App = () => (
   </BrowserRouter>
 );
 
-const RequireAuth = ({ children }) => {
+const FilteredRoute = ({ validSubUrls, authSubUrls, children }) => {
   const { token } = useAuthContext();
   const location = useLocation();
+  const params = useParams();
+  const subUrl = Object.values(params)[0];
+  const validList = useMemo(
+    () => [undefined, '', ...validSubUrls],
+    [validSubUrls],
+  );
+  const authList = useMemo(
+    () =>
+      authSubUrls.indexOf('.') !== -1
+        ? [undefined, '', ...authSubUrls]
+        : authSubUrls,
+    [authSubUrls],
+  );
 
-  if (!token.access) {
+  if (validList.indexOf(subUrl) === -1) {
+    return <Navigate to="/not_found" replace />;
+  }
+
+  if (authList.indexOf(subUrl) !== -1 && !token.access) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
   return children;
 };
 
-RequireAuth.propTypes = {
-  children: propTypes.oneOfType([propTypes.string, propTypes.element]),
+FilteredRoute.propTypes = {
+  validSubUrls: PropTypes.arrayOf(string),
+  authSubUrls: PropTypes.arrayOf(string),
+  children: PropTypes.oneOfType([string, number, func, element]),
 };
 
-RequireAuth.defaultProps = {
+FilteredRoute.defaultProps = {
+  validSubUrls: [],
+  authSubUrls: [],
   children: null,
 };
 

@@ -21,6 +21,7 @@ export const createQueryApi =
         timeout: 3000,
         params,
       });
+
       return response.data;
     } catch (err) {
       throw new Error(err);
@@ -42,7 +43,7 @@ export const createMutationApi =
           'Content-Type': 'application/json',
           Authorization: token ? `Bearer ${token}` : '',
         },
-        timeout: 3000,
+        timeout: 10000,
         data,
       });
       return response.data;

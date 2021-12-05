@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
-import { mutationKey } from '../../constants';
+import { mutationKeys } from '../../constants';
 import { useImageUploader } from '../common';
 
 /*
@@ -25,7 +25,7 @@ const useFoodUpload = () => {
   const foodUpload = useMutation(
     (image) => jiseekApi.post('/foods/', { image }),
     {
-      mutationKey: mutationKey.foodUpload,
+      mutationKey: mutationKeys.foodUpload,
       onMutate: () => queryClient.cancelQueries('food'),
       onError: (err) => console.error('임시 에러처리', err),
       onSuccess: () => {
@@ -57,10 +57,7 @@ const useFoodUpload = () => {
   );
 
   const RenderFoodUpload = () => (
-    <form onSubmit={onSubmit}>
-      {/* <FoodUpload setFoodImg={setFoodImg} /> */}
-      {renderImgUploader()}
-    </form>
+    <form onSubmit={onSubmit}>{renderImgUploader()}</form>
   );
 
   return { analysis, setAnalysis, foodUpload, RenderFoodUpload };

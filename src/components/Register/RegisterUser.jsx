@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { StyledErrorMsg } from '../common';
 
-const RegisterUser = ({ hookForm, storeChanged }) => (
+const RegisterUser = ({ hookForm }) => (
   /* eslint-disable react/jsx-props-no-spreading */
   <StyledRegisterForm onSubmit={hookForm.onSubmit}>
     <label htmlFor="user-email">
@@ -12,9 +12,7 @@ const RegisterUser = ({ hookForm, storeChanged }) => (
         type="email"
         id="user-email"
         placeholder="이메일"
-        {...hookForm.register('publicTypes.email', {
-          onBlur: () => storeChanged(),
-        })}
+        {...hookForm.register('publicTypes.email')}
       />
       <StyledErrorMsg>
         {hookForm.errors.publicTypes?.email &&
@@ -50,9 +48,7 @@ const RegisterUser = ({ hookForm, storeChanged }) => (
         type="text"
         id="user-name"
         placeholder="닉네임"
-        {...hookForm.register('publicTypes.name', {
-          onBlur: () => storeChanged(),
-        })}
+        {...hookForm.register('publicTypes.name')}
       />
       <StyledErrorMsg>
         {hookForm.errors.publicTypes?.name &&
@@ -113,11 +109,6 @@ const RegisterUser = ({ hookForm, storeChanged }) => (
 
 RegisterUser.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
-  storeChanged: PropTypes.func,
-};
-
-RegisterUser.defaultProps = {
-  storeChanged: null,
 };
 
 // 임시 디자인 처리

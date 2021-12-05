@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
 import jiseekApi from '../../api';
-import { myPagekeys } from '../../constants';
+import { myPageKeys } from '../../constants';
 import { useAuthContext, useModalContext } from '../../contexts';
-import { LikeButton } from '../common';
+import FavoriteFood from './FavoriteFood';
 // import { useLangContext } from '../../contexts';
 
 const FavoriteFoodContainer = () => {
   // const [lang] = useLangContext();
   const openModal = useModalContext();
   const { token } = useAuthContext();
-  const { data, isLoading, isError } = useQuery(
-    myPagekeys.favFood,
+  const { data: favFoods, status } = useQuery(
+    myPageKeys.favFoods,
     jiseekApi.get({ token: token.access }),
     { staleTime: Infinity },
   );
@@ -20,34 +20,7 @@ const FavoriteFoodContainer = () => {
   const onClick = useCallback(() => openModal('test'), [openModal]);
 
   // TODO: 프레젠테이셔널 분리해야댐
-  return (
-    <div>
-      {isLoading || isError ? (
-        <div>기다려</div>
-      ) : (
-        <div style={{ display: 'flex' }}>
-          {data.map(({ pk, name, image }) => (
-            <div key={pk}>
-              <ul>
-                <li>{pk}</li>
-                <li>{name}</li>
-                <li>{image}</li>
-                <button value={pk} onClick={onClick} type="button">
-                  상세정보 보기
-                </button>
-              </ul>
-              <LikeButton
-                type="food"
-                id={Number(pk)}
-                data={{ id: pk, name, image }}
-                like
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  return <FavoriteFood favFoods={favFoods} status={status} onClick={onClick} />;
 };
 
 export default FavoriteFoodContainer;

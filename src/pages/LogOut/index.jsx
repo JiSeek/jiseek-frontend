@@ -4,13 +4,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import jiseekApi from '../../api';
 import { useAuthContext } from '../../contexts';
 
+const authUrls = [
+  '/food/image',
+  '/board/upload',
+  '/mypage',
+  '/mypage/info',
+  '/ch_pswrd',
+];
+
 const LogOutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { token, clearToken } = useAuthContext();
   const from = location.state?.from?.pathname || '/';
-  console.log('111', location, !!token.access && from === '/logout');
   // TODO: 초기 로그아웃으로 접근 개선
+  // console.log('111', location, !!token.access && from === '/logout');
 
   const { mutate } = useMutation(
     () =>
@@ -26,8 +34,8 @@ const LogOutPage = () => {
       },
       onError: () => console.error('로그아웃 실패'), // 임시 에러처리
       onSettled: () => {
-        const privateUrl = /^\/mypage(\/\w*)?$/.test(from) ? '/' : from;
-        navigate(privateUrl, { replace: true });
+        const redirectUrl = authUrls.indexOf(from) !== -1 ? '/' : from;
+        navigate(redirectUrl, { replace: true });
       },
     },
   );

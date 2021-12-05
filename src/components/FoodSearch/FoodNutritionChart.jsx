@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes, { any } from 'prop-types';
+import styled from 'styled-components';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,13 +11,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import {
-  ThemeProvider,
-  unstable_createMuiStrictModeTheme as createMuiStrictModeTheme,
-} from '@material-ui/core/styles';
-import MaterialTable from 'material-table';
-
-const theme = createMuiStrictModeTheme();
 
 ChartJS.register(
   CategoryScale,
@@ -26,11 +20,6 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-
-const columns = [
-  { title: 'Items', field: 'items' },
-  { title: 'Values', field: 'values' },
-];
 
 const BGCOLORS = {
   size: 'rgba(200, 0, 200, 0.3)',
@@ -92,56 +81,25 @@ const getSummary = (foodInfo) =>
         ],
       };
 
-function Nutrition({ foodInfo }) {
-  const detail = useMemo(
-    () =>
-      !foodInfo
-        ? []
-        : Object.entries(foodInfo).map((key) => ({
-            items: key[0],
-            values: key[1],
-          })),
-    [foodInfo],
-  );
+const FoodNutritionChart = ({ foodInfo }) => (
+  <StyledChartContainer>
+    <Bar
+      data={getSummary(foodInfo)}
+      options={{
+        maintainAspectRatio: false,
+      }}
+    />
+  </StyledChartContainer>
+);
 
-  return (
-    <div>
-      <div
-        id="bar-chart-container"
-        style={{
-          marginBottom: '3.5rem',
-          width: '50vw',
-          maxWidth: '600px',
-          height: '480px',
-        }}
-      >
-        <Bar
-          data={getSummary(foodInfo)}
-          options={{
-            maintainAspectRatio: false,
-          }}
-        />
-      </div>
-      <div id="material-table-container" style={{ width: '100%', margin: '0' }}>
-        <ThemeProvider theme={theme}>
-          <MaterialTable
-            title="Detail Information"
-            columns={columns}
-            data={detail}
-            options={{
-              search: true,
-              sorting: true,
-            }}
-            style={{ zIndex: '1' }}
-          />
-        </ThemeProvider>
-      </div>
-    </div>
-  );
-}
-
-Nutrition.propTypes = {
+FoodNutritionChart.propTypes = {
   foodInfo: PropTypes.oneOfType([any]).isRequired,
 };
 
-export default Nutrition;
+const StyledChartContainer = styled.div`
+  margin-bottom: 3.5rem;
+  /* width: 100%; */
+  height: 100%;
+`;
+
+export default FoodNutritionChart;

@@ -4,27 +4,67 @@ import styled from 'styled-components';
 import { StyledErrorMsg } from '../common';
 
 // TODO: 이미지 프리뷰 처리
-const MyInfoForm = ({ hookForm, isSubmitting }) => (
+const MyInfoUpdate = ({ hookForm, isSubmitting }) => (
   /* eslint-disable react/jsx-props-no-spreading */
   <form onSubmit={hookForm.onSubmit}>
     <input type="image" src={hookForm.watch('image')} alt="프로필 사진" />
     <label htmlFor="avatar">
       {/* Choose a profile picture: */}
       프로필 사진을 선택하세요.
+      <div
+        style={{ width: '100px', height: '100px', backgroundColor: 'red' }}
+        onDrop={(e) => {
+          // if (e.target.tagName !== 'DIV') {
+          //   console.log('퉷1');
+          //   return;
+          // }
+          e.preventDefault();
+          e.stopPropagation();
+          const { files } = e.dataTransfer;
+          console.log(files);
+          console.log(
+            'drop',
+            e,
+            e.target.files,
+            e.dataTransfer,
+            e.originalEvent?.dataTransfer,
+          );
+        }}
+      />
       <StyledInput
         type="file"
         id="avatar"
         name="avatar"
         accept="image/*"
         onDrop={(e) => {
+          if (e.target.tagName !== 'INPUT') {
+            console.log('퉷1');
+            return;
+          }
           e.preventDefault();
-          console.log('drop', e.target);
+          console.log(
+            'drop',
+            e,
+            e.target.files,
+            e.dataTransfer,
+            e.originalEvent?.dataTransfer,
+          );
         }}
         onDragOver={(e) => {
+          if (e.target.tagName !== 'INPUT') {
+            console.log('퉷2');
+            return;
+          }
           e.preventDefault();
-          console.log('over', e.target);
+          console.log('over');
         }}
-        onDragLeave={(e) => console.log('leave', e)}
+        onDragLeave={(e) => {
+          if (e.target.tagName !== 'INPUT') {
+            console.log('퉷3');
+            return;
+          }
+          console.log('leave');
+        }}
         {...hookForm.register('image')}
       />
     </label>
@@ -44,12 +84,12 @@ const MyInfoForm = ({ hookForm, isSubmitting }) => (
   </form>
 );
 
-MyInfoForm.propTypes = {
+MyInfoUpdate.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
   isSubmitting: PropTypes.bool,
 };
 
-MyInfoForm.defaultProps = {
+MyInfoUpdate.defaultProps = {
   isSubmitting: false,
 };
 
@@ -59,4 +99,4 @@ const StyledInput = styled.input`
   background-color: black;
 `;
 
-export default MyInfoForm;
+export default MyInfoUpdate;

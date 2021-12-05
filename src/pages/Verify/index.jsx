@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Navigate,
   useParams,
   useSearchParams,
   useNavigate,
 } from 'react-router-dom';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
-import { userKeys } from '../../constants';
+import { mutationKeys, userKeys } from '../../constants';
 import { getLocalStorage, rmLocalStorage } from '../../utils';
 import useOAuth2 from '../../hooks/OAuth2/useOAuth2';
 
@@ -29,27 +29,37 @@ const VerifyPage = () => {
   const accessToken = useOAuth2(type, params.get('code'), params.get('state'));
   const state = verifyState(type, params.get('state'));
 
-  // TODO: 이메일이랑 아닌 것 데이터 통일 좀 해야될 것 같음 key일지 token일지
-  useQuery(
-    type === 'email' ? userKeys.emailAuth : userKeys.socialAuth(type),
-    jiseekApi.get({ token: accessToken }),
+  const { mutate } = useMutation(
+    () =>
+      jiseekApi.post(
+        type === 'email'
+          ? '/user/account-confirm-email/'
+          : `/user/login/${type}/`,
+        { key: accessToken },
+      ),
     {
-      enabled: !!accessToken,
-      retry: false,
+      mutationKey: mutationKeys.verify,
       onSuccess: (data) => {
         const { user, ...auth } = data;
         queryClient.setQueryData(userKeys.info, user);
         updateToken(auth);
+        // TODO: 이메일 전송했다는 모달 창 띄우고 확인 누르면 이동하기.
         navigate('/', { replace: true });
       },
-      onError: () => {
-        //       // 임시 땜빵 처리
-        alert('로그인 인증 실패!');
+      onError: (err) => {
+        // TODO: 에러 메시지 띄우고 머물러있기.
+        alert('로그인 인증 실패!', err);
         navigate('/login', { replace: true });
       },
       onSettled: () => rmLocalStorage('jiseek_state'),
     },
   );
+
+  useEffect(() => {
+    if (type === 'email' || accessToken) {
+      mutate();
+    }
+  }, [type, accessToken, mutate]);
 
   if (!state) {
     return <Navigate to="/login" replace />;

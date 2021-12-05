@@ -16,6 +16,7 @@ const GoogleLogIn = ({ lang }) => {
         sns={
           lang === 'ko' ? <div>구글 로그인</div> : <div>Login with Google</div>
         }
+        background='#FBFBFB'
       />
     </a>
   );

@@ -1,6 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useLocation, useMatch, Navigate, Outlet } from 'react-router-dom';
+import {
+  useLocation,
+  useMatch,
+  Navigate,
+  Outlet,
+  Link,
+} from 'react-router-dom';
+import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useAuthContext } from '../../contexts/AuthContext';
 import {
   GoogleLogIn,
@@ -28,6 +35,13 @@ const LogInPage = () => {
         <section>
           <Title>로그인</Title>
           <JiseekLogIn />
+          <ToRegister>
+            <span>회원이 아니신가요?</span>
+            <Link to="/register">
+              회원가입
+              <MdOutlineArrowForwardIos />
+            </Link>
+          </ToRegister>
           <Or>또는</Or>
           <ul>
             <li>
@@ -58,9 +72,28 @@ const Title = styled.div`
   margin-bottom: 2.5rem;
 `;
 
+const ToRegister = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0.5rem 0 0.5rem;
+  font-size: 0.95rem;
+  > span {
+    display: flex;
+    align-items: center;
+  }
+  > a {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    > svg {
+      margin-left: 3px;
+    }
+  }
+`;
+
 const Or = styled.div`
   text-align: center;
-  margin-top: 2.5rem;
+  margin-top: ${(props) => (props.register ? '3rem' : '2.2rem')};
   margin-bottom: 1.5rem;
   display: flex;
   flex-basis: 100%;
@@ -77,14 +110,14 @@ const Or = styled.div`
     height: 1px;
     /* font-size: 0px; */
     /* line-height: 0px; */
-    /* margin: 0px 16px; */
+    /* margin: 0px 1.5rem; */
   }
 
   ::before {
-    margin-right: 1.5rem;
+    margin-right: 1rem;
   }
   ::after {
-    margin-left: 1.5rem;
+    margin-left: 1rem;
   }
 `;
 

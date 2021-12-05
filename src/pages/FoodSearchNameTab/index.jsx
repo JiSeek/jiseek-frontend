@@ -5,7 +5,11 @@ import { useQuery } from 'react-query';
 import jiseekApi from '../../api';
 import { useFoodIdMap } from '../../hooks/FoodSearch';
 import { foodKeys } from '../../constants';
-import { FoodSearchBar, Nutrition } from '../../components/FoodSearch';
+import {
+  FoodSearchBar,
+  Nutrition,
+  FoodRecipes,
+} from '../../components/FoodSearch';
 import { LoadingDot, NotFound } from '../../assets/images/images';
 
 const FoodSearchPage = () => {
@@ -80,6 +84,7 @@ const FoodSearchPage = () => {
                       {foodInfo?.data}
                       <div>
                         <Subtitle>레시피</Subtitle>
+                        <FoodRecipes food={foodInfo.name}/>
                       </div>
                     </GridResult>
                   </>

@@ -37,7 +37,7 @@ FoodRecipes.defaultProps = {
 };
 
 export const ModalContent = ({ youtube }) => (
-  <>
+  <div>
     <iframe
       width="360px"
       height="210px"
@@ -73,14 +73,14 @@ export const ModalContent = ({ youtube }) => (
         ))}
       </p>
     </div>
-  </>
+  </div>
 );
 
 export const YoutubeContent = ({ youtube }) => {
   const openModal = useModalContext();
   const onClick = useCallback(
-    () => openModal(<ModalContent />),
-    [openModal],
+    () => openModal(<ModalContent youtube={youtube} />),
+    [openModal, youtube],
   );
   // TODO: <ModalContent youtube={youtube} /> 하면 에러 발생, key 사용 초기화 되고 확인 필
 

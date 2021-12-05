@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { RiGitlabFill } from 'react-icons/ri';
 
 const Footer = () => (
   <FooterBackground>
-    <FooterContent>Footer</FooterContent>
+    <FooterContent>
+      <RiGitlabFill />
+    </FooterContent>
   </FooterBackground>
 );
 
@@ -11,7 +14,7 @@ export default Footer;
 
 const FooterBackground = styled.div`
   width: 100vw;
-  height: 150px;
+  padding: 3rem 0;
   background: #09351b;
 `;
 

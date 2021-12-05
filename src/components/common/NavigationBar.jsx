@@ -72,7 +72,7 @@ const Navbar = styled.nav`
   margin: auto;
   padding: 0 3%;
   display: grid;
-  grid-template-columns: 150px 1fr 6fr 0.5fr 230px;
+  grid-template-columns: 250px 1fr 6fr 1fr 250px;
   align-items: center;
 `;
 

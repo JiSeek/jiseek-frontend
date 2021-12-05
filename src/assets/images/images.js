@@ -7,4 +7,7 @@ export { default as Loading } from './loading/loading.gif';
 export { default as LoadingDot } from './loading/loading_dot.gif';
 export { default as NotFound } from './not_found/not_found.gif';
 
-export { default as FileUpload } from './icons/upload.png';
+export { default as FileUpload } from './icons/upload3.png';
+
+export { default as MainFirst } from './main/main2.jpg';
+export { default as MainTitle } from './main/main3.png';

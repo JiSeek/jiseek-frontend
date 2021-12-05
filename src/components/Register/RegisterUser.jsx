@@ -60,7 +60,14 @@ const RegisterUser = ({ hookForm }) => (
       name="publicTypes.nation"
       render={({ field: { onChange } }) => (
         <>
-          <Nation>국가</Nation>
+          <Nation>
+            국가
+            <StyledErrorMsg>
+              {hookForm.errors.publicTypes?.nation &&
+                hookForm.errors.publicTypes?.nation.message}
+            </StyledErrorMsg>
+          </Nation>
+
           <StyledNation>
             <legend>국가</legend>
             <StyledCheckBox
@@ -90,10 +97,6 @@ const RegisterUser = ({ hookForm }) => (
               />
             </StyledCheckBox>
           </StyledNation>
-          <StyledErrorMsg>
-            {hookForm.errors.publicTypes?.nation &&
-              hookForm.errors.publicTypes?.nation.message}
-          </StyledErrorMsg>
         </>
       )}
     />
@@ -115,6 +118,7 @@ const StyledRegisterForm = styled.form`
   > label {
     display: flex;
     flex-direction: column;
+    height: 60px;
 
     > input {
       font-family: inherit;
@@ -145,15 +149,19 @@ const StyledRegisterForm = styled.form`
 const Nation = styled.span`
   margin: 0.5rem;
   margin-top: 0;
+
+  > span {
+    margin-left: 0.5rem;
+  }
 `;
 
 const StyledNation = styled.fieldset`
   border: none;
   display: flex;
-  box-shadow: 0 0 0 3px #c1dda0b0 inset;
+  box-shadow: 0 0 0 3px #c1dda0 inset;
   border-radius: 50px;
-  padding: 0.2rem 3px;
-  height: 40px;
+  padding: 0 3px;
+  height: 50px;
   > legend {
     width: 0;
     height: 0;
@@ -165,15 +173,12 @@ const StyledCheckBox = styled.label`
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 50%;
-  /* height: 24px; */
-  padding: 0.75rem 1.2rem;
-  /* border: solid 1px black; */
+  height: 50px;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 1rem;
-  background-color: ${({ checked }) =>
-    checked ? ' #c1dda0b0' : 'transparent'};
+  background-color: ${({ checked }) => (checked ? ' #c1dda0' : 'transparent')};
 
   > input {
     display: none;

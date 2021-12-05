@@ -49,6 +49,7 @@ const StyledLogin = styled.div`
   > label {
     display: flex;
     flex-direction: column;
+    height: 60px;
 
     > input {
       font-family: inherit;
@@ -86,6 +87,7 @@ const StyledButton = styled.button`
   border-radius: 50px;
   cursor: pointer;
   border: none;
+  margin-top: 0.5rem;
 `;
 
 export default JiseekLogIn;

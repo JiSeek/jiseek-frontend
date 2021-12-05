@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
-import { mutationKey, userKeys } from '../constants';
+import { mutationKeys, userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
 import { setLocalStorage } from '../utils';
 
@@ -44,7 +44,7 @@ export const useAuth = () => {
     timerId.current = null;
     setLocalStorage('jiseek_auth', initialTkn);
     dispatch(actions.clearToken());
-    queryClient.removeQueries(userKeys.all);
+    queryClient.clear();
   }, [queryClient]);
 
   // 토큰 Refresh
@@ -55,7 +55,7 @@ export const useAuth = () => {
         refresh: token.refresh,
       }),
     {
-      mutationKey: mutationKey.token,
+      mutationKey: mutationKeys.token,
       retry: 5,
       retryDelay: (attempt) =>
         Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 60 * 1000),

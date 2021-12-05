@@ -26,6 +26,7 @@ const FoodSearchBar = ({
       onFocus={onFocusInput}
       onBlur={onBlur}
       placeholder="음식명을 입력해주세요."
+      // disabled
     />
     <StyledList
       empty={foundNames.length === 0}
@@ -92,8 +93,9 @@ const StyledInput = styled.input`
   }
 
   :focus {
-  transition: 0.3s;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    transition: 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+      rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   }
 `;
 

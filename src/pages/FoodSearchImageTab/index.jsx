@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useFoodUpload } from '../../hooks/FoodSearch';
 import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
-import { foodKeys, myPagekeys } from '../../constants';
+import { myPageKeys } from '../../constants';
 import { useImageSlider } from '../../hooks/common';
 import { LikeButton } from '../../components/common';
-import { FoodRecipes } from '../../components/FoodSearch';
+import { FoodDetails } from '../../components/FoodSearch';
 
 const FoodSearchImageTab = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   // const [lang] = useLangContext();
   const { token } = useAuthContext();
   const [favList, setFavList] = useState([]);
@@ -28,7 +23,7 @@ const FoodSearchImageTab = () => {
   // TODO: 이미지 전송했을 때 시도하도록 개선하기.
   // 좋아요한 음식 리스트 가져오기
   const { status: likeStatus } = useQuery(
-    myPagekeys.favFood,
+    myPageKeys.favFoods,
     jiseekApi.get({ token: token.access }),
     {
       staleTime: Infinity,
@@ -40,46 +35,17 @@ const FoodSearchImageTab = () => {
     label: { ko: '찾은 음식들', en: 'found foods' },
   });
 
-  // 현재 음식 결과 조회 쿼리
-  const { data: foodInfo, status: foodInfoStatus } = useQuery(
-    foodKeys.detailById(analysis[slideIdx]?.id || -1),
-    jiseekApi.get(),
-    {
-      cacheTime: Infinity,
-      staleTime: Infinity,
-      enabled: !!analysis.length, // TODO: 발생 의존성 처리 고민...
-    },
-  );
-
-  useEffect(() => {
-    console.log(
-      listFind,
-      favList,
-      analysis[slideIdx],
-      favList.indexOf(analysis[slideIdx]?.id),
-    );
-  }, [favList, analysis, slideIdx, listFind]);
-
-  // useEffect(() => {
-  //   setAnalysis([{ id: '불고기' }, { id: '국수전골' }]);
-  // });
-
   useEffect(
     () => analysis && setListFind(() => analysis.map(({ name }) => name)),
     [analysis],
   );
 
-  // 이미지 탭일 경우 로그인 인증되어야 함.
-  if (!token.access) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
   return (
-    <article style={{display:'flex', justifyContent:'center'}}>
+    <article style={{ display: 'flex', justifyContent: 'center' }}>
       {analysis.length === 0 ? (
         RenderFoodUpload()
       ) : (
-        <>
+        <FoodDetails id={analysis[slideIdx]?.id || -1}>
           <section>
             <h2>음식 분석 사진</h2>
             {RenderImageSlider()}
@@ -100,42 +66,11 @@ const FoodSearchImageTab = () => {
                 </span>
               )}
             </div>
-            <button
-              type="button"
-              onClick={() =>
-                navigate('/board/upload', {
-                  state: {
-                    image: 'TODO: Add image url',
-                    position: analysis[slideIdx].position,
-                  },
-                })
-              }
-            >
-              게시하기
-            </button>
             <button type="button" onClick={() => setAnalysis([])}>
               다시 검사하기
             </button>
           </section>
-          <section>
-            <h2>영양정보 분석 결과</h2>
-            {foodInfoStatus === 'loading' ? (
-              <FontAwesomeIcon icon={faSpinner} spin />
-            ) : (
-              <span>
-                영양정보 결과 컴포넌트(프레젠테이셔널) | {foodInfo?.data}
-              </span>
-            )}
-          </section>
-          <section>
-            <h2>음식 레시피</h2>
-            {foodInfoStatus === 'loading' ? ( // 임시땜빵
-              <FontAwesomeIcon icon={faSpinner} spin />
-            ) : (
-              <FoodRecipes food={analysis[slideIdx].name} />
-            )}
-          </section>
-        </>
+        </FoodDetails>
       )}
     </article>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { oAuth2 } from '../../api';
+import { mutationKeys } from '../../constants';
 
 const useOAuth2 = (type, code, state) => {
   const [accessToken, setAccessToken] = useState(() =>
@@ -30,6 +31,7 @@ const useOAuth2 = (type, code, state) => {
         ...additional,
       }),
     {
+      mutationKey: mutationKeys.oAuth2,
       onSuccess: (data) => setAccessToken(data.access_token),
       onError: (err) => console.log('에러 테스트', err),
     },

@@ -11,6 +11,5 @@ export { default as BoardPage } from './Board';
 export { default as BoardUploadPage } from './BoardUpload';
 export { default as BoardDetailsPage } from './BoardDetails';
 export { default as MyPage } from './MyPage';
-export { default as MyInfoPage } from './MyInfo';
 export { default as PasswordChangePage } from './PasswordChange';
 export { default as NotFound } from './NotFound';

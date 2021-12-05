@@ -5,7 +5,7 @@ import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
 import FormLessButton from './FormLessButton';
 import LikeButton from './LikeButton';
-import { mutationKey, myPagekeys } from '../../constants';
+import { mutationKeys, myPageKeys } from '../../constants';
 
 // TODO: 성능 개선 로직... 보류
 // const addNewData = (list, type, data) => {
@@ -42,14 +42,14 @@ import { mutationKey, myPagekeys } from '../../constants';
 const LikeButtonContainer = ({ type, id, like }) => {
   const { token } = useAuthContext();
   const key = useRef(
-    type === 'board' ? myPagekeys.favPost : myPagekeys.favFood,
+    type === 'board' ? myPageKeys.favPosts : myPageKeys.favFoods,
   );
 
   const queryClinet = useQueryClient();
   const likeTarget = useMutation(
     () => jiseekApi.put(`/mypage/${type}/like/${id}/`, { token: token.access }),
     {
-      mutationKey: mutationKey.like,
+      mutationKey: mutationKeys.like,
       onMutate: async () => {
         // 성능 개선을 위한 선반영 후복구 로직... 보류
         // await queryClinet.cancelQueries(key.current);

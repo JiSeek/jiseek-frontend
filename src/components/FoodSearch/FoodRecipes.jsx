@@ -6,38 +6,45 @@ import { VscEye } from 'react-icons/vsc';
 import { BiTimeFive } from 'react-icons/bi';
 import { useModalContext } from '../../contexts';
 
-const FoodRecipes = ({ food, recipes }) => (
+const FoodRecipes = ({ food, recipes, status }) => (
   <div>
-    <StyledUl>
-      {recipes.map((recipe) => (
-        <li key={recipe.id}>
-          <YoutubeContent youtube={recipe} />
-        </li>
-      ))}
-    </StyledUl>
-    {/* 더 많은 레시피를 확인할 수 있게 유튜브로 이동 */}
-    <a
-      href={`https://www.youtube.com/results?search_query=${food} 레시피`}
-      target="_blank"
-      rel="noreferrer"
-    >
-      레시피 더보기
-    </a>
+    {status === 'loading' && <h1>Loading...</h1>}
+    {status === 'error' && <h1>error!!</h1>}
+    {status === 'success' && (
+      <>
+        <StyledUl>
+          {recipes.map((recipe) => (
+            <li key={recipe.id}>
+              <YoutubeContent recipe={recipe} />
+            </li>
+          ))}
+        </StyledUl>
+        <a
+          href={`https://www.youtube.com/results?search_query=${food}레시피`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          레시피 더보기
+        </a>
+      </>
+    )}
   </div>
 );
 
 FoodRecipes.propTypes = {
   food: PropTypes.string,
   recipes: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+  status: PropTypes.string,
 };
 
 FoodRecipes.defaultProps = {
   food: '',
   recipes: [],
+  status: '',
 };
 
 export const ModalContent = ({ youtube }) => (
-  <>
+  <div>
     <iframe
       width="360px"
       height="210px"
@@ -47,49 +54,55 @@ export const ModalContent = ({ youtube }) => (
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
     />
-    <div>{youtube.snippet.title}</div>
-    <div>
-      <div>
+    <ul>
+      <li>
+        <span>{youtube.snippet.title}</span>
+      </li>
+      <li>
         <RiYoutubeLine />
-        {youtube.snippet.publishedAt.slice(0, 10)}
-      </div>
-      <div>
+        <span>{youtube.snippet.publishedAt.slice(0, 10)}</span>
+      </li>
+      <li>
         <VscEye />
-        {youtube.statistics.viewCount}
-      </div>
-      <div>
+        <span>{youtube.statistics.viewCount}</span>
+      </li>
+      <li>
         <BiTimeFive />
         {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
-        {youtube.contentDetails.duration}
-      </div>
-    </div>
+        <span>{youtube.contentDetails.duration}</span>
+      </li>
+    </ul>
     <div>
       <p>
-        {youtube.snippet.description.split('\n').map((text) => (
-          <>
+        {youtube.snippet.description.split('\n').map((text, idx) => (
+          <React.Fragment key={`text${idx + 1}`}>
             {text}
             <br />
-          </>
+          </React.Fragment>
         ))}
       </p>
     </div>
-  </>
+  </div>
 );
 
-export const YoutubeContent = ({ youtube }) => {
+ModalContent.propTypes = {
+  youtube: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  ).isRequired,
+};
+
+export const YoutubeContent = ({ recipe }) => {
   const openModal = useModalContext();
   const onClick = useCallback(
-    () => openModal(<ModalContent />),
-    [openModal],
+    () => openModal(<ModalContent youtube={recipe} />),
+    [openModal, recipe],
   );
-  // TODO: <ModalContent youtube={youtube} /> 하면 에러 발생, key 사용 초기화 되고 확인 필
 
-  console.log(youtube);
   return (
     <ModalButton onClick={onClick} type="button">
       <img
-        src={youtube.snippet.thumbnails.high.url}
-        alt={youtube.snippet.title}
+        src={recipe.snippet.thumbnails?.high.url}
+        alt={recipe.snippet.title}
         style={{ width: '100%' }}
       />
     </ModalButton>
@@ -97,13 +110,7 @@ export const YoutubeContent = ({ youtube }) => {
 };
 
 YoutubeContent.propTypes = {
-  youtube: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  ).isRequired,
-};
-
-ModalContent.propTypes = {
-  youtube: PropTypes.objectOf(
+  recipe: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   ).isRequired,
 };
@@ -123,33 +130,3 @@ const ModalButton = styled.button`
 `;
 
 export default FoodRecipes;
-
-// TODO: 지우기
-// export const YoutubeContent = ({ youtube }) => (
-//   <div>
-//     <img src={youtube.snippet.thumbnails.high.url} alt="thumbnails" />
-//     <p>제목 : {youtube.snippet.title}</p>
-//     <p>
-//       {youtube.snippet.description.split('\n').map((text) => (
-//         <>
-//           {text}
-//           <br />
-//         </>
-//       ))}
-//     </p>
-//     <p>게시일 : {youtube.snippet.publishedAt.slice(0, 10)}</p>
-//     <p>조회수 : {youtube.statistics.viewCount}</p>
-//     {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
-//     <p>영상 길이 : {youtube.contentDetails.duration}</p>
-//     <img src={youtube.snippet.thumbnails.high.url} alt="thumbnails" />
-//     <iframe
-//       width="360px"
-//       height="210px"
-//       src={`https://www.youtube.com/embed/${youtube.id}`}
-//       title="YouTube video player"
-//       frameBorder="0"
-//       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-//       allowFullScreen
-//     />
-//   </div>
-// );

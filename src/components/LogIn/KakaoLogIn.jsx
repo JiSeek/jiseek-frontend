@@ -11,7 +11,7 @@ const KakaoLogIn = ({ lang }) => (
     <LogInButton
       logo={KakaoLogo}
       sns={
-        lang === 'ko' ? <div>카카오 로그인</div> : <div>Login with Kakao</div>
+        lang === 'ko' ? "카카오 로그인" : "Login with Kakao"
       }
       background="#FFEB3B"
     />

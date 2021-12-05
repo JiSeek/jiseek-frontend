@@ -57,7 +57,6 @@ NavigationBar.defaultProps = {
   children: null,
 };
 
-
 const NavbarBackground = styled.div`
   width: 100vw;
   background: #fbfbfbe4;
@@ -70,7 +69,7 @@ const Navbar = styled.nav`
   height: 8vh;
   max-width: 1320px;
   margin: auto;
-  padding: 0 3%;
+  padding: 0 3vw;
   display: grid;
   grid-template-columns: 250px 1fr 6fr 1fr 250px;
   align-items: center;

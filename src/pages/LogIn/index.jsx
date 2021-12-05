@@ -25,6 +25,8 @@ const LogInPage = () => {
           <ul>
             <li>
               <KakaoLogIn lang={lang} />
+            </li>
+            <li>
               <NaverLogIn lang={lang} />
             </li>
             <li>GoogleLogin</li>

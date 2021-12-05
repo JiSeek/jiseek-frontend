@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import jiseekApi from '../../api';
-import { mutationKey, passwordValidation } from '../../constants';
+import { mutationKeys, passwordValidation } from '../../constants';
 import { useAuthContext } from '../../contexts';
 import PasswordChange from './PasswordChange';
 
@@ -33,7 +33,7 @@ const PasswordChangeContainer = () => {
         ...newPassword,
       }),
     {
-      mutationKey: mutationKey.password,
+      mutationKey: mutationKeys.password,
       onSuccess: (data) => {
         console.log('changed new password', data);
         navigate('/mypage');

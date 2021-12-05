@@ -88,7 +88,7 @@ const useImageSlider = (imageList = [], options = {}) => {
     () => ({ type: 'arrow', label: { ko: '', en: '' }, ...options }),
     [options],
   );
-  const { onDragDown, onDragMove, onDragUp, onAreaLeave } = useDragMove(
+  const { onDragDown, onDragMove, onDragUp } = useDragMove(
     imageList.length - 1,
     setSlideIdx,
   );
@@ -110,13 +110,10 @@ const useImageSlider = (imageList = [], options = {}) => {
                 src={images[idx]}
                 alt={`${name}`} // 여기서 분석 클래스명 쓰면 될듯 함.
                 value={`${name}`}
-                // onClick={(e) =>
-                //   console.log('테스트, 누르면 확대하도록?!', e.target.value)
-                // }
-                onMouseDown={onDragDown}
-                onMouseMove={onDragMove}
-                onMouseUp={onDragUp}
-                onMouseLeave={onAreaLeave}
+                // onMouseDown={onDragDown}
+                // onMouseMove={onDragMove}
+                // onMouseUp={onDragUp}
+                // onMouseLeave={onAreaLeave}
                 onTouchStart={onDragDown}
                 onTouchMove={onDragMove}
                 onTouchEnd={onDragUp}

@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
-import { loginValidation, mutationKey, userKeys } from '../../constants';
+import { loginValidation, mutationKeys, userKeys } from '../../constants';
 import JiseekLogIn from './JiseekLogIn';
 import { useAuthContext } from '../../contexts';
 
@@ -30,7 +30,7 @@ const JiseekLogInContainer = () => {
   const userLogin = useMutation(
     (loginInfo) => jiseekApi.post('/user/custom/login/', loginInfo),
     {
-      mutationKey: mutationKey.logIn,
+      mutationKey: mutationKeys.logIn,
       onSuccess: (data) => {
         console.log(data, '에러 메시지 확인용'); // TODO
         const { user, ...auth } = data;

@@ -3,13 +3,13 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import MyInfoForm from './MyInfoForm';
+import MyInfoUpdate from './MyInfoUpdate';
 import jiseekApi from '../../api';
-import { mutationKey, myInfoFormValidation, userKeys } from '../../constants';
+import { mutationKeys, myInfoFormValidation, userKeys } from '../../constants';
 import { useAuthContext } from '../../contexts';
 
 // TODO: 파일 업로드 처리
-const MyInfoFormContainer = () => {
+const MyInfoUpdateContainer = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(userKeys.info);
@@ -22,8 +22,8 @@ const MyInfoFormContainer = () => {
   } = useForm({
     resolver: yupResolver(myInfoFormValidation),
     defaultValues: {
-      image: user?.image,
-      name: user?.name,
+      image: user?.image || null,
+      name: user?.name || '',
     },
   });
 
@@ -42,7 +42,7 @@ const MyInfoFormContainer = () => {
     (userInfo) =>
       jiseekApi.put('/user/info/', { token: token.access, ...userInfo }),
     {
-      mutationKey: mutationKey.userInfo,
+      mutationKey: mutationKeys.userInfo,
       onSuccess: (data) => {
         // TODO: 에러 메시지가 일루 올지 확인 필요
         setValue('image', data.image);
@@ -66,7 +66,7 @@ const MyInfoFormContainer = () => {
   );
 
   return (
-    <MyInfoForm
+    <MyInfoUpdate
       hookForm={{
         ...hookForm,
         onSubmit: handleSubmit(onSubmit),
@@ -77,4 +77,4 @@ const MyInfoFormContainer = () => {
   );
 };
 
-export default MyInfoFormContainer;
+export default MyInfoUpdateContainer;

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const LogInButton = ({ logo, sns }) => (
-  <StyledButton>
+const LogInButton = ({ logo, sns, background }) => (
+  <StyledButton background={background} border={background}>
     <Logo src={logo} alt={`${sns}`} />
     <LogInMessage>{sns}</LogInMessage>
   </StyledButton>
@@ -12,19 +12,24 @@ const LogInButton = ({ logo, sns }) => (
 LogInButton.propTypes = {
   logo: PropTypes.string,
   sns: PropTypes.string,
+  background: PropTypes.string,
 };
 
 LogInButton.defaultProps = {
   logo: '',
   sns: '',
+  background: '#e8ece6',
 };
 
 const StyledButton = styled.div`
-  background: #e8ece6;
+  background: ${(props) => props.background};
+  box-shadow: ${(props) =>
+    props.background === '#FBFBFB' ? '0 0 0 3px #49494961 inset' : 'none'};
+  border-radius: 50px;
   margin: 1rem 0;
-  display: grid;
+  display: flex;
+  justify-content: center;
   height: 50px;
-  grid-template-columns: 2rem 1fr;
   padding: 0 1.5rem;
 `;
 
@@ -35,10 +40,10 @@ const Logo = styled.img`
 `;
 
 const LogInMessage = styled.div`
-  text-align: center;
+  /* text-align: center; */
   font-size: 0.9rem;
   font-weight: 500;
-  margin: auto;
+  margin: auto 0 auto 0.5rem;
 `;
 
 export default LogInButton;

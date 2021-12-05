@@ -22,9 +22,8 @@ const NaverLogIn = ({ lang }) => {
     >
       <LogInButton
         logo={NaverLogo}
-        sns={
-          lang === 'ko' ? <div>네이버 로그인</div> : <div>Login with Naver</div>
-        }
+        sns={lang === 'ko' ? '네이버 로그인' : 'Login with Naver'}
+        background="#00BF18"
       />
     </a>
   );

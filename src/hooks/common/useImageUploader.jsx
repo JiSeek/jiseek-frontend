@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { FileUpload } from '../../assets/images/images';
 
 const useImageUploader = () => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -31,7 +32,7 @@ const ImgUploader = ({ imageUrl, handleFileInput }) => (
   <>
     <DropContainer
       type="image"
-      src={imageUrl || '요기다가 디폴트 넣어주셈.'}
+      src={imageUrl || FileUpload}
       alt="업로드 이미지"
       onDragOver={(e) => e.preventDefault()}
       onDragEnter={(e) => e.preventDefault()}

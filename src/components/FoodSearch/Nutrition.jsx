@@ -110,7 +110,8 @@ function Nutrition({ foodInfo }) {
         id="bar-chart-container"
         style={{
           marginBottom: '3.5rem',
-          width: '100%',
+          width: '50vw',
+          maxWidth: '600px',
           height: '480px',
         }}
       >

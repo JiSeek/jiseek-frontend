@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
-import styled from 'styled-components';
+import PropTypes, { any, func } from 'prop-types';
+import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
 import FormLessButton from '../components/common/FormLessButton';
 
 const ModalContext = createContext(null);
@@ -15,20 +15,38 @@ export const useModalContext = () => {
   return modalContext;
 };
 
+// Valid Type: 'message', 'select', 'alarm'(default)
 export const ModalProvider = ({ children }) => {
+  const [modalType, setModalType] = useState('alarm');
   const [modalContents, setModalContents] = useState(null);
+  const [selectFunc, setSelectFunc] = useState({ yes: null, no: null });
 
-  const openModal = useCallback((contents) => setModalContents(contents), []);
-  const onClose = useCallback(() => setModalContents(null), []);
+  const openModal = useCallback((contents, type = 'alarm', execFunc) => {
+    setModalType(type);
+    setModalContents(contents);
+    if (type === 'select' && typeof execFunc === 'object') {
+      setSelectFunc(execFunc);
+    }
+  }, []);
+
+  const onClose = useCallback(() => {
+    setModalType('alarm');
+    setModalContents(null);
+    setSelectFunc({ yes: null, no: null });
+  }, []);
 
   return (
     <ModalContext.Provider value={openModal}>
-      <StyledModalScrollPrevent modalState={modalContents}>
-        {children}
-        {modalContents && (
-          <ModalRenderer onClose={onClose}>{modalContents}</ModalRenderer>
-        )}
-      </StyledModalScrollPrevent>
+      {children}
+      {modalContents && (
+        <ModalRenderer
+          type={modalType}
+          selectFunc={selectFunc}
+          onClose={onClose}
+        >
+          {modalContents}
+        </ModalRenderer>
+      )}
     </ModalContext.Provider>
   );
 };
@@ -45,35 +63,65 @@ ModalProvider.defaultProps = {
   children: null,
 };
 
-// TODO: 모달 팝업 시 스크롤 블락킹 처리: 동작X
-const StyledModalScrollPrevent = styled.div`
-  position: absolute;
-  overflow: ${(props) => (props.modalState ? 'hidden' : 'auto')};
-  /* overflow-y: hidden; */
-`;
-
-const ModalRenderer = ({ onClose, children }) => (
+const ModalRenderer = ({ type, selectFunc, onClose, children }) => (
   <StyledModal>
-    <StyledModalOverlay onClick={onClose} />
-    <StyledModalContents>
-      <FormLessButton onClick={onClose}>
-        <FontAwesomeIcon icon={faTimes} size="lg" color="#e53935" />
-      </FormLessButton>
-      <div>{children}</div>
-    </StyledModalContents>
+    <StyledModalOverlay onClick={type === 'message' ? onClose : null} />
+    {type === 'alarm' && (
+      <StyledAlarmModal>
+        {children}
+        <button type="button" onClick={onClose}>
+          확인
+        </button>
+      </StyledAlarmModal>
+    )}
+    {type === 'select' && (
+      <StyledSelectModal>
+        {children}
+        {typeof selectFunc.yes === 'function' && (
+          <button
+            type="button"
+            onClick={() => {
+              selectFunc.yes();
+              onClose();
+            }}
+          >
+            확인
+          </button>
+        )}
+        {typeof selectFunc.no === 'function' && (
+          <button
+            type="button"
+            onClick={() => {
+              selectFunc.no();
+              onClose();
+            }}
+          >
+            취소
+          </button>
+        )}
+      </StyledSelectModal>
+    )}
+    {type === 'message' && (
+      <StyledMessageModal>
+        <FormLessButton onClick={onClose}>
+          <FontAwesomeIcon icon={faTimes} size="lg" color="#e53935" />
+        </FormLessButton>
+        <div>{children}</div>
+      </StyledMessageModal>
+    )}
   </StyledModal>
 );
 
 ModalRenderer.propTypes = {
+  type: PropTypes.string,
+  selectFunc: PropTypes.objectOf(func),
   onClose: PropTypes.func,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.element,
-  ]),
+  children: PropTypes.oneOfType([any]),
 };
 
 ModalRenderer.defaultProps = {
+  type: 'alarm',
+  selectFunc: { yes: null, no: null },
   onClose: null,
   children: null,
 };
@@ -87,7 +135,7 @@ const StyledModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index:10;
+  z-index: 10;
 `;
 
 const StyledModalOverlay = styled.div`
@@ -97,15 +145,31 @@ const StyledModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
-const StyledModalContents = styled.div`
+const ModalCommon = css`
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: #f9f9f9;
+  border-radius: 20px;
   position: relative;
+`;
+
+const StyledAlarmModal = styled.div`
+  ${ModalCommon}
+  width: 330px;
+  height: 200px;
+`;
+
+const StyledSelectModal = styled.div`
+  ${ModalCommon}
+  width: 330px;
+  height: 200px;
+`;
+
+const StyledMessageModal = styled.div`
+  ${ModalCommon}
   width: 330px;
   height: 70%;
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
-  border-radius: 20px;
 
   > button {
     width: fit-content;

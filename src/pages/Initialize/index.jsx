@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import {
   AuthContext,
   LangContext,
-  initialTkn,
   useAuth,
   ModalProvider,
 } from '../../contexts';
-import { setLocalStorage } from '../../utils';
 
 const Initialize = ({ children }) => {
   // const queryClient = useQueryClient();
@@ -27,12 +25,12 @@ const Initialize = ({ children }) => {
         updateToken(auth);
       } else {
         // console.log('2', expired, auth.expires_at);
-        setLocalStorage('jiseek_auth', initialTkn);
+        clearToken();
       }
     }
     const langCfg = window.localStorage.getItem('jiseek_lang');
     setLang(langCfg || 'ko');
-  }, [updateToken, setLang]);
+  }, [updateToken, clearToken, setLang]);
 
   const changeLang = useCallback((language) => {
     if (language !== 'ko' && language !== 'en') {

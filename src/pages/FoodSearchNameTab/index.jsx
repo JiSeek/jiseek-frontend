@@ -25,9 +25,7 @@ const FoodSearchPage = () => {
       </Center>
       {findTarget && (
         <FoodDetails id={foodIdMap[findTarget] || findTarget}>
-          <FoodImage>
-            <img src={Bulgogi} alt="test" style={{ width: '100%' }} />
-          </FoodImage>
+          <img src={Bulgogi} alt="test" style={{ width: '100%' }} />
         </FoodDetails>
       )}
     </article>
@@ -37,10 +35,6 @@ const FoodSearchPage = () => {
 const Center = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const FoodImage = styled.div`
-  /* padding-right: 1.5rem; */
 `;
 
 export default FoodSearchPage;

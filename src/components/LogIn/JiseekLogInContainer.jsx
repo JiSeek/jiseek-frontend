@@ -32,13 +32,15 @@ const JiseekLogInContainer = () => {
     {
       mutationKey: mutationKeys.logIn,
       onSuccess: (data) => {
-        console.log(data, '에러 메시지 확인용'); // TODO
         const { user, ...auth } = data;
         queryClient.setQueryData(userKeys.info, user);
         updateToken(auth);
         navigate('/', { replace: true });
       },
-      onError: (err) => console.error('임시 에러처리', err),
+      onError: (err) => {
+        // TODO: 모달이든 react-tostify 든 메시지 띄우기
+        console.error('임시 에러처리', err);
+      },
     },
   );
 

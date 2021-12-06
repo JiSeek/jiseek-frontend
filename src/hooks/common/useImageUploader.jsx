@@ -9,6 +9,9 @@ const useImageUploader = () => {
   const preview = useCallback((e) => {
     const reader = new FileReader();
     const fileList = e.target.files || e.dataTransfer.files;
+    if (fileList.length === 0) {
+      return;
+    }
     reader.readAsDataURL(fileList[0]);
     reader.onload = (event) => setImageUrl(event.target.result);
   }, []);
@@ -31,14 +34,14 @@ const useImageUploader = () => {
 const ImgUploader = ({ imageUrl, handleFileInput }) => (
   <>
     <DropContainer
-      type="image"
-      src={imageUrl || FileUpload}
-      alt="업로드 이미지"
+      id="image-upload"
       onDragOver={(e) => e.preventDefault()}
       onDragEnter={(e) => e.preventDefault()}
       onDragLeave={(e) => e.preventDefault()}
       onDrop={handleFileInput}
-    />
+    >
+      <img src={imageUrl || FileUpload} alt="업로드 이미지" />
+    </DropContainer>
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <FileLabel htmlFor="chooseFile">
         사진 선택
@@ -66,7 +69,7 @@ ImgUploader.defaultProps = {
   handleFileInput: null,
 };
 
-const DropContainer = styled.input`
+const DropContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,6 +77,13 @@ const DropContainer = styled.input`
   max-height: 350px;
   border: 2px solid #72af2c;
   margin-bottom: 2rem;
+  /* user-select: none; */
+
+  > img {
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const FileLabel = styled.label`

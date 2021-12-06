@@ -23,7 +23,7 @@ const authReducer = (state, action) => {
       return {
         access: data.access_token,
         refresh: data.refresh_token,
-        expTime: data.expires_at,
+        expTime: Number(data.expires_at),
       };
     default:
       return state;

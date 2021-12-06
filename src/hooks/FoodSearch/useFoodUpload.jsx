@@ -18,7 +18,6 @@ const useFoodUpload = () => {
   const [analysis, setAnalysis] = useState([]);
   const queryClient = useQueryClient();
   const { imageUrl, renderImgUploader } = useImageUploader();
-  // return <div>{renderImgUploader()}</div>;
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   // const { mutate, reset, isLoading, isError } = useMutation(

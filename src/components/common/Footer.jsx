@@ -1,29 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
-import { RiGitlabFill } from 'react-icons/ri';
+import { RiGitlabFill, RiInstagramFill, RiYoutubeFill } from 'react-icons/ri';
+import { MdEmail } from 'react-icons/md';
+import { FaFacebookSquare } from 'react-icons/fa';
+import { FooterLogo } from '../../assets/images/images';
 
 const Footer = () => (
   <FooterBackground>
-    <FooterContent>
-      <ul className="util_menu">
-        <li style={{ fontSize: '1.25rem' }}>
-          <RiGitlabFill />
-        </li>
-      </ul>
-      <div className="txt_info">
-        <div className="address">
-          주소 : 서울특별시 강남구 테헤란로 138 성홍타워 3층 (우)06236
-          <br />
-          대표자 : 고예림, 고정현, 김지훈, 박지윤, 이민영, 전진성
-          <br />
-          이메일 : image2jiseek@gmail.com
-        </div>
+    <FooterContents>
+      <img src={FooterLogo} alt="Footer Logo" />
+      <div>
+        <ul>
+          <li>
+            <span>지식</span>知食
+          </li>
+          <li>고예림, 고정현, 김지훈, 박지윤, 이민영, 전진성</li>
+          <li>
+            image2jiseek@gmail.com
+            <a href="mailto:image2jiseek@gmail.com">
+              <MdEmail />
+            </a>
+          </li>
+          <li>
+            <RiInstagramFill />
+            <FaFacebookSquare />
+            <RiYoutubeFill />
+            <a
+              href="https://kdt-gitlab.elice.io/002-part3-cnn/team2"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <RiGitlabFill />
+            </a>
+          </li>
+        </ul>
       </div>
-    </FooterContent>
+      <div>
+        <ul>
+          <li>홈</li>
+            <li>음식 알아보기</li>
+            <li>이름으로 검색하기</li>
+            <li>사진으로 검색하기</li>
+          <li>커뮤니티</li>
+          <li>소개</li>
+        </ul>
+      </div>
+    </FooterContents>
     <Copyright>
-      COPYRIGHT &copy; JISEEK, 대한민국 NO.1 음식 검색 서비스
-      <br />
-      (KOREA&apos;S NO.1 FOOD SEARCH SERVICE)
+      COPYRIGHT &copy; JISEEK, 대한민국 NO.1 음식 검색 서비스 (KOREA&apos;S NO.1
+      FOOD SEARCH SERVICE)
     </Copyright>
   </FooterBackground>
 );
@@ -32,23 +57,33 @@ export default Footer;
 
 const FooterBackground = styled.div`
   width: 100vw;
-  height: 200px;
+  height: 100%;
   background: #09351b;
   color: #fffdfa;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.2rem;
 `;
 
-const FooterContent = styled.div`
-  max-width: 1320px;
-  width: 100%;
+const FooterContents = styled.div`
+  display: flex;
   margin: auto;
-  padding: 2rem 0;
-  padding-bottom: 0;
+  padding: 2rem 1rem;
+  justify-content: space-between;
+  max-width: 1320px;
+
+  > img {
+    width: 100px;
+    object-fit: contain;
+  }
+
+  > div {
+    /* width: 100%;
+    margin: auto; */
+  }
 `;
 
 const Copyright = styled.div`
   margin-top: 2rem;
   padding-bottom: 2rem;
+  text-align: center;
 `;

@@ -9,6 +9,9 @@ const useImageUploader = () => {
   const preview = useCallback((e) => {
     const reader = new FileReader();
     const fileList = e.target.files || e.dataTransfer.files;
+    if (fileList.length === 0) {
+      return;
+    }
     reader.readAsDataURL(fileList[0]);
     reader.onload = (event) => setImageUrl(event.target.result);
   }, []);
@@ -31,18 +34,18 @@ const useImageUploader = () => {
 const ImgUploader = ({ imageUrl, handleFileInput }) => (
   <>
     <DropContainer
-      type="image"
-      src={imageUrl || FileUpload}
-      alt="업로드 이미지"
+      id="image-upload"
       onDragOver={(e) => e.preventDefault()}
       onDragEnter={(e) => e.preventDefault()}
       onDragLeave={(e) => e.preventDefault()}
       onDrop={handleFileInput}
-    />
+    >
+      <img src={imageUrl || FileUpload} alt="업로드 이미지" />
+    </DropContainer>
     <div style={{ display: 'flex', justifyContent: 'center', width: 354 }}>
       <FileLabel htmlFor="chooseFile">
         사진 선택
-        <ChooseFile
+        <input
           id="chooseFile"
           type="file"
           accept="image/*"
@@ -66,43 +69,44 @@ ImgUploader.defaultProps = {
   handleFileInput: null,
 };
 
-const DropContainer = styled.input`
+const DropContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 350px;
-  height: 350px;
-  object-fit: cover;
-  border: 2px solid #92ce4d;
+  max-height: 350px;
+  border: 2px solid #72af2c;
   margin-bottom: 2rem;
+
+  > img {
+    pointer-events: none;
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+  }
 `;
 
 const FileLabel = styled.label`
   font-size: 0.8rem;
-  /* margin-top: 30px; */
   background-color: #92ce4d;
-  /* color: #f6fff2; */
   text-align: center;
   padding: 1rem 0;
-  /* width: 175px; */
   width: 100%;
   cursor: pointer;
   margin-right: 4px;
-`;
 
-const ChooseFile = styled.input`
-  display: none;
+  > input {
+    display: none;
+  }
 `;
 
 const long = keyframes`
   0% {
     width: 80px;
-    /* opacity: 0; */
   background: #92ce4d;
   }
   100% {
   width: 100%;
-  /* opacity: 1; */
   background: #407f00;
   }
 `;

@@ -3,13 +3,13 @@ import PropTypes, { any } from 'prop-types';
 import styled from 'styled-components';
 import FoodRecipesContainer from './FoodRecipesContainer';
 import Nutrition from './Nutrition';
-import { LoadingDot } from '../../assets/images/images';
+import { LoadingCircle } from '../../assets/images/images';
 
 const FoodDetails = ({ foodInfo, status, onModal, children }) => (
   <Result>
     {status === 'loading' && (
       <Center>
-        <img src={LoadingDot} alt="loading" />
+        <img src={LoadingCircle} alt="loading" />
       </Center>
     )}
     {status === 'error' && <>요기다 에러메시지 퐉</>}
@@ -64,7 +64,7 @@ const Result = styled.article`
 const GridResult = styled.div`
   display: grid;
   margin: 0 2rem;
-  grid-gap: 3rem;
+  grid-gap: 2rem 4rem;
   grid-template-columns: repeat(2, 1fr);
   grid-template-areas:
     'photo chart'
@@ -83,13 +83,15 @@ const GridResult = styled.div`
     }
   }
 
-  @media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 800px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas: 'photo' 'chart' 'recipes';
+    grid-gap: 3rem;
     margin: 0;
-    div {
+
+    section {
       &:nth-child(2) {
-        margin: 0 1.5rem;
+        margin: 0 2rem;
       }
     }
   }

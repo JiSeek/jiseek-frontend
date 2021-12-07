@@ -11,4 +11,5 @@ export const StyledErrorMsg = styled.span`
 // 임시 디자인...
 export const StyledFavContainer = styled.div`
   display: flex;
+  
 `;

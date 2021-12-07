@@ -58,24 +58,3 @@ Initialize.defaultProps = {
 };
 
 export default Initialize;
-
-// useEffect(() => {
-//   const remainTime =
-//     token.expTime - parseInt(new Date().getTime() / 1000, 10);
-//   console.log(remainTime);
-//   if (remainTime <= 0) {
-//     console.log('3', timerId, remainTime);
-//     clearTimeout(timerId.current);
-//     timerId.current = null;
-//     // console.log('4', timerId, remainTime);
-//     // queryClient.setMutationDefaults('refreshToken', { retry: false });
-//     return;
-//   }
-
-//   clearTimeout(timerId.current);
-//   const refreshTime = getRefreshTime(1);
-//   const delay = remainTime >= refreshTime ? remainTime - refreshTime : 10;
-//   console.log('refresy delay', delay);
-//   timerId.current = setTimeout(() => refreshToken(), delay * 1000);
-//   // console.log('2', delay, timerId);
-// }, [token.expTime, refreshToken]);

@@ -13,6 +13,7 @@ export const userKeys = Object.freeze({
 
 // 마이 페이지 고유키 정의
 export const myPageKeys = Object.freeze({
+  all: 'mypage',
   favPosts: ['mypage', 'board-favs'],
   favFoods: ['mypage', 'food-favs'],
 });
@@ -29,11 +30,12 @@ export const mutationKeys = Object.freeze({
   signUp: 'signUp',
   token: 'tokenRefresh',
   foodUpload: 'foodUpload',
+  foodResult: 'foodResult',
 });
 
 // 게시판 페이지 고유키 정의
-export const boardKeys = Object.freeze({ // Object.freeze 속성의 불변성
+export const boardKeys = Object.freeze({
+  // Object.freeze 속성의 불변성
   superior: 'boards',
-  detailsById: id => ['boards', id],
+  detailsById: (id) => ['boards', id],
 });
-

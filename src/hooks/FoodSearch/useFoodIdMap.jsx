@@ -12,12 +12,12 @@ import { foodKeys } from '../../constants';
 */
 const useFoodIdMap = () => {
   // 전체 음식명 조회 쿼리
-  const { data, status, isLoading, isError } = useQuery(
-    foodKeys.all,
-    jiseekApi.get(),
-    { staleTime: Infinity, cacheTime: Infinity },
-    // TODO: 데이터 로드 실패 시 재시도 안되는 문제
-  );
+  const { data, status } = useQuery(foodKeys.all, jiseekApi.get(), {
+    retry: Infinity,
+    retryDelay: 3000,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
 
   // 전체 음식 이름 -> ID 매핑 테이블
   const foodIdMap = useMemo(
@@ -28,7 +28,7 @@ const useFoodIdMap = () => {
     [data],
   );
 
-  return { foodIdMap, isLoading, isError, status };
+  return { foodIdMap, status };
 };
 
 export default useFoodIdMap;

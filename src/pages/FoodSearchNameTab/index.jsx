@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { useFoodIdMap } from '../../hooks/FoodSearch';
 import { FoodSearchBar, FoodDetails } from '../../components/FoodSearch';
-import { Bulgogi } from '../../assets/images';
 import { foodKeys } from '../../constants';
 
 const FoodSearchPage = () => {
@@ -13,7 +12,12 @@ const FoodSearchPage = () => {
   const { foodIdMap } = useFoodIdMap();
   const queryClient = useQueryClient();
 
-  useEffect(() => () => queryClient.cancelQueries(foodKeys.all), [queryClient]);
+  useEffect(
+    () => async () => {
+      await queryClient.cancelQueries(foodKeys.all);
+    },
+    [queryClient],
+  );
 
   return (
     <article>
@@ -23,13 +27,7 @@ const FoodSearchPage = () => {
           setFindTarget={setFindTarget}
         />
       </Center>
-      {findTarget && (
-        <FoodDetails id={foodIdMap[findTarget] || findTarget}>
-          <FoodImage>
-            <img src={Bulgogi} alt="test" style={{ width: '100%' }} />
-          </FoodImage>
-        </FoodDetails>
-      )}
+      {findTarget && <FoodDetails id={foodIdMap[findTarget] || findTarget} />}
     </article>
   );
 };
@@ -37,10 +35,6 @@ const FoodSearchPage = () => {
 const Center = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const FoodImage = styled.div`
-  /* padding-right: 1.5rem; */
 `;
 
 export default FoodSearchPage;

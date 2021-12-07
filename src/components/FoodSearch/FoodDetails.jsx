@@ -19,6 +19,13 @@ const FoodDetails = ({ foodInfo, status, onModal, children }) => (
         <GridResult>
           <section>
             <Subtitle> 음식 사진 </Subtitle>
+            {!children && (
+              <img
+                src={foodInfo?.image1}
+                alt="test"
+                style={{ width: '100%' }}
+              />
+            )}
             {children}
           </section>
           <section>

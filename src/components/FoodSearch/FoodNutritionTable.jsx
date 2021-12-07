@@ -15,16 +15,16 @@ const columns = [
 ];
 
 const FoodNutritionTable = ({ foodInfo }) => {
-  const detail = useMemo(
-    () =>
-      !foodInfo
-        ? []
-        : Object.entries(foodInfo).map((key) => ({
-            items: key[0],
-            values: key[1],
-          })),
-    [foodInfo],
-  );
+  const detail = useMemo(() => {
+    if (!foodInfo) {
+      return [];
+    }
+    const { id, image1, image2, image3, ...nutrition } = foodInfo;
+    return Object.entries(nutrition).map(([items, values]) => ({
+      items,
+      values,
+    }));
+  }, [foodInfo]);
 
   return (
     <StyledTableContainer>

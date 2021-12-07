@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes, { string, number } from 'prop-types';
+import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import testImage from '../../assets/images/meat_gui.jpg';
+import {
+  KakaoLogo,
+  NaverLogo,
+  GoogleLogo,
+  JiseekFavicon,
+} from '../../assets/images/images';
 
-// TODO: 임시 텍스트, 로그인 플랫폼 로고로 바꾸주세요~
 const getLogo = (type) => {
   switch (type) {
     case 'kakao':
-      return 'kakao';
+      return KakaoLogo;
     case 'naver':
-      return 'naver';
+      return NaverLogo;
+    case 'google':
+      return GoogleLogo;
     default:
-      return 'jiseek';
+      return JiseekFavicon;
   }
 };
 
@@ -24,49 +33,62 @@ const activeState = {
   paddingBottom: '0.3rem',
 };
 
-const MyInfo = ({ user, status }) => (
-  <section>
-    <h2>나의 정보</h2>
-    <div>
-      {status === 'loading' && 'Loading Logo'}
-      {status === 'error' && 'Error Logo'}
-      {status === 'success' && (
-        <ul>
-          <li>
-            <img src={user?.image} alt="프로필 사진" />
-          </li>
-          <li>
-            <img src={getLogo(user?.social_platform)} alt="로그인 플랫폼" />
-          </li>
-          <li>{user?.name}</li>
-          <li>{user?.email}</li>
-        </ul>
-      )}
-    </div>
-    <footer>
-      <nav>
-        <NavLink
-          to="info"
-          style={({ isActive }) => (isActive ? activeState : undefined)}
-        >
-          정보 수정
-        </NavLink>
-
-        {!user?.social_platform && (
-          <>
-            |
+const MyInfo = ({ user, status }) => {
+  console.log(user);
+  return (
+    <>
+      <HiddenH2>나의 정보</HiddenH2>
+      <Info>
+        <div>
+          {status === 'loading' && 'Loading Logo'}
+          {status === 'error' && 'Error Logo'}
+          {status === 'success' && (
+            <ul>
+              <li>
+                <ProfileImage
+                  src={user?.image || testImage}
+                  alt="프로필 사진"
+                />
+              </li>
+              <PlatformAndName>
+                <li>
+                  <PlatformLogo
+                    src={getLogo(user?.social_platform)}
+                    alt="로그인 플랫폼"
+                  />
+                </li>
+                <li>{user?.name}</li>
+              </PlatformAndName>
+              <li>{user?.email}</li>
+            </ul>
+          )}
+        </div>
+        <footer>
+          <nav>
             <NavLink
-              to="/ch_pswrd"
+              to="info"
               style={({ isActive }) => (isActive ? activeState : undefined)}
             >
-              비밀번호 변경
+              정보 수정
             </NavLink>
-          </>
-        )}
-      </nav>
-    </footer>
-  </section>
-);
+
+            {!user?.social_platform && (
+              <>
+                |
+                <NavLink
+                  to="/ch_pswrd"
+                  style={({ isActive }) => (isActive ? activeState : undefined)}
+                >
+                  비밀번호 변경
+                </NavLink>
+              </>
+            )}
+          </nav>
+        </footer>
+      </Info>
+    </>
+  );
+};
 
 MyInfo.propTypes = {
   user: PropTypes.objectOf(PropTypes.oneOfType([string, number])),
@@ -77,5 +99,46 @@ MyInfo.defaultProps = {
   user: {},
   status: '',
 };
+
+const Info = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
+  padding: 40px;
+  /* height: 580px; */
+`;
+
+const HiddenH2 = styled.h2`
+  width: 0;
+  height: 0;
+  font-size: 0;
+`;
+
+const ProfileImage = styled.img`
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+`;
+
+const PlatformAndName = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+
+  > li {
+    > img {
+      margin-right: 1rem;
+    }
+  }
+`;
+
+const PlatformLogo = styled.img`
+  height: 25px;
+  width: 25px;
+`;
 
 export default MyInfo;

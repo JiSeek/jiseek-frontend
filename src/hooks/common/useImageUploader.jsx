@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FileUpload } from '../../assets/images/images';
 
 const useImageUploader = () => {
@@ -42,19 +42,19 @@ const ImgUploader = ({ imageUrl, handleFileInput }) => (
     >
       <img src={imageUrl || FileUpload} alt="업로드 이미지" />
     </DropContainer>
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', width: 354 }}>
       <FileLabel htmlFor="chooseFile">
         사진 선택
-        <ChooseFile
+        <input
           id="chooseFile"
           type="file"
           accept="image/*"
           onChange={handleFileInput}
         />
       </FileLabel>
-      <button disabled={!imageUrl} type="submit">
+      <ResultButton disabled={!imageUrl} type="submit">
         결과 보기
-      </button>
+      </ResultButton>
     </div>
   </>
 );
@@ -88,17 +88,40 @@ const DropContainer = styled.div`
 
 const FileLabel = styled.label`
   font-size: 0.8rem;
-  margin-top: 30px;
-  background-color: #407f00;
-  color: #f6fff2;
+  background-color: #92ce4d;
   text-align: center;
-  padding: 1rem 1.5rem;
+  padding: 1rem 0;
   width: 100%;
   cursor: pointer;
+  margin-right: 4px;
+
+  > input {
+    display: none;
+  }
 `;
 
-const ChooseFile = styled.input`
-  display: none;
+const long = keyframes`
+  0% {
+    width: 80px;
+  background: #92ce4d;
+  }
+  100% {
+  width: 100%;
+  background: #407f00;
+  }
+`;
+
+const ResultButton = styled.button`
+  background: #407f00;
+  color: #f6fff2;
+  font-family: inherit;
+  font-size: 0.8rem;
+  border: none;
+  width: 100%;
+  :disabled {
+    display: none;
+  }
+  animation: ${long} 0.5s ease-out;
 `;
 
 export default useImageUploader;

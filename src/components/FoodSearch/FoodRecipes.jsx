@@ -11,22 +11,52 @@ const FoodRecipes = ({ food, recipes, status }) => (
     {status === 'loading' && <h1>Loading...</h1>}
     {status === 'error' && <h1>error!!</h1>}
     {status === 'success' && (
-      <>
-        <StyledUl>
-          {recipes.map((recipe) => (
-            <li key={recipe.id}>
-              <YoutubeContent recipe={recipe} />
-            </li>
-          ))}
-        </StyledUl>
+      <RecipesStructure>
         <a
-          href={`https://www.youtube.com/results?search_query=${food}레시피`}
+          href={`https://www.youtube.com/results?search_query=${food} 레시피`}
           target="_blank"
           rel="noreferrer"
         >
           레시피 더보기
         </a>
-      </>
+        <div>
+          {recipes.map((recipe) => (
+            <ul key={recipe.id}>
+              <li>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${recipe.id}`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </li>
+              <RecipesInfo>
+                <span>
+                  <li>
+                    <RiYoutubeLine />
+                    <span>{recipe.snippet.publishedAt.slice(0, 10)}</span>
+                  </li>
+                  <li>
+                    <VscEye />
+                    <span>{recipe.statistics.viewCount}</span>
+                  </li>
+                  <li>
+                    <BiTimeFive />
+                    {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
+                    <span>{recipe.contentDetails.duration}</span>
+                  </li>
+                </span>
+                <li>
+                  <YoutubeContent recipe={recipe} />
+                </li>
+              </RecipesInfo>
+            </ul>
+          ))}
+        </div>
+      </RecipesStructure>
     )}
   </div>
 );
@@ -45,31 +75,9 @@ FoodRecipes.defaultProps = {
 
 export const ModalContent = ({ youtube }) => (
   <div>
-    <iframe
-      width="360px"
-      height="210px"
-      src={`https://www.youtube.com/embed/${youtube.id}`}
-      title="YouTube video player"
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
     <ul>
       <li>
         <span>{youtube.snippet.title}</span>
-      </li>
-      <li>
-        <RiYoutubeLine />
-        <span>{youtube.snippet.publishedAt.slice(0, 10)}</span>
-      </li>
-      <li>
-        <VscEye />
-        <span>{youtube.statistics.viewCount}</span>
-      </li>
-      <li>
-        <BiTimeFive />
-        {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
-        <span>{youtube.contentDetails.duration}</span>
       </li>
     </ul>
     <div>
@@ -100,11 +108,7 @@ export const YoutubeContent = ({ recipe }) => {
 
   return (
     <ModalButton onClick={onClick} type="button">
-      <img
-        src={recipe.snippet.thumbnails?.high.url}
-        alt={recipe.snippet.title}
-        style={{ width: '100%' }}
-      />
+      설명 더보기
     </ModalButton>
   );
 };
@@ -115,18 +119,50 @@ YoutubeContent.propTypes = {
   ).isRequired,
 };
 
-const StyledUl = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 1rem;
-  width: 100%;
+const RecipesStructure = styled.div`
+  > a {
+    float: right;
+    margin-bottom: 0.5rem;
+  }
+
+  > div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 1.5rem;
+    width: 100%;
+
+    @media only screen and (max-width: 800px) {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      >ul >li >iframe {
+        height: calc(100vw * 9 / 16);
+      }
+    }
+  }
+`;
+
+const RecipesInfo = styled.span`
+  > span {
+    display: flex;
+    justify-content: space-between;
+    > li {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  > li {
+    float: right;
+  }
 `;
 
 const ModalButton = styled.button`
   border: none;
   background: none;
   padding: 0;
+  cursor: pointer;
 `;
 
 export default FoodRecipes;

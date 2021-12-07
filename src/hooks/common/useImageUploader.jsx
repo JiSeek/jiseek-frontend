@@ -77,12 +77,12 @@ const DropContainer = styled.div`
   max-height: 350px;
   border: 2px solid #72af2c;
   margin-bottom: 2rem;
-  /* user-select: none; */
 
   > img {
     pointer-events: none;
-    width: 100%;
-    height: 100%;
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
   }
 `;
 

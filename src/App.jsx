@@ -46,6 +46,7 @@ const App = () => (
             <Route index element={<MainPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LogInPage />} />
+
             <Route path="verify/:type" element={<VerifyPage />} />
             <Route path="logout" element={<LogOutPage />} />
             <Route

@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../api';
-import { mutationKeys, userKeys } from '../constants';
+import { mutationKeys, myPageKeys, userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
 import { getCurrentTime, setLocalStorage } from '../utils';
 
@@ -35,19 +35,26 @@ export const useAuth = () => {
   const queryClient = useQueryClient();
   const timerId = useRef(null);
   const [token, dispatch] = useReducer(authReducer, initialState.auth);
-  const [validUser, setValidUser] = useState(false);
+  const [userValid, setUserValid] = useState(false);
 
-  const updateToken = useCallback((data) => {
-    setLocalStorage('jiseek_auth', data);
-    dispatch(actions.updateToken(data));
-  }, []);
+  const updateToken = useCallback(
+    (data) => {
+      setLocalStorage('jiseek_auth', data);
+      dispatch(actions.updateToken(data));
+      if (queryClient.getQueryData(userKeys.info)) {
+        setUserValid(true);
+      }
+    },
+    [queryClient],
+  );
 
   const clearToken = useCallback(() => {
     clearTimeout(timerId.current);
     timerId.current = null;
     setLocalStorage('jiseek_auth', initialTkn);
     dispatch(actions.clearToken());
-    queryClient.clear();
+    queryClient.removeQueries(userKeys.all);
+    queryClient.removeQueries(myPageKeys.all);
   }, [queryClient]);
 
   // 토큰 Refresh
@@ -74,15 +81,13 @@ export const useAuth = () => {
     },
   );
 
-  // 수정 중.....
-  console.log(token.expTime, getCurrentTime(), token.access, '토오큰');
-  // 토큰으로 사용자 정보 불러오기
+  // 실행 초기에 토큰으로 사용자 정보 불러오기
   useQuery(userKeys.info, jiseekApi.get({ token: token.access }), {
     cacheTime: Infinity, // TODO: 상태 확인하기!!
     staleTime: Infinity,
     enabled: !!token.access,
     // 테스트 용 코드
-    onSuccess: () => setValidUser(true),
+    onSuccess: () => setUserValid(true),
     onError: (err) => {
       // TODO: 모달로 세션 만료 띄우기
       console.error('사용자 정보 GET FAIL!!', err);
@@ -92,24 +97,15 @@ export const useAuth = () => {
 
   // 토큰 리프레쉬 설정
   useEffect(() => {
-    console.log(token.access, validUser, 'test1');
-    if (!token.access || !validUser) {
+    if (!token.access || !userValid) {
       return;
     }
     clearTimeout(timerId.current);
     const remainTime = token.expTime - getCurrentTime();
     const refreshTime = getRefreshTime(30); // 30분.
     const delay = remainTime >= refreshTime ? remainTime - refreshTime : 0;
-    console.log(
-      delay,
-      'test',
-      token.expTime,
-      remainTime,
-      refreshTime,
-      getCurrentTime(),
-    );
     timerId.current = setTimeout(() => refreshToken(), delay * 1000);
-  }, [token, validUser, refreshToken]);
+  }, [token, userValid, refreshToken]);
 
   return { token, updateToken, clearToken };
 };

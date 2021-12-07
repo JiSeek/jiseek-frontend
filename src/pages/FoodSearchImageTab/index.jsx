@@ -13,12 +13,7 @@ const FoodSearchImageTab = () => {
   const { token } = useAuthContext();
   const [favList, setFavList] = useState([]);
   const [listFind, setListFind] = useState([]); // 임시 포맷 정해지면 변경해야됨.
-  const {
-    analysis,
-    setAnalysis,
-    // foodUpload,
-    RenderFoodUpload,
-  } = useFoodUpload();
+  const { analysis, reset, status, RenderFoodUpload } = useFoodUpload();
 
   // 좋아요한 음식 리스트 가져오기
   const { status: likeStatus } = useQuery(
@@ -43,7 +38,8 @@ const FoodSearchImageTab = () => {
 
   return (
     <article style={{ display: 'flex', justifyContent: 'center' }}>
-      {analysis.length === 0 ? (
+      {status === 'loading' && <div>로오딩 표오시</div>}
+      {status !== 'success' ? (
         RenderFoodUpload()
       ) : (
         <FoodDetails id={analysis[slideIdx]?.id || -1}>
@@ -60,7 +56,7 @@ const FoodSearchImageTab = () => {
               </StyledErrorMsg>
             )}
           </div>
-          <button type="button" onClick={() => setAnalysis([])}>
+          <button type="button" onClick={() => reset()}>
             다시 검사하기
           </button>
         </FoodDetails>

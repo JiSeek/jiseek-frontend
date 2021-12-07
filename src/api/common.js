@@ -46,6 +46,7 @@ export const createMutationApi =
         timeout: 10000,
         data,
       });
+
       return response.data;
     } catch (err) {
       throw new Error(err);
@@ -57,7 +58,8 @@ export const createOAuth2BaseUrl = (type = '') => {
     case 'kakao':
       return 'https://kauth.kakao.com/oauth';
     case 'naver':
-      return 'https://nid.naver.com/oauth2.0';
+      // return 'https://nid.naver.com/oauth2.0';
+      return '';
     default:
       return '';
   }

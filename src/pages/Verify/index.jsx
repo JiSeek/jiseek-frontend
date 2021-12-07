@@ -1,35 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Navigate,
+  // Navigate,
   useParams,
   useSearchParams,
   useNavigate,
+  useLocation,
 } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuthContext } from '../../contexts';
-import jiseekApi from '../../api';
+import jiseekApi, { oAuth2 } from '../../api';
 import { mutationKeys, userKeys } from '../../constants';
-import { getLocalStorage, rmLocalStorage } from '../../utils';
-import useOAuth2 from '../../hooks/OAuth2/useOAuth2';
-
-const verifyState = (type, state) => {
-  if (type === 'naver') {
-    return getLocalStorage('jiseek_state', null) === state;
-  }
-  return true;
-};
 
 // TODO: 리다이렉트 문제...
 const VerifyPage = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { type } = useParams();
   const [params] = useSearchParams();
   const { updateToken } = useAuthContext();
+  const [accessToken, setAccessToken] = useState('');
   const queryClient = useQueryClient();
-  const accessToken = useOAuth2(type, params.get('code'), params.get('state'));
-  const state = verifyState(type, params.get('state'));
+  const code = params.get('code');
 
-  const { mutate } = useMutation(
+  // Jiseek 서버로 Access Token 전송
+  const { mutate: loginVerify } = useMutation(
     () =>
       jiseekApi.post(
         type === 'email'
@@ -51,22 +45,59 @@ const VerifyPage = () => {
         alert('로그인 인증 실패!', err);
         navigate('/login', { replace: true });
       },
-      onSettled: () => rmLocalStorage('jiseek_state'),
     },
   );
 
-  useEffect(() => {
-    if (type === 'email' || accessToken) {
-      mutate();
-    }
-  }, [type, accessToken, mutate]);
+  // 카카오 로그인 인증
+  const { mutate: kakaoAccessTkn } = useMutation(
+    () =>
+      oAuth2.kakao.getAccessToken('/token', {
+        grant_type: 'authorization_code',
+        client_id: oAuth2.kakao.apiKey,
+        redirect_uri: oAuth2.kakao.redirectUrl,
+        code,
+      }),
+    {
+      mutationKey: mutationKeys.oAuth2,
+      onSuccess: (data) => setAccessToken(data.access_token),
+      onError: (err) => {
+        // TODO: 에러 모달
+        console.log('에러 테스트', err);
+        navigate('/login', { replace: true });
+      },
+    },
+  );
 
-  if (!state) {
-    return <Navigate to="/login" replace />;
-  }
+  // Access Token 획득
+  useEffect(() => {
+    switch (type) {
+      case 'email':
+        setAccessToken(code);
+        break;
+      case 'naver':
+        const naver = new URLSearchParams(location.hash.replace('#', '?'));
+        setAccessToken(naver.get('access_token'));
+        break;
+      case 'kakao':
+        kakaoAccessTkn();
+        break;
+      default:
+        navigate('/not_found', { replace: true });
+        break;
+    }
+  }, [type, code, kakaoAccessTkn, location, navigate]);
+
+  // Jiseek 서버로 Access Token 전송
+  useEffect(() => {
+    if (!accessToken) {
+      return;
+    }
+    loginVerify();
+  }, [accessToken, loginVerify]);
 
   // TODO: 로딩 중 멀 넣을지 고민해봐야할듯...?
-  return <>{!params.get('code') ? <Navigate to="/login" replace /> : <></>}</>;
+  return <></>;
+  // return <>{!params.get('code') ? <Navigate to="/login" replace /> : <></>}</>;
 };
 
 export default VerifyPage;

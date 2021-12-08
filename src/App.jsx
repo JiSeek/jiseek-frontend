@@ -60,7 +60,8 @@ const App = () => (
             />
             <Route path="board" element={<BoardPage />}>
               <Route path="upload" element={<BoardUploadPage />} />
-              <Route path=":id" element={<BoardDetailsPage />} />
+              <Route path="modify/:id" element={<BoardUploadPage />} />
+              <Route path="details/:id" element={<BoardDetailsPage />} />
             </Route>
             <Route
               path="mypage/*"

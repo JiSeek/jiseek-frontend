@@ -1,89 +1,107 @@
-// import React, { useState } from "react";
 import React from "react";
-// import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useMutation, useQuery, } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from '../../contexts';
 import jiseekApi from "../../api";
-// import { boardKeys, userKeys } from "../../constants";
-import { boardKeys } from "../../constants";
+import { boardKeys, userKeys } from "../../constants";
+import Comment from './Comment';
 
 function BoardDetails() {
-    const { token } = useAuthContext;
-    // const queryClient = useQueryClient();
-    // const pk = queryClient.getQueryData(userKeys.info)?.pk;
+    const { token } = useAuthContext();
+    const queryClient = useQueryClient();
+    const pk = queryClient.getQueryData(userKeys.info)?.pk;
     const navigate = useNavigate();
     const params = useParams();
-    // const [ writer, setWriter] = useState(false);
+    
+
+    // 게시판 조회 기능 (R)
     const { 
-        data: boardDetails, 
+        data: details, 
         isLoading, 
         isError, 
         error, 
         isSuccess } = useQuery(boardKeys.detailsById(params.id), jiseekApi.get());
 
     if (isError) {
-        console.log('error:', error);
+        console.log('게시판 읽어오기 error:', error);
     } else {
-        console.log('data',boardDetails);
+        console.log('게시판 읽어오기 data', details);
     }
 
-    // if (isSuccess) {
-    //     if (pk === boardDetails.user) {
-    //         setWriter(true);
-    //     }
-    // }
-    if (isSuccess) {console.log('임시');}
+    if (isSuccess) {
+        if (pk === details.user.pk) {
+            console.log('pk===data.user.pk');
+            
+        } else {
+            console.log('pk', pk);
+            console.log('data.user', details.user.pk);
+        }
+    }
 
-    const mutation = useMutation((id) => {
-        jiseekApi.delete(`/boards/${id}`, { token: token.access });
-    }, {
-        onSuccess: (da) => console.log('성공',da),
-        onError: (er) => console.log('오류',er),
-    });
     
-    // 후에 모달 창으로 바꾸든지 해야되겠다..
+    // 게시판 삭제 기능 (D)
+    const deletion = useMutation((id) => {
+        jiseekApi.delete(
+            `/boards/${id}/`, { 
+            token: token.access,
+        });
+    }, {
+        onSuccess: () => {
+            alert('삭제 되었습니다'); // 모달
+            navigate('/board');
+        },
+        onError: (er) => console.log('삭제오류', er),
+    });    
+
     const handleDelete = () => {
-        if (!window.confirm('게시물을 삭제하시겠습니까?')){
-            console.log('임시') // 임시처리
+        if (window.confirm('게시물을 삭제하시겠습니까?')){ // 모달
+            console.log('예');
+            deletion.mutate(params.id);
         }
         else {
-            mutation.mutate(params.id);
+            console.log('아니오');
         }
     }; 
 
-    const handleUpdate = () => {
-        navigate('/boards/upload/');
-    };
+
+    // 게시판 수정 페이지로 이동
+    const handleUpdate = (photo, content) => {
+        // navigate(
+        //     `/board/modify/${ params.id }`,
+        //     { state: { photo, content }}
+        // )
+        console.log(photo, content); // 임시
+    }
+
 
     return (
         <div>
+        {/* 게시판 상세 정보 */}
             { isLoading ?
                 <div>로딩아이콘</div>
                 : <>
-                    <div>{ boardDetails.user.name }</div>
-                    {/* { writer &&
-                        <>
-                            <button type='button' onClick={handleUpdate}>수정</button>
-                            <button type='button' onClick={handleDelete}>삭제</button>
+                    <div>{ details.user.name }</div>
+
+                {/* 사용자와 작성자가 일치할 시, 삭제/수정과 좋아요여부/목록 기능 */}
+                    { pk === details.user.pk ?
+                        <>  
+                            <div>{ details.is_fav }</div>
+                            <div>{ details.like_users }</div>
+                            <button type='button' onClick={ handleUpdate(details.photo, details.content) }>게시판 수정</button>
+                            <button type='button' onClick={ handleDelete }>게시판 삭제</button>
                         </>
-                    } */}
-                    <button type='button' onClick={handleUpdate}>수정</button>
-                    <button type='button' onClick={handleDelete}>삭제</button>
-                    <img src={ boardDetails.photo } alt='이미지'/>
-                    <div>{ boardDetails.count }</div>
-                    <div>{ boardDetails.content }</div>
-                    <div>{ boardDetails.created }</div>
-                    {/* { writer &&
-                        <>
-                            <div>{ boardDetails.is_fav }</div>
-                            <div>{ boardDetails.like_users }</div>
-                        </>
-                    } */}
+                        :
+                        null
+                    }
+
+                    <img src={ details.photo } alt='이미지'/>
+                    <div>{ details.count }</div>
+                    <div>{ details.content }</div>
+                    <div>{ details.created }</div>
+
+                {/* 댓글 목록 */}
+                    <Comment />
                 </>
-            }
-            { isError && 
-                <div>{error}</div>
             }
         </div>
     );

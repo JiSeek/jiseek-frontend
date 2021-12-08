@@ -118,6 +118,7 @@ const ResultButton = styled.button`
   font-size: 0.8rem;
   border: none;
   width: 100%;
+  cursor: pointer;
   :disabled {
     display: none;
   }

@@ -66,8 +66,8 @@ const StyledLogin = styled.div`
 
       :focus {
         transition: 0.3s;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-          rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+        box-shadow: rgb(0 0 0 / 13%) 0px 1px 3px 0px,
+          rgb(0 0 0 / 19%) 0px 1px 2px 0px;
       }
 
       :first-child {

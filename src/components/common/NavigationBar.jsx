@@ -68,6 +68,7 @@ const NavbarBackground = styled.div`
 const Navbar = styled.nav`
   height: 8vh;
   min-height: 70px;
+  max-height: 100px;
   max-width: 1320px;
   margin: auto;
   padding: 0 3vw;

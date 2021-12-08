@@ -46,12 +46,21 @@ const MyInfoUpdateContainer = () => {
     ({ name, image }) => {
       const accessTkn = { token: token.access };
       if (name !== user.name && imgUrl !== user.image) {
-        return jiseekApi.put('/user/info/', { ...accessTkn, name, image });
+        return jiseekApi.put('/user/info/', {
+          ...accessTkn,
+          name,
+          image,
+          isForm: true,
+        });
       }
       if (name !== user.name) {
         return jiseekApi.patch('/user/info/', { ...accessTkn, name });
       }
-      return jiseekApi.patch('/user/info/', { ...accessTkn, image });
+      return jiseekApi.patch('/user/info/', {
+        ...accessTkn,
+        image,
+        isForm: true,
+      });
     },
     {
       mutationKey: mutationKeys.userInfo,

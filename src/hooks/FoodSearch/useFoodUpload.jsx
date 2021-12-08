@@ -18,7 +18,11 @@ const useFoodUpload = () => {
   const { token } = useAuthContext();
   const [analysis, setAnalysis] = useState([]);
   const queryClient = useQueryClient();
-  const { imageFile, renderImgUploader } = useImageUploader();
+  const {
+    imageFile,
+    reset: uploadReset,
+    renderImgUploader,
+  } = useImageUploader();
 
   // TODO: S3 이미지 처리 비동기 함수
   const {
@@ -37,14 +41,13 @@ const useFoodUpload = () => {
         // TODO: 모달 닫기 누르면 상태 클리어 or 냅둬?
         console.log('임시 에러처리');
       },
-      // 임시 TEST용
-      onSettled: (_1, _2, { foods }) => setAnalysis(foods),
     },
   );
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   const { mutate: foodUpload, reset: foodUploadReset } = useMutation(
-    (photo) => jiseekApi.post('/search/', { token: token.access, photo }),
+    (photo) =>
+      jiseekApi.post('/search/', { token: token.access, photo, isForm: true }),
     {
       mutationKey: mutationKeys.foodUpload,
       onMutate: async () => {
@@ -85,8 +88,9 @@ const useFoodUpload = () => {
   const reset = useCallback(() => {
     foodUploadReset();
     imgResultReset();
+    uploadReset();
     setAnalysis([]);
-  }, [foodUploadReset, imgResultReset]);
+  }, [foodUploadReset, imgResultReset, uploadReset]);
 
   // 분석을 원하는 사진 서버로 전송 함수
   const onSubmit = useCallback(

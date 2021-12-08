@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
 import { FileUpload } from '../../assets/images/images';
 
@@ -27,40 +28,49 @@ const useImageUploader = () => {
     [preview],
   );
 
+  const reset = useCallback(() => {
+    setImageUrl('');
+    setImageFile(null);
+  }, []);
+
   const renderImgUploader = () => (
     <ImgUploader imageUrl={imageUrl} handleFileInput={handleFileInput} />
   );
 
-  return { imageFile, renderImgUploader };
+  return { imageFile, renderImgUploader, reset };
 };
 
-const ImgUploader = ({ imageUrl, handleFileInput }) => (
-  <>
-    <DropContainer
-      id="image-upload"
-      onDragOver={(e) => e.preventDefault()}
-      onDragEnter={(e) => e.preventDefault()}
-      onDragLeave={(e) => e.preventDefault()}
-      onDrop={handleFileInput}
-    >
-      <img src={imageUrl || FileUpload} alt="업로드 이미지" />
-    </DropContainer>
-    <div style={{ display: 'flex', justifyContent: 'center', width: 354 }}>
-      <FileLabel htmlFor="chooseFile">
-        사진 선택
-        <input
-          id="chooseFile"
-          type="file"
-          accept="image/*"
-          onChange={handleFileInput}
-        />
-      </FileLabel>
-      <ResultButton disabled={!imageUrl} type="submit">
-        결과 보기
-      </ResultButton>
-    </div>
-  </>
-);
+const ImgUploader = ({ imageUrl, handleFileInput }) => {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <DropContainer
+        id="image-upload"
+        onDragOver={(e) => e.preventDefault()}
+        onDragEnter={(e) => e.preventDefault()}
+        onDragLeave={(e) => e.preventDefault()}
+        onDrop={handleFileInput}
+      >
+        <img src={imageUrl || FileUpload} alt={t('foodSearchImageAlt')} />
+      </DropContainer>
+      <div style={{ display: 'flex', justifyContent: 'center', width: 354 }}>
+        <FileLabel htmlFor="chooseFile">
+          {t('foodSearchImageUpload')}
+          <input
+            id="chooseFile"
+            type="file"
+            accept="image/*"
+            onChange={handleFileInput}
+          />
+        </FileLabel>
+        <ResultButton disabled={!imageUrl} type="submit">
+          {t('foodSearchImageSubmit')}
+        </ResultButton>
+      </div>
+    </>
+  );
+};
 
 ImgUploader.propTypes = {
   imageUrl: PropTypes.string,

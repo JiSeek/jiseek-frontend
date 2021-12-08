@@ -10,9 +10,9 @@ import { useAuthContext } from '../../contexts';
 import PasswordChange from './PasswordChange';
 
 const initialState = Object.freeze({
-  'old password': '',
-  'new password1': '',
-  'new password2': '',
+  old_password: '',
+  new_password1: '',
+  new_password2: '',
 });
 
 const PasswordChangeContainer = () => {

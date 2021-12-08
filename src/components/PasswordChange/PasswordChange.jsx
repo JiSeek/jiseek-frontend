@@ -6,42 +6,39 @@ import { StyledErrorMsg } from '../common';
 const PasswordChange = ({ hookForm, isSubmitting }) => (
   /* eslint-disable react/jsx-props-no-spreading */
   <StyledChangeForm onSubmit={hookForm.onSubmit}>
-      <label htmlFor="cur-pswrd">
-        <input
-          type="password"
-          id="cur-pswrd"
-          placeholder="현재 비밀번호"
-          {...hookForm.register('old password')}
-        />
-        <StyledErrorMsg>
-          {hookForm.errors['old password'] &&
-            hookForm.errors['old password'].message}
-        </StyledErrorMsg>
-      </label>
-      <label htmlFor="new-pswrd">
-        <input
-          type="password"
-          id="new-pswrd"
-          placeholder="새 비밀번호"
-          {...hookForm.register('new password1')}
-        />
-        <StyledErrorMsg>
-          {hookForm.errors['new password1'] &&
-            hookForm.errors['new password1'].message}
-        </StyledErrorMsg>
-      </label>
-      <label htmlFor="pswrd-confirm">
-        <input
-          type="password"
-          id="pswrd-confirm"
-          placeholder="비밀번호 확인"
-          {...hookForm.register('new password2')}
-        />
-        <StyledErrorMsg>
-          {hookForm.errors['new password2'] &&
-            hookForm.errors['new password2'].message}
-        </StyledErrorMsg>
-      </label>
+    <label htmlFor="cur-pswrd">
+      <input
+        type="password"
+        id="cur-pswrd"
+        placeholder="현재 비밀번호"
+        {...hookForm.register('old_password')}
+      />
+      <StyledErrorMsg>
+        {hookForm.errors.old_password && hookForm.errors.old_password.message}
+      </StyledErrorMsg>
+    </label>
+    <label htmlFor="new-pswrd">
+      <input
+        type="password"
+        id="new-pswrd"
+        placeholder="새 비밀번호"
+        {...hookForm.register('new_password1')}
+      />
+      <StyledErrorMsg>
+        {hookForm.errors.new_password1 && hookForm.errors.new_password1.message}
+      </StyledErrorMsg>
+    </label>
+    <label htmlFor="pswrd-confirm">
+      <input
+        type="password"
+        id="pswrd-confirm"
+        placeholder="비밀번호 확인"
+        {...hookForm.register('new_password2')}
+      />
+      <StyledErrorMsg>
+        {hookForm.errors.new_password2 && hookForm.errors.new_password2.message}
+      </StyledErrorMsg>
+    </label>
     <StyledButton disabled={isSubmitting} type="submit">
       변경
     </StyledButton>

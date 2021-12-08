@@ -50,18 +50,18 @@ export const getMyInfoFormValidation = (t) =>
 
 export const getPasswordValidation = (t) =>
   yup.object({
-    'old password': yup.string().required(t('passwordChangeCurrentErr')),
-    'new password1': yup
+    old_password: yup.string().required(t('passwordChangeCurrentErr')),
+    new_password1: yup
       .string()
-      .notOneOf([yup.ref('old password')], t('passwordChangeOldSameErr'))
+      .notOneOf([yup.ref('old_password')], t('passwordChangeOldSameErr'))
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%*])[a-zA-Z\d~!@#$%*]{8,16}$/,
         t('passwordChangeNewFormErr'),
       )
       .required(t('passwordChangeNewRequiredErr')),
-    'new password2': yup
+    new_password2: yup
       .string()
-      .oneOf([yup.ref('new password1'), null], t('passwordChangeVerifyErr')),
+      .oneOf([yup.ref('new_password1'), null], t('passwordChangeVerifyErr')),
   });
 
 export const getLoginValidation = (t) =>

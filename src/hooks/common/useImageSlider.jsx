@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 // 임시 스타일드 요건 뺄거...
 import styled, { css } from 'styled-components';
 import { ArrowTypeNavBar, BubbleTypeNavBar } from '../../components/common';
-import { Bulgogi, Meat, MeatGui } from '../../assets/images';
 
 /*
   Arguments:
@@ -84,10 +83,7 @@ const useDragMove = (last = 0, setSlideIdx = null) => {
 */
 const useImageSlider = (imageList = [], options = {}) => {
   const [slideIdx, setSlideIdx] = useState(0);
-  const setOptions = useMemo(
-    () => ({ type: 'arrow', label: { ko: '', en: '' }, ...options }),
-    [options],
-  );
+  const setOptions = useMemo(() => ({ type: 'arrow', ...options }), [options]);
   const { onDragDown, onDragMove, onDragUp } = useDragMove(
     imageList.length - 1,
     setSlideIdx,
@@ -95,20 +91,17 @@ const useImageSlider = (imageList = [], options = {}) => {
 
   useEffect(() => imageList.length === 0 && setSlideIdx(0), [imageList]);
 
-  // 테스트용
-  const images = useMemo(() => [Bulgogi, Meat, MeatGui], []);
-
   const RenderImageSlider = () => (
     <div>
       <StyledSliderContainer>
         <StyledSlider slideIdx={slideIdx}>
-          {imageList.map((name, idx) => (
+          {imageList.map(({ name, url }, idx) => (
             <li key={`${name}`}>
               <StyledSlide
                 active={slideIdx === idx}
                 type="image"
-                src={images[idx]}
-                alt={`${name}`} // 여기서 분석 클래스명 쓰면 될듯 함.
+                src={url}
+                alt={`${name} 이미지`} // 여기서 분석 클래스명 쓰면 될듯 함.
                 value={`${name}`}
                 // onMouseDown={onDragDown}
                 // onMouseMove={onDragMove}
@@ -124,8 +117,7 @@ const useImageSlider = (imageList = [], options = {}) => {
       </StyledSliderContainer>
       {setOptions.type === 'arrow' ? (
         <ArrowTypeNavBar
-          // lang={}
-          label={setOptions.label}
+          label={setOptions?.label}
           name={imageList[slideIdx]}
           curIndex={slideIdx}
           min={0}
@@ -134,7 +126,7 @@ const useImageSlider = (imageList = [], options = {}) => {
           onNext={() => setSlideIdx((old) => old + 1)}
         />
       ) : (
-        <BubbleTypeNavBar /> // TODO: 아직 미구현
+        <BubbleTypeNavBar /> // TODO: 미구현
       )}
     </div>
   );

@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
-import { loginValidation, mutationKeys, userKeys } from '../../constants';
+import { getLoginValidation, mutationKeys, userKeys } from '../../constants';
 import JiseekLogIn from './JiseekLogIn';
 import { useAuthContext } from '../../contexts';
 
@@ -15,6 +16,7 @@ const initialState = Object.freeze({
 
 const JiseekLogInContainer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { updateToken } = useAuthContext();
   const queryClient = useQueryClient();
 
@@ -23,7 +25,7 @@ const JiseekLogInContainer = () => {
     formState: { errors },
     ...hookForm
   } = useForm({
-    resolver: yupResolver(loginValidation),
+    resolver: yupResolver(getLoginValidation(t)),
     defaultValues: initialState,
   });
 

@@ -12,7 +12,7 @@ const FavoritePost = ({ favPosts, status, lang }) => (
     {status === 'success' && (
       <StyledFavContainer>
         {favPosts.map(({ pk, content, created }) => (
-          <div key={pk}>
+          <div key={`${created}-${pk}`}>
             <ul>
               <li>{pk}</li>
               <li>{getLocaleDate(created, lang)}</li>
@@ -21,8 +21,7 @@ const FavoritePost = ({ favPosts, status, lang }) => (
             </ul>
             <LikeButton
               type="board"
-              id={Number(pk)}
-              data={{ id: pk, content, created_at: created }}
+              data={{ pk: Number(pk), content, created }}
               like
             />
           </div>

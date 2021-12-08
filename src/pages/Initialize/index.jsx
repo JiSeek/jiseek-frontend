@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// import { useQueryClient } from 'react-query';
+import { useTranslation } from 'react-i18next';
 import {
   AuthContext,
   LangContext,
@@ -9,9 +9,9 @@ import {
 } from '../../contexts';
 
 const Initialize = ({ children }) => {
-  // const queryClient = useQueryClient();
   const { token, updateToken, clearToken } = useAuth();
   const [lang, setLang] = useState('ko');
+  const { i18n } = useTranslation();
 
   // App 초기 구동 시 초기화 루틴
   useEffect(() => {
@@ -29,16 +29,21 @@ const Initialize = ({ children }) => {
       }
     }
     const langCfg = window.localStorage.getItem('jiseek_lang');
+    i18n.changeLanguage(langCfg || 'ko');
     setLang(langCfg || 'ko');
-  }, [updateToken, clearToken, setLang]);
+  }, [updateToken, clearToken, i18n]);
 
-  const changeLang = useCallback((language) => {
-    if (language !== 'ko' && language !== 'en') {
-      return;
-    }
-    window.localStorage.setItem('jiseek_lang', language);
-    setLang(language);
-  }, []);
+  const changeLang = useCallback(
+    (language) => {
+      if (language !== 'ko' && language !== 'en') {
+        return;
+      }
+      window.localStorage.setItem('jiseek_lang', language);
+      i18n.changeLanguage(language);
+      setLang(language);
+    },
+    [i18n],
+  );
 
   return (
     <LangContext.Provider value={[lang, changeLang]}>

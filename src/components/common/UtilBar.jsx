@@ -2,51 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
-const login = (lang) => {
-  if (lang === 'ko') {
-    return [
-      ['로그아웃', '/logout'],
-      ['마이페이지', '/mypage'],
-    ];
-  }
-  if (lang === 'en') {
-    return [
-      ['LOGOUT', '/logout'],
-      ['My Page', '/mypage'],
-    ];
-  }
-  return [
-    ['로그아웃', '/logout'],
-    ['마이페이지', '/mypage'],
-  ];
-};
-
-const logout = (lang) => {
-  if (lang === 'ko') {
-    return [
-      ['로그인', '/login'],
-      ['회원가입', '/register'],
-    ];
-  }
-  if (lang === 'en') {
-    return [
-      ['LOGIN', '/login'],
-      ['JOIN', '/register'],
-    ];
-  }
-  return [
-    ['로그인', '/login'],
-    ['회원가입', '/register'],
-  ];
-};
+import { useTranslation } from 'react-i18next';
 
 const UtilBar = ({ token, lang, onLangChange }) => {
   const location = useLocation();
+  const { t } = useTranslation();
+
   return (
     <StyledUtilBar>
       {token
-        ? login(lang).map(([name, url]) => (
+        ? [
+            [t('navSignOut'), '/logout'],
+            [t('navMyPage'), '/mypage'],
+          ].map(([name, url]) => (
             <StyledLink
               key={name}
               to={url}
@@ -55,7 +23,10 @@ const UtilBar = ({ token, lang, onLangChange }) => {
               {name}
             </StyledLink>
           ))
-        : logout(lang).map(([name, url]) => (
+        : [
+            [t('navSignIn'), '/login'],
+            [t('navSignUp'), '/register'],
+          ].map(([name, url]) => (
             <StyledLink key={name} to={url}>
               {name}
             </StyledLink>
@@ -82,7 +53,7 @@ UtilBar.propTypes = {
 
 UtilBar.defaultProps = {
   token: '',
-  lang: '',
+  lang: 'ko',
   onLangChange: null,
 };
 

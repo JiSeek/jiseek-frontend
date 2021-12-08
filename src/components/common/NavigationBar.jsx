@@ -1,33 +1,15 @@
 import React from 'react';
 import PropTypes, { string, number, element, func } from 'prop-types';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import CustomLink from './CustomLink';
 import logo from '../../assets/images/logo/logo_ver3_2.png';
 
-const menu = (lang) => {
-  if (lang === 'ko') {
-    return [
-      ['메인 페이지', '/'],
-      ['음식 알아보기', '/food'],
-      ['커뮤니티', '/board'],
-    ];
-  }
-  if (lang === 'en') {
-    return [
-      ['Home', '/'],
-      ['Find Food', '/food'],
-      ['Community', '/board'],
-    ];
-  }
-  return [
-    ['메인 페이지', '/'],
-    ['음식 알아보기', '/food'],
-    ['커뮤니티', '/board'],
-  ];
-};
+const NavigationBar = ({ children }) => {
+  const { t } = useTranslation();
 
-const NavigationBar = ({ lang, children }) => (
+  return (
     <NavbarBackground>
       <Navbar>
         <Link to="/">
@@ -35,7 +17,11 @@ const NavigationBar = ({ lang, children }) => (
         </Link>
         <div />
         <StyledUl>
-          {menu(lang).map(([tab, url]) => (
+          {[
+            [t('navMain'), '/'],
+            [t('navFood'), '/food'],
+            [t('navBoard'), '/board'],
+          ].map(([tab, url]) => (
             <StyledLi key={tab}>
               <StyledCustomLink to={url}>{tab}</StyledCustomLink>
             </StyledLi>
@@ -45,15 +31,14 @@ const NavigationBar = ({ lang, children }) => (
         {children}
       </Navbar>
     </NavbarBackground>
-);
+  );
+};
 
 NavigationBar.propTypes = {
-  lang: PropTypes.string,
   children: PropTypes.oneOfType([string, number, element, func]),
 };
 
 NavigationBar.defaultProps = {
-  lang: '',
   children: null,
 };
 

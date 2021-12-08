@@ -93,16 +93,12 @@ const FooterBackground = styled.div`
     position: absolute;
     top: 0;
     transform: translateY(-50%) translateX(-50%);
-    /* background: #72AF2C;
-    padding: 20px 10px;
-    border-radius: 40px; */
   }
 `;
 
 const FooterContents = styled.div`
   display: flex;
   margin: auto;
-  /* padding-bottom: 2rem; */
   padding: 0 4vw 2rem 3vw;
   justify-content: space-evenly;
   max-width: 1320px;
@@ -113,7 +109,7 @@ const About = styled.div`
     > li {
       text-align: center;
       justify-content: center;
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.65rem;
       display: flex;
       align-items: center;
 
@@ -138,7 +134,7 @@ const About = styled.div`
       :last-child {
         display: flex;
         justify-content: center;
-        margin-top: 0.65rem;
+        margin-top: 0.85rem;
         > a + a {
           margin-left: 1.5rem;
         }
@@ -153,15 +149,16 @@ const About = styled.div`
 `;
 
 const SiteMap = styled.div`
-  /* display:none; */
   font-size: 1.1rem;
+  font-weight: 500;
   > ul > li {
-    margin-bottom: 0.65rem;
+    margin-bottom: 1.2rem;
     :nth-child(2) {
       margin-bottom: 0.25rem;
     }
     > span {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
+      font-weight: 400;
       > a {
         :first-child {
           padding-right: 0.5rem;

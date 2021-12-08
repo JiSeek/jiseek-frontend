@@ -67,7 +67,7 @@ const MyInfo = ({ user, status }) => {
           </NavLink>
           {!user?.social_platform && (
             <>
-              |
+              {` | `}
               <NavLink
                 to="/ch_pswrd"
                 style={({ isActive }) => (isActive ? activeState : undefined)}

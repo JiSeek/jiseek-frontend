@@ -34,8 +34,9 @@ export const mutationKeys = Object.freeze({
 });
 
 // 게시판 페이지 고유키 정의
-export const boardKeys = Object.freeze({
-  // Object.freeze 속성의 불변성
+export const boardKeys = Object.freeze({ // Object.freeze 속성의 불변성
   superior: 'boards',
-  detailsById: (id) => ['boards', id],
+  bestBoards: ['boards', 'rank'],
+  detailsById: id => ['boards', id],
+  commentsById: boardId => ['boards', boardId, 'comments'],
 });

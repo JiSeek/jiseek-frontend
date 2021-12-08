@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const FoodSearchBar = ({
   keyword,
@@ -14,35 +15,39 @@ const FoodSearchBar = ({
   onClickList,
   onMouseOver,
   onBlur,
-}) => (
-  <StyledSearchBar>
-    <StyledInput
-      value={keyword}
-      onInput={onInput}
-      // onInput={onDebounceInput}
-      onKeyUp={onKeyUp}
-      onKeyDown={onKeyDown}
-      onClick={onFocusInput}
-      onFocus={onFocusInput}
-      onBlur={onBlur}
-      placeholder="음식명을 입력해주세요."
-      // disabled
-    />
-    <StyledList
-      empty={foundNames.length === 0}
-      onClick={onClickList}
-      onMouseOver={onMouseOver}
-    >
-      {foundNames.map((name, idx) => (
-        <StyledItem focus={idx === focusItem} key={name}>
-          <a href="/#" rel="search">
-            {name}
-          </a>
-        </StyledItem>
-      ))}
-    </StyledList>
-  </StyledSearchBar>
-);
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <StyledSearchBar>
+      <StyledInput
+        value={keyword}
+        onInput={onInput}
+        // onInput={onDebounceInput}
+        onKeyUp={onKeyUp}
+        onKeyDown={onKeyDown}
+        onClick={onFocusInput}
+        onFocus={onFocusInput}
+        onBlur={onBlur}
+        placeholder={t('foodSearchSearchBar')}
+        // disabled
+      />
+      <StyledList
+        empty={foundNames.length === 0}
+        onClick={onClickList}
+        onMouseOver={onMouseOver}
+      >
+        {foundNames.map((name, idx) => (
+          <StyledItem focus={idx === focusItem} key={name}>
+            <a href="/#" rel="search">
+              {name}
+            </a>
+          </StyledItem>
+        ))}
+      </StyledList>
+    </StyledSearchBar>
+  );
+};
 
 FoodSearchBar.propTypes = {
   keyword: PropTypes.string,

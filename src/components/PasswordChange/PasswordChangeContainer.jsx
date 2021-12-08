@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import jiseekApi from '../../api';
-import { mutationKeys, passwordValidation } from '../../constants';
+import { mutationKeys, getPasswordValidation } from '../../constants';
 import { useAuthContext } from '../../contexts';
 import PasswordChange from './PasswordChange';
 
@@ -16,13 +17,14 @@ const initialState = Object.freeze({
 
 const PasswordChangeContainer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { token } = useAuthContext();
   const {
     handleSubmit,
     formState: { errors },
     ...hookForm
   } = useForm({
-    resolver: yupResolver(passwordValidation),
+    resolver: yupResolver(getPasswordValidation(t)),
     defaultValues: initialState,
   });
 

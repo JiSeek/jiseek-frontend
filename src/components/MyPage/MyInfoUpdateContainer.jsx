@@ -1,30 +1,36 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import MyInfoUpdate from './MyInfoUpdate';
 import jiseekApi from '../../api';
-import { mutationKeys, myInfoFormValidation, userKeys } from '../../constants';
+import {
+  mutationKeys,
+  getMyInfoFormValidation,
+  userKeys,
+} from '../../constants';
 import { useAuthContext } from '../../contexts';
+// import LOGO from '../../assets/images/logo/logo_ver3_2.png';
 
 // TODO: 파일 업로드 처리
 const MyInfoUpdateContainer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(userKeys.info);
+  const [imgUrl, setImgUrl] = useState(user?.image);
   const { token } = useAuthContext();
   const {
+    watch,
     setValue,
     handleSubmit,
     formState: { errors },
     ...hookForm
   } = useForm({
-    resolver: yupResolver(myInfoFormValidation),
-    defaultValues: {
-      image: user?.image || null,
-      name: user?.name || '',
-    },
+    resolver: yupResolver(getMyInfoFormValidation(t)),
+    defaultValues: { name: user?.name, image: null },
   });
 
   // 새로고침 시 갱신 처리.
@@ -32,19 +38,24 @@ const MyInfoUpdateContainer = () => {
     if (!user || !Object.values(user).some((value) => !!value)) {
       return;
     }
-    setValue('image', user.image);
+    setImgUrl(user.image);
     setValue('name', user.name);
   }, [user, setValue]);
 
-  // TODO: 단일 변경 시 검사 후 Patch로 보낼지 검토...
-  // TODO: queryClient로 할지 선반영할지
-  const userInfoUpdate = useMutation(
-    (userInfo) =>
-      jiseekApi.put('/user/info/', { token: token.access, ...userInfo }),
+  const { mutate: userInfoUpdate, status: updateStatus } = useMutation(
+    ({ name, image }) => {
+      const accessTkn = { token: token.access };
+      if (name !== user.name && imgUrl !== user.image) {
+        return jiseekApi.put('/user/info/', { ...accessTkn, name, image });
+      }
+      if (name !== user.name) {
+        return jiseekApi.patch('/user/info/', { ...accessTkn, name });
+      }
+      return jiseekApi.patch('/user/info/', { ...accessTkn, image });
+    },
     {
       mutationKey: mutationKeys.userInfo,
       onSuccess: (data) => {
-        // TODO: 에러 메시지가 일루 올지 확인 필요
         setValue('image', data.image);
         setValue('name', data.name);
         queryClient.setQueryData(userKeys.info, data);
@@ -54,15 +65,15 @@ const MyInfoUpdateContainer = () => {
     },
   );
 
+  const onImgUpload = useCallback((e) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = (evt) => setImgUrl(evt.target.result);
+  }, []);
+
   const onSubmit = useCallback(
-    (updateData) => {
-      // TODO: 기존엔 s3 이미지 url일텐데 파일을 올리면 이미지 파일이라서...
-      if (user.name === updateData.name && user.image === updateData.image) {
-        return;
-      }
-      userInfoUpdate.mutate(updateData);
-    },
-    [userInfoUpdate, user],
+    ({ name, image }) => userInfoUpdate({ name, image: image && image[0] }),
+    [userInfoUpdate],
   );
 
   return (
@@ -72,7 +83,13 @@ const MyInfoUpdateContainer = () => {
         onSubmit: handleSubmit(onSubmit),
         errors,
       }}
-      isSubmitting={userInfoUpdate.status === 'loading'}
+      imgUrl={imgUrl}
+      onImgUpload={onImgUpload}
+      lockSubmit={
+        updateStatus === 'loading' ||
+        !watch('name') ||
+        (user?.name === watch('name') && user?.image === imgUrl)
+      }
     />
   );
 };

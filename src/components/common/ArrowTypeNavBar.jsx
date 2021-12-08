@@ -6,7 +6,6 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import FormLessButton from './FormLessButton';
 
 const ArrowTypeNavBar = ({
-  lang,
   label,
   name,
   curIndex,
@@ -15,7 +14,7 @@ const ArrowTypeNavBar = ({
   onPrev,
   onNext,
 }) => (
-  <StyledNav aria-labelledby={lang === 'ko' ? label.ko : label.en}>
+  <StyledNav aria-labelledby={label}>
     <FormLessButton hidden={curIndex <= min} onClick={onPrev}>
       <FontAwesomeIcon icon={faAngleLeft} size="lg" />
     </FormLessButton>
@@ -27,8 +26,7 @@ const ArrowTypeNavBar = ({
 );
 
 ArrowTypeNavBar.propTypes = {
-  lang: PropTypes.string,
-  label: PropTypes.objectOf(PropTypes.string),
+  label: PropTypes.string,
   name: PropTypes.string,
   curIndex: PropTypes.number,
   min: PropTypes.number,
@@ -38,8 +36,7 @@ ArrowTypeNavBar.propTypes = {
 };
 
 ArrowTypeNavBar.defaultProps = {
-  lang: 'ko',
-  label: { ko: '', en: '' },
+  label: '',
   name: '',
   curIndex: 0,
   min: 0,

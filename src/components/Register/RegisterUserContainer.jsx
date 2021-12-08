@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useForm } from 'react-hook-form';
 import RegisterUser from './RegisterUser';
 import jiseekApi from '../../api';
-import { mutationKeys, registerValidation } from '../../constants';
+import { mutationKeys, getRegisterValidation } from '../../constants';
 
 const initialState = Object.freeze({
   publicTypes: {
@@ -21,6 +22,7 @@ const initialState = Object.freeze({
 
 const RegisterUserContainer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     setValue,
     getValues,
@@ -28,7 +30,7 @@ const RegisterUserContainer = () => {
     formState: { errors },
     ...hookForm
   } = useForm({
-    resolver: yupResolver(registerValidation),
+    resolver: yupResolver(getRegisterValidation(t)),
     defaultValues: initialState,
   });
 

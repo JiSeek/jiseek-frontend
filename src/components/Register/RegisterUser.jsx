@@ -1,108 +1,116 @@
 import React from 'react';
 import PropTypes, { oneOfType, func, object } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { StyledErrorMsg } from '../common';
 
-const RegisterUser = ({ hookForm }) => (
-  /* eslint-disable react/jsx-props-no-spreading */
-  <StyledRegisterForm onSubmit={hookForm.onSubmit}>
-    <label htmlFor="user-email">
-      <input
-        type="email"
-        id="user-email"
-        placeholder="이메일"
-        {...hookForm.register('publicTypes.email')}
-      />
-      <StyledErrorMsg>
-        {hookForm.errors.publicTypes?.email &&
-          hookForm.errors.publicTypes?.email.message}
-      </StyledErrorMsg>
-    </label>
-    <label htmlFor="user-password">
-      <input
-        type="password"
-        id="user-password"
-        placeholder="비밀번호"
-        {...hookForm.register('privateTypes.password1')}
-      />
-      <StyledErrorMsg>
-        {hookForm.errors.privateTypes?.password1 &&
-          hookForm.errors.privateTypes?.password1.message}
-      </StyledErrorMsg>
-    </label>
-    <label htmlFor="user-password--confirm">
-      <input
-        type="password"
-        id="user-password--confirm"
-        placeholder="비밀번호 확인"
-        {...hookForm.register('privateTypes.password2')}
-      />
-      <StyledErrorMsg>
-        {hookForm.errors.privateTypes?.password2 &&
-          hookForm.errors.privateTypes?.password2.message}
-      </StyledErrorMsg>
-    </label>
-    <label htmlFor="user-name">
-      <input
-        type="text"
-        id="user-name"
-        placeholder="닉네임"
-        {...hookForm.register('publicTypes.name')}
-      />
-      <StyledErrorMsg>
-        {hookForm.errors.publicTypes?.name &&
-          hookForm.errors.publicTypes?.name.message}
-      </StyledErrorMsg>
-    </label>
-    <Controller
-      control={hookForm.control}
-      name="publicTypes.nation"
-      render={({ field: { onChange } }) => (
-        <>
-          <Nation>
-            국가
-            <StyledErrorMsg>
-              {hookForm.errors.publicTypes?.nation &&
-                hookForm.errors.publicTypes?.nation.message}
-            </StyledErrorMsg>
-          </Nation>
+const RegisterUser = ({ hookForm }) => {
+  const { t } = useTranslation();
 
-          <StyledNation>
-            <legend>국가</legend>
-            <StyledCheckBox
-              htmlFor="user-korean"
-              checked={hookForm.getValues('publicTypes.nation') === 'korea'}
-            >
-              대한민국
-              <input
-                type="radio"
-                id="user-korean"
-                name="user-nation"
-                value="korea"
-                onChange={(e) => onChange(e.target.value)}
-              />
-            </StyledCheckBox>
-            <StyledCheckBox
-              htmlFor="user-foreigner"
-              checked={hookForm.getValues('publicTypes.nation') === 'others'}
-            >
-              그 외
-              <input
-                type="radio"
-                id="user-foreigner"
-                name="user-nation"
-                value="others"
-                onChange={(e) => onChange(e.target.value)}
-              />
-            </StyledCheckBox>
-          </StyledNation>
-        </>
-      )}
-    />
-    <StyledButton type="submit">회원가입</StyledButton>
-  </StyledRegisterForm>
-);
+  return (
+    /* eslint-disable react/jsx-props-no-spreading */
+    <StyledRegisterForm onSubmit={hookForm.onSubmit}>
+      <label htmlFor="user-email">
+        <input
+          type="email"
+          id="user-email"
+          placeholder={t('signUpEmail')}
+          onInvalid={(e) => {
+            e.preventDefault();
+            e.target.focus();
+          }}
+          {...hookForm.register('publicTypes.email')}
+        />
+        <StyledErrorMsg>
+          {hookForm.errors.publicTypes?.email &&
+            hookForm.errors.publicTypes?.email.message}
+        </StyledErrorMsg>
+      </label>
+      <label htmlFor="user-password">
+        <input
+          type="password"
+          id="user-password"
+          placeholder={t('signUpPassword')}
+          {...hookForm.register('privateTypes.password1')}
+        />
+        <StyledErrorMsg>
+          {hookForm.errors.privateTypes?.password1 &&
+            hookForm.errors.privateTypes?.password1.message}
+        </StyledErrorMsg>
+      </label>
+      <label htmlFor="user-password--confirm">
+        <input
+          type="password"
+          id="user-password--confirm"
+          placeholder={t('signUpVerifyPassword')}
+          {...hookForm.register('privateTypes.password2')}
+        />
+        <StyledErrorMsg>
+          {hookForm.errors.privateTypes?.password2 &&
+            hookForm.errors.privateTypes?.password2.message}
+        </StyledErrorMsg>
+      </label>
+      <label htmlFor="user-name">
+        <input
+          type="text"
+          id="user-name"
+          placeholder={t('signUpNickname')}
+          {...hookForm.register('publicTypes.name')}
+        />
+        <StyledErrorMsg>
+          {hookForm.errors.publicTypes?.name &&
+            hookForm.errors.publicTypes?.name.message}
+        </StyledErrorMsg>
+      </label>
+      <Controller
+        control={hookForm.control}
+        name="publicTypes.nation"
+        render={({ field: { onChange } }) => (
+          <>
+            <Nation>
+              {t('signUpCountry')}
+              <StyledErrorMsg>
+                {hookForm.errors.publicTypes?.nation &&
+                  hookForm.errors.publicTypes?.nation.message}
+              </StyledErrorMsg>
+            </Nation>
+            <StyledNation>
+              <legend>{t('signUpCountry')}</legend>
+              <StyledCheckBox
+                htmlFor="user-korean"
+                checked={hookForm.getValues('publicTypes.nation') === 'korea'}
+              >
+                {t('signUpCountryKorea')}
+                <input
+                  type="radio"
+                  id="user-korean"
+                  name="user-nation"
+                  value="korea"
+                  onChange={(e) => onChange(e.target.value)}
+                />
+              </StyledCheckBox>
+              <StyledCheckBox
+                htmlFor="user-foreigner"
+                checked={hookForm.getValues('publicTypes.nation') === 'others'}
+              >
+                {t('signUpCountryOthers')}
+                <input
+                  type="radio"
+                  id="user-foreigner"
+                  name="user-nation"
+                  value="others"
+                  onChange={(e) => onChange(e.target.value)}
+                />
+              </StyledCheckBox>
+            </StyledNation>
+          </>
+        )}
+      />
+      <StyledButton type="submit">{t('signUpSubmit')}</StyledButton>
+    </StyledRegisterForm>
+  );
+};
 
 RegisterUser.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,

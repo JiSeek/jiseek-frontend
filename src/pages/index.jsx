@@ -13,3 +13,4 @@ export { default as BoardDetailsPage } from './BoardDetails';
 export { default as MyPage } from './MyPage';
 export { default as PasswordChangePage } from './PasswordChange';
 export { default as NotFound } from './NotFound';
+export { default as Member } from './Member';

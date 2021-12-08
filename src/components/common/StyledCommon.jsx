@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 export const StyledErrorMsg = styled.span`
   color: red;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  text-overflow: visible;
+  font-size: 0.7rem;
   margin-top: 3px;
 `;
 

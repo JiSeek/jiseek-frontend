@@ -1,20 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { RiGitlabFill, RiInstagramFill, RiYoutubeFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 import { MdEmail } from 'react-icons/md';
-import { FaFacebookSquare } from 'react-icons/fa';
-import { FooterLogo } from '../../assets/images/images';
+import {
+  FooterLogo,
+  FooterGithub,
+  FooterGitlab,
+  FooterYoutube,
+} from '../../assets/images/images';
 
 const Footer = () => (
   <FooterBackground>
+    <img src={FooterLogo} alt="Footer Logo" />
     <FooterContents>
-      <img src={FooterLogo} alt="Footer Logo" />
-      <div>
+      <About>
         <ul>
           <li>
             <span>지식</span>知食
           </li>
-          <li>고예림, 고정현, 김지훈, 박지윤, 이민영, 전진성</li>
+          <li>
+            <Link to="member">
+              고예림, 고정현, 김지훈, 박지윤, 이민영, 전진성
+            </Link>
+          </li>
           <li>
             image2jiseek@gmail.com
             <a href="mailto:image2jiseek@gmail.com">
@@ -22,29 +30,43 @@ const Footer = () => (
             </a>
           </li>
           <li>
-            <RiInstagramFill />
-            <FaFacebookSquare />
-            <RiYoutubeFill />
+            <a
+              href="https://github.com/JiSeek"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={FooterGithub} alt="Jiseek Github Link" />
+            </a>
             <a
               href="https://kdt-gitlab.elice.io/002-part3-cnn/team2"
               target="_blank"
               rel="noreferrer"
             >
-              <RiGitlabFill />
+              <img src={FooterGitlab} alt="Jiseek Gitlab Link" />
+            </a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+              <img src={FooterYoutube} alt="Jiseek Youtube Link" />
             </a>
           </li>
         </ul>
-      </div>
-      <div>
+      </About>
+      <SiteMap>
         <ul>
-          <li>홈</li>
-            <li>음식 알아보기</li>
-            <li>이름으로 검색하기</li>
-            <li>사진으로 검색하기</li>
-          <li>커뮤니티</li>
-          <li>소개</li>
+          <li>
+            <Link to="/">홈</Link>
+          </li>
+          <li>음식 알아보기</li>
+          <li>
+            <span>
+              <Link to="food">이름 검색</Link>
+              <Link to="food/image">사진 검색</Link>
+            </span>
+          </li>
+          <li>
+            <Link to="board">커뮤니티</Link>
+          </li>
         </ul>
-      </div>
+      </SiteMap>
     </FooterContents>
     <Copyright>
       COPYRIGHT &copy; JISEEK, 대한민국 NO.1 음식 검색 서비스 (KOREA&apos;S NO.1
@@ -57,33 +79,102 @@ export default Footer;
 
 const FooterBackground = styled.div`
   width: 100vw;
-  height: 100%;
   background: #09351b;
   color: #fffdfa;
   font-size: 0.85rem;
   line-height: 1.2rem;
+  padding: 3rem 0;
+  position: relative;
+  text-align: center;
+
+  > img {
+    height: 60px;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%) translateX(-50%);
+    /* background: #72AF2C;
+    padding: 20px 10px;
+    border-radius: 40px; */
+  }
 `;
 
 const FooterContents = styled.div`
   display: flex;
   margin: auto;
-  padding: 2rem 1rem;
-  justify-content: space-between;
+  /* padding-bottom: 2rem; */
+  padding: 0 4vw 2rem 3vw;
+  justify-content: space-evenly;
   max-width: 1320px;
+`;
 
-  > img {
-    width: 100px;
-    object-fit: contain;
+const About = styled.div`
+  > ul {
+    > li {
+      text-align: center;
+      justify-content: center;
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+
+      :first-child {
+        display: block;
+        > span {
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+      }
+
+      > a {
+        > svg {
+          vertical-align: text-bottom;
+        }
+      }
+
+      :nth-child(3) > a {
+        margin-left: 0.35rem;
+      }
+
+      :last-child {
+        display: flex;
+        justify-content: center;
+        margin-top: 0.65rem;
+        > a + a {
+          margin-left: 1.5rem;
+        }
+        > a > img {
+          width: 30px;
+          height: 30px;
+          border-radius: 30px;
+        }
+      }
+    }
   }
+`;
 
-  > div {
-    /* width: 100%;
-    margin: auto; */
+const SiteMap = styled.div`
+  /* display:none; */
+  font-size: 1.1rem;
+  > ul > li {
+    margin-bottom: 0.65rem;
+    :nth-child(2) {
+      margin-bottom: 0.25rem;
+    }
+    > span {
+      font-size: 0.85rem;
+      > a {
+        :first-child {
+          padding-right: 0.5rem;
+          border-right: 1px solid;
+        }
+        :last-child {
+          margin-left: 0.5rem;
+        }
+      }
+    }
   }
 `;
 
 const Copyright = styled.div`
-  margin-top: 2rem;
-  padding-bottom: 2rem;
   text-align: center;
 `;

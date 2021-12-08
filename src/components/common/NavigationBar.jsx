@@ -8,7 +8,7 @@ import logo from '../../assets/images/logo/logo_ver3_2.png';
 const menu = (lang) => {
   if (lang === 'ko') {
     return [
-      ['메인 페이지', '/'],
+      ['홈', '/'],
       ['음식 알아보기', '/food'],
       ['커뮤니티', '/board'],
     ];
@@ -21,7 +21,7 @@ const menu = (lang) => {
     ];
   }
   return [
-    ['메인 페이지', '/'],
+    ['홈', '/'],
     ['음식 알아보기', '/food'],
     ['커뮤니티', '/board'],
   ];
@@ -67,6 +67,7 @@ const NavbarBackground = styled.div`
 
 const Navbar = styled.nav`
   height: 8vh;
+  min-height: 70px;
   max-width: 1320px;
   margin: auto;
   padding: 0 3vw;
@@ -77,6 +78,7 @@ const Navbar = styled.nav`
 
 const Logo = styled.img`
   height: 4.5vh;
+  min-height: 40px;
 `;
 
 const StyledUl = styled.ul`

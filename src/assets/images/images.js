@@ -1,5 +1,9 @@
 // Social Login Icon
-export { default as FooterLogo } from './logo/logo_ver3_3.png';
+export { default as FooterLogo } from './footer/footer to top 9.png';
+export { default as FooterGithub } from './footer/github_white.png';
+export { default as FooterGitlab } from './footer/gitlab_white.png';
+export { default as FooterYoutube } from './footer/youtube_white.png';
+
 export { default as JiseekFavicon } from './logo/favicon.png';
 
 export { default as KakaoLogo } from './sns/kakao.png';

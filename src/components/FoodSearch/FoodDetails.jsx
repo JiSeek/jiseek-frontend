@@ -1,59 +1,95 @@
 import React from 'react';
-import PropTypes, { any } from 'prop-types';
+import PropTypes, { any, number } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import FoodRecipesContainer from './FoodRecipesContainer';
 import Nutrition from './Nutrition';
 import { LoadingCircle } from '../../assets/images/images';
+import { LikeButton, StyledErrorMsg } from '../common';
 
-const FoodDetails = ({ foodInfo, status, onModal, children }) => (
-  <Result>
-    {status === 'loading' && (
-      <Center>
-        <img src={LoadingCircle} alt="loading" />
-      </Center>
-    )}
-    {status === 'error' && <>요기다 에러메시지 퐉</>}
-    {status === 'success' && (
-      <>
-        <Title>{foodInfo?.name}</Title>
-        <GridResult>
-          <section>
-            <Subtitle> 음식 사진 </Subtitle>
-            {!children && (
-              <img
-                src={foodInfo?.image1}
-                alt="test"
-                style={{ width: '100%' }}
-              />
-            )}
-            {children}
-          </section>
-          <section>
-            <Subtitle>영양 정보</Subtitle>
-            <Nutrition foodInfo={foodInfo} />
-          </section>
-          {!onModal && (
+const FoodDetails = ({
+  type,
+  foodInfo,
+  status,
+  favFoods,
+  likeStatus,
+  onModal,
+  children,
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <Result>
+      {status === 'loading' && (
+        <Center>
+          <img src={LoadingCircle} alt="loading" />
+        </Center>
+      )}
+      {status === 'error' && <>요기다 에러메시지 퐉</>}
+      {status === 'success' && (
+        <>
+          <Title>{foodInfo?.name}</Title>
+          <GridResult>
             <section>
-              <Subtitle>음식 레시피</Subtitle>
-              <FoodRecipesContainer food={foodInfo?.name || ''} />
+              <Subtitle> 음식 사진 </Subtitle>
+              {!children && (
+                <img
+                  src={foodInfo?.image1}
+                  alt="test"
+                  style={{ width: '100%' }}
+                />
+              )}
+              {children}
+              {type === 'image' && (
+                <>
+                  <LikeButton
+                    type="food"
+                    data={{
+                      pk: foodInfo?.id,
+                      name: foodInfo?.name,
+                      image: foodInfo?.image1,
+                    }}
+                    like={favFoods.indexOf(foodInfo?.id) !== -1}
+                  />
+                  {likeStatus === 'error' && (
+                    <StyledErrorMsg>{t('foodSearchFavListErr')}</StyledErrorMsg>
+                  )}
+                </>
+              )}
             </section>
-          )}
-        </GridResult>
-      </>
-    )}
-  </Result>
-);
+            <section>
+              <Subtitle>영양 정보</Subtitle>
+              <Nutrition foodInfo={foodInfo} />
+            </section>
+            {!onModal && (
+              <section>
+                <Subtitle>음식 레시피</Subtitle>
+                <FoodRecipesContainer food={foodInfo?.name || ''} />
+              </section>
+            )}
+          </GridResult>
+        </>
+      )}
+    </Result>
+  );
+};
 
 FoodDetails.propTypes = {
+  type: PropTypes.string,
   foodInfo: PropTypes.oneOfType([any]),
   status: PropTypes.string,
+  favFoods: PropTypes.arrayOf(number),
+  likeStatus: PropTypes.string,
   onModal: PropTypes.bool,
   children: PropTypes.oneOfType([any]),
 };
 
 FoodDetails.defaultProps = {
+  type: 'name',
   foodInfo: {},
   status: '',
+  favFoods: [],
+  likeStatus: '',
   onModal: false,
   children: null,
 };

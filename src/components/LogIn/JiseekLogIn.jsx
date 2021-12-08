@@ -1,40 +1,49 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import PropTypes, { oneOfType, func, object } from 'prop-types';
 import { StyledErrorMsg } from '../common';
 
-const JiseekLogIn = ({ hookForm, isSubmitting }) => (
-  /* eslint-disable react/jsx-props-no-spreading */
-  <form onSubmit={hookForm.onSubmit}>
-    <StyledLogin>
-      <label htmlFor="login-email">
-        <input
-          type="email"
-          id="login-email"
-          placeholder="이메일"
-          {...hookForm.register('email')}
-        />
-        <StyledErrorMsg>
-          {hookForm.errors.email && hookForm.errors.email.message}
-        </StyledErrorMsg>
-      </label>
-      <label htmlFor="login-pswrd">
-        <input
-          type="password"
-          id="login-pswrd"
-          placeholder="비밀번호"
-          {...hookForm.register('password')}
-        />
-        <StyledErrorMsg>
-          {hookForm.errors.password && hookForm.errors.password.message}
-        </StyledErrorMsg>
-      </label>
-    </StyledLogin>
-    <StyledButton disabled={isSubmitting} type="submit">
-      로그인
-    </StyledButton>
-  </form>
-);
+const JiseekLogIn = ({ hookForm, isSubmitting }) => {
+  const { t } = useTranslation();
+
+  return (
+    /* eslint-disable react/jsx-props-no-spreading */
+    <form onSubmit={hookForm.onSubmit}>
+      <StyledLogin>
+        <label htmlFor="login-email">
+          <input
+            type="email"
+            id="login-email"
+            placeholder={t('signInEmail')}
+            onInvalid={(e) => {
+              e.preventDefault();
+              e.target.focus();
+            }}
+            {...hookForm.register('email')}
+          />
+          <StyledErrorMsg>
+            {hookForm.errors.email && hookForm.errors.email.message}
+          </StyledErrorMsg>
+        </label>
+        <label htmlFor="login-pswrd">
+          <input
+            type="password"
+            id="login-pswrd"
+            placeholder={t('signInPassword')}
+            {...hookForm.register('password')}
+          />
+          <StyledErrorMsg>
+            {hookForm.errors.password && hookForm.errors.password.message}
+          </StyledErrorMsg>
+        </label>
+      </StyledLogin>
+      <StyledButton disabled={isSubmitting} type="submit">
+        {t('signIn')}
+      </StyledButton>
+    </form>
+  );
+};
 
 JiseekLogIn.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,

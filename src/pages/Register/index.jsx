@@ -1,14 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Navigate, useMatch, useLocation } from 'react-router-dom';
+import { Navigate, useMatch } from 'react-router-dom';
 import { RegisterUser } from '../../components/Register';
 import { useAuthContext } from '../../contexts';
 
 const RegisterPage = () => {
   const { token } = useAuthContext();
+  const { t } = useTranslation();
   const match = useMatch({ path: '/register', end: true });
-  const location = useLocation();
-  console.log('로케', location);
 
   if (token.access) {
     return <Navigate to="/" replace />;
@@ -16,7 +16,7 @@ const RegisterPage = () => {
 
   return (
     <StyledRegister>
-      <Title>회원가입</Title>
+      <Title>{t('signUpTitle')}</Title>
       <div>{match && <RegisterUser />}</div>
     </StyledRegister>
   );

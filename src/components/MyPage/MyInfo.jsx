@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes, { string, number } from 'prop-types';
+import PropTypes, { any } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import testImage from '../../assets/images/meat_gui.jpg';
 import {
   KakaoLogo,
   NaverLogo,
@@ -24,7 +24,6 @@ const getLogo = (type) => {
 };
 
 // TODO: 국적 표기?
-
 const activeState = {
   textDecoration: 'none',
   fontWeight: '700',
@@ -34,65 +33,58 @@ const activeState = {
 };
 
 const MyInfo = ({ user, status }) => {
-  console.log(user);
-  return (
-    <>
-      <HiddenH2>나의 정보</HiddenH2>
-      <Info>
-        <div>
-          {status === 'loading' && 'Loading Logo'}
-          {status === 'error' && 'Error Logo'}
-          {status === 'success' && (
-            <ul>
-              <li>
-                <ProfileImage
-                  src={user?.image || testImage}
-                  alt="프로필 사진"
-                />
-              </li>
-              <PlatformAndName>
-                <li>
-                  <PlatformLogo
-                    src={getLogo(user?.social_platform)}
-                    alt="로그인 플랫폼"
-                  />
-                </li>
-                <li>{user?.name}</li>
-              </PlatformAndName>
-              <li>{user?.email}</li>
-            </ul>
-          )}
-        </div>
-        <footer>
-          <nav>
-            <NavLink
-              to="info"
-              style={({ isActive }) => (isActive ? activeState : undefined)}
-            >
-              정보 수정
-            </NavLink>
+  const { t } = useTranslation();
 
-            {!user?.social_platform && (
-              <>
-                |
-                <NavLink
-                  to="/ch_pswrd"
-                  style={({ isActive }) => (isActive ? activeState : undefined)}
-                >
-                  비밀번호 변경
-                </NavLink>
-              </>
-            )}
-          </nav>
-        </footer>
-      </Info>
-    </>
+  return (
+    <MyInfoContainer>
+      <MyInfoTitle>{t('myPageMyInfo')}</MyInfoTitle>
+      <div>
+        {status === 'loading' && 'Loading Logo'}
+        {status === 'error' && 'Error Logo'}
+        {status === 'success' && (
+          <ul>
+            <li>
+              <ProfileImage src={user?.image} alt={t('myPageProfile')} />
+            </li>
+            <PlatformAndName>
+              <PlatformLogo
+                src={getLogo(user?.social_platform)}
+                alt={t('myPageLoginPlatform')}
+              />
+              <span>{user?.name}</span>
+            </PlatformAndName>
+            <li>{user?.email}</li>
+          </ul>
+        )}
+      </div>
+      <footer>
+        <nav>
+          <NavLink
+            to="info"
+            style={({ isActive }) => (isActive ? activeState : undefined)}
+          >
+            {t('myPageInfoEdit')}
+          </NavLink>
+          {!user?.social_platform && (
+            <>
+              |
+              <NavLink
+                to="/ch_pswrd"
+                style={({ isActive }) => (isActive ? activeState : undefined)}
+              >
+                {t('myPageChgPassword')}
+              </NavLink>
+            </>
+          )}
+        </nav>
+      </footer>
+    </MyInfoContainer>
   );
 };
 
 MyInfo.propTypes = {
-  user: PropTypes.objectOf(PropTypes.oneOfType([string, number])),
-  status: string,
+  user: PropTypes.objectOf(PropTypes.oneOfType([any])),
+  status: PropTypes.string,
 };
 
 MyInfo.defaultProps = {
@@ -100,7 +92,7 @@ MyInfo.defaultProps = {
   status: '',
 };
 
-const Info = styled.section`
+const MyInfoContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -110,7 +102,7 @@ const Info = styled.section`
   /* height: 580px; */
 `;
 
-const HiddenH2 = styled.h2`
+const MyInfoTitle = styled.h2`
   width: 0;
   height: 0;
   font-size: 0;
@@ -122,17 +114,15 @@ const ProfileImage = styled.img`
   object-fit: cover;
 `;
 
-const PlatformAndName = styled.span`
+const PlatformAndName = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 0.75rem;
   margin-bottom: 0.5rem;
 
-  > li {
-    > img {
-      margin-right: 1rem;
-    }
+  > img {
+    margin-right: 1rem;
   }
 `;
 

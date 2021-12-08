@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import { FileUpload } from '../../assets/images/images';
 
+// TODO: 초기값 설정해서 내정보 수정에서 쓰기
 const useImageUploader = () => {
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
 
   const preview = useCallback((e) => {
     const reader = new FileReader();
@@ -13,7 +15,8 @@ const useImageUploader = () => {
       return;
     }
     reader.readAsDataURL(fileList[0]);
-    reader.onload = (event) => setImageUrl(event.target.result);
+    reader.onloadend = (event) => setImageUrl(event.target.result);
+    setImageFile(fileList[0]);
   }, []);
 
   const handleFileInput = useCallback(
@@ -28,7 +31,7 @@ const useImageUploader = () => {
     <ImgUploader imageUrl={imageUrl} handleFileInput={handleFileInput} />
   );
 
-  return { imageUrl, renderImgUploader };
+  return { imageFile, renderImgUploader };
 };
 
 const ImgUploader = ({ imageUrl, handleFileInput }) => (
@@ -118,10 +121,12 @@ const ResultButton = styled.button`
   font-size: 0.8rem;
   border: none;
   width: 100%;
+  cursor: pointer;
+  animation: ${long} 0.5s ease-out;
+
   :disabled {
     display: none;
   }
-  animation: ${long} 0.5s ease-out;
 `;
 
 export default useImageUploader;

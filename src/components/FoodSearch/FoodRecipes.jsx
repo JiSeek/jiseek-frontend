@@ -102,7 +102,7 @@ ModalContent.propTypes = {
 export const YoutubeContent = ({ recipe }) => {
   const openModal = useModalContext();
   const onClick = useCallback(
-    () => openModal(<ModalContent youtube={recipe} />),
+    () => openModal(<ModalContent youtube={recipe} />, 'message'),
     [openModal, recipe],
   );
 

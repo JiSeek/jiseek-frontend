@@ -7,6 +7,13 @@ import FormLessButton from './FormLessButton';
 import LikeButton from './LikeButton';
 import { mutationKeys, myPageKeys } from '../../constants';
 
+const updateFavs = (like, preFavs, data) => {
+  if (like) {
+    return [...preFavs, data];
+  }
+  return preFavs.filter(({ pk }) => pk !== data.pk);
+};
+
 /*
   Props:
     - type: 좋아요 대상 (food or board)
@@ -16,24 +23,45 @@ import { mutationKeys, myPageKeys } from '../../constants';
       *주의: 게시판의 경우 상세 보기의 url에 있는 id(pk)값을 data에 포함시켜줘야 함. => data = {id(url의 id값), ...}
     - initState: boolean 타입, 좋아요 초기 상태값
 */
-const LikeButtonContainer = ({ type, id, like }) => {
+const LikeButtonContainer = ({ type, data, like }) => {
   const { token } = useAuthContext();
+  const queryClient = useQueryClient();
   const key = type === 'board' ? myPageKeys.favPosts : myPageKeys.favFoods;
 
   const queryClinet = useQueryClient();
   const likeTarget = useMutation(
-    () => jiseekApi.put(`/mypage/${type}/like/${id}/`, { token: token.access }),
+    ({ data: { pk } }) =>
+      jiseekApi.put(`/mypage/${type}/like/${pk}/`, {
+        token: token.access,
+      }),
     {
       mutationKey: mutationKeys.like,
-      onSuccess: () => queryClinet.invalidateQueries(key),
-      onError: () => {},
+      onMutate: async (requset) => {
+        await queryClient.cancelQueries(key);
+        const previousFavs = queryClient.getQueryData(key);
+        queryClinet.setQueryData(
+          key,
+          updateFavs(requset.like, previousFavs, requset.data),
+        );
+        return { previousFavs };
+      },
+      onSuccess: (res) => console.log('처리 상태: ', res),
+      onError: (err, _, context) => {
+        console.error('임시 에러', err);
+        queryClinet.setQueryData(key, context.previousFavs);
+      },
+      onSettled: () => queryClinet.invalidateQueries(key),
     },
   );
 
   return (
     <FormLessButton
-      disable={likeTarget.isLoading}
-      onClick={() => likeTarget.mutate()}
+      onClick={() => {
+        if (!data?.pk || data.pk === -1) {
+          return;
+        }
+        likeTarget.mutate({ data, like: !like });
+      }}
     >
       <LikeButton like={like} />
     </FormLessButton>
@@ -42,11 +70,12 @@ const LikeButtonContainer = ({ type, id, like }) => {
 
 LikeButtonContainer.propTypes = {
   type: PropTypes.oneOf(['board', 'food']).isRequired,
-  id: PropTypes.number.isRequired,
+  data: PropTypes.objectOf(PropTypes.any),
   like: PropTypes.bool,
 };
 
 LikeButtonContainer.defaultProps = {
+  data: {},
   like: false,
 };
 

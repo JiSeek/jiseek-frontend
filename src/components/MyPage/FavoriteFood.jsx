@@ -9,7 +9,7 @@ const FavoriteFood = ({ favFoods, status, onClick }) => (
     {status === 'success' && (
       <StyledFavContainer>
         {favFoods.map(({ pk, name, image }) => (
-          <div key={pk}>
+          <div key={`${name}-${pk}`}>
             <ul>
               <li>
                 <img src={image} alt={`${name} 이미지`} />
@@ -21,8 +21,7 @@ const FavoriteFood = ({ favFoods, status, onClick }) => (
             </ul>
             <LikeButton
               type="food"
-              id={Number(pk)}
-              data={{ id: pk, name, image }}
+              data={{ pk: Number(pk), name, image }}
               like
             />
           </div>

@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
 import { foodKeys, mutationKeys } from '../../constants';
+import { useAuthContext } from '../../contexts';
 import { useImageUploader } from '../common';
 
 /*
@@ -14,9 +15,10 @@ import { useImageUploader } from '../common';
     - RenderFoodUpload: 음식 업로드 컴포넌트 랜더링 함수
 */
 const useFoodUpload = () => {
+  const { token } = useAuthContext();
   const [analysis, setAnalysis] = useState([]);
   const queryClient = useQueryClient();
-  const { imageUrl, renderImgUploader } = useImageUploader();
+  const { imageFile, renderImgUploader } = useImageUploader();
 
   // TODO: S3 이미지 처리 비동기 함수
   const {
@@ -42,7 +44,7 @@ const useFoodUpload = () => {
 
   // 알아볼 음식 이미지 전송을 위한 mutation
   const { mutate: foodUpload, reset: foodUploadReset } = useMutation(
-    (image) => jiseekApi.post('/search/', { image }),
+    (photo) => jiseekApi.post('/search/', { token: token.access, photo }),
     {
       mutationKey: mutationKeys.foodUpload,
       onMutate: async () => {
@@ -73,6 +75,7 @@ const useFoodUpload = () => {
             });
           },
         );
+        console.log('dskflnsdlkfdnsklfnsdlk', foods, result);
         return imgResult({ foods, result });
       },
     },
@@ -89,9 +92,9 @@ const useFoodUpload = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      foodUpload(imageUrl);
+      foodUpload(imageFile);
     },
-    [imageUrl, foodUpload],
+    [imageFile, foodUpload],
   );
 
   const RenderFoodUpload = () => (

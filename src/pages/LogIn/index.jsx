@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
   useLocation,
@@ -19,6 +20,7 @@ import { useLangContext } from '../../contexts/LangContext';
 
 const LogInPage = () => {
   const location = useLocation();
+  const { t } = useTranslation();
   const match = useMatch({ path: '/login', end: true });
   const { token } = useAuthContext();
   const [lang] = useLangContext();
@@ -28,21 +30,20 @@ const LogInPage = () => {
     return <Navigate to={from} replace />;
   }
 
-  // TODO: 소셜 로그인들 통합 컴포넌트화
   return (
     <StyledLogin>
       {match && (
         <section>
-          <Title>로그인</Title>
+          <Title>{t('signIn')}</Title>
           <JiseekLogIn />
           <ToRegister>
-            <span>회원이 아니신가요?</span>
+            <span>{t('signInSignUpText')}</span>
             <Link to="/register">
-              회원가입
+              {t('signInSignUpLink')}
               <MdOutlineArrowForwardIos />
             </Link>
           </ToRegister>
-          <Or>또는</Or>
+          <Or>{t('signInOption')}</Or>
           <ul>
             <li>
               <KakaoLogIn lang={lang} />

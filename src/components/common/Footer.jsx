@@ -79,11 +79,11 @@ export default Footer;
 
 const FooterBackground = styled.div`
   width: 100vw;
+  height: 24vh;
   background: #09351b;
   color: #fffdfa;
   font-size: 0.85rem;
   line-height: 1.2rem;
-  padding: 3rem 0;
   position: relative;
   text-align: center;
 
@@ -94,12 +94,13 @@ const FooterBackground = styled.div`
     top: 0;
     transform: translateY(-50%) translateX(-50%);
   }
+
 `;
 
 const FooterContents = styled.div`
   display: flex;
   margin: auto;
-  padding: 0 4vw 2rem 3vw;
+  padding: 4vh 4vw 2rem 3vw;
   justify-content: space-evenly;
   max-width: 1320px;
 `;

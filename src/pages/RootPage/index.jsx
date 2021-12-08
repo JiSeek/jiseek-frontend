@@ -44,5 +44,5 @@ const StickyHeader = styled.header`
 `;
 
 const OutletHeight = styled.div`
-  min-height: calc(100vh - 8vh - 200px);
+  min-height: 68vh;
 `;

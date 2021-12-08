@@ -194,27 +194,49 @@ const FoodNutritionTable = ({ foodInfo }) => {
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex }) => {
+      console.log('pageSize123', pageSize);
+      console.log('fetchIdRef.current', fetchIdRef.current);
       fetchIdRef.current += 1;
       const fetchId = fetchIdRef.current;
 
       setLoading(true);
 
+      console.log('?!?!?!?!?!?!?!?!?!?');
+      console.log('fetchId', fetchId);
+      console.log('fetchIdRef.current', fetchIdRef.current);
+      console.log('?!?!?!?!?!?!?!?!?!?');
       setTimeout(() => {
         if (fetchId === fetchIdRef.current) {
+          console.log('fetchId', fetchId);
+          console.log('fetchIdRef.current', fetchIdRef.current);
           const startRow = pageSize * pageIndex;
           const endRow = startRow + pageSize;
           setData(detail.slice(startRow, endRow));
 
           setPageCount(Math.ceil(detail.length / pageSize));
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          console.log('fetchId', fetchId);
+          console.log('pageSize', pageSize);
+          console.log('pageIndex', pageIndex);
+          console.log('startRow', startRow);
+          console.log('endRow', endRow);
+          console.log('detail.length', detail.length);
+          console.log('pageCount', pageCount);
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
           setLoading(false);
         }
       }, 1000);
     },
-    [detail],
+    [detail, pageCount],
   );
+  console.log('-------------------------');
+  console.log('detail', detail);
+  console.log('detail.length', detail.length);
   console.log('columns', columns);
   console.log('data', data);
+  console.log('pageCount', pageCount);
+  console.log('-------------------------');
   return (
     <Styles>
       <Table

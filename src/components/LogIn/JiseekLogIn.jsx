@@ -49,7 +49,7 @@ const StyledLogin = styled.div`
   > label {
     display: flex;
     flex-direction: column;
-    height: 60px;
+    height: 70px;
 
     > input {
       font-family: inherit;

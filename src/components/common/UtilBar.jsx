@@ -99,7 +99,6 @@ const StyledUtilBar = styled.ul`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: #6b5b56;
   font-size: 1rem;
   font-weight: 700;
 `;

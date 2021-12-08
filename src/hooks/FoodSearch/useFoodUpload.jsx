@@ -78,7 +78,6 @@ const useFoodUpload = () => {
             });
           },
         );
-        console.log('dskflnsdlkfdnsklfnsdlk', foods, result);
         return imgResult({ foods, result });
       },
     },

@@ -118,7 +118,7 @@ const useImageSlider = (imageList = [], options = {}) => {
       {setOptions.type === 'arrow' ? (
         <ArrowTypeNavBar
           label={setOptions?.label}
-          name={imageList[slideIdx]}
+          name={imageList[slideIdx]?.name}
           curIndex={slideIdx}
           min={0}
           max={imageList.length - 1}

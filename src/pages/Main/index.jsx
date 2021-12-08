@@ -1,8 +1,10 @@
 import React from 'react';
+// import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { MainFirst, MainTitle } from '../../assets/images/images';
 
 const MainPage = () => (
+  // const { t } = useTranslation();
   <div
     style={{
       height: 600,
@@ -11,6 +13,7 @@ const MainPage = () => (
       position: 'relative',
     }}
   >
+    {/* {t('test')} */}
     <First />
     <Title src={MainTitle} />
   </div>

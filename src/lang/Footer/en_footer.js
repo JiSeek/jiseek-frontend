@@ -1,7 +1,8 @@
 const EN_FOOTER = {
   footerSiteMapHome: 'Home',
-  footerSiteMapSearchName: 'Search by Name',
-  footerSiteMapSearchPhoto: 'Search by Photo',
+  footerSiteMapSearchFood: 'Search Food',
+  footerSiteMapSearchName: 'by Name',
+  footerSiteMapSearchPhoto: 'by Photo',
   footerSiteMapCommunity: 'Community',
   // footerSiteMapIntro: 'Our Services',
 };

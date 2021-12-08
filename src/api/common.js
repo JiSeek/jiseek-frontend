@@ -34,9 +34,14 @@ export const createMutationApi =
   (method) =>
   async (url, sendData = {}) => {
     try {
-      const { token, ...rest } = sendData;
-      const data = new FormData();
-      Object.entries(rest).forEach(([key, value]) => data.append(key, value));
+      const { token, isForm, ...rest } = sendData;
+      let data;
+      if (isForm) {
+        data = new FormData();
+        Object.entries(rest).forEach(([key, value]) => data.append(key, value));
+      } else {
+        data = rest;
+      }
 
       const response = await axios({
         baseURL,

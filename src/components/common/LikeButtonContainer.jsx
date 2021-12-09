@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import { useAuthContext } from '../../contexts';
 import jiseekApi from '../../api';
 import FormLessButton from './FormLessButton';
@@ -24,6 +26,7 @@ const updateFavs = (like, preFavs, data) => {
     - initState: boolean 타입, 좋아요 초기 상태값
 */
 const LikeButtonContainer = ({ type, data, like }) => {
+  const { t } = useTranslation();
   const { token } = useAuthContext();
   const queryClient = useQueryClient();
   const key = type === 'board' ? myPageKeys.favPosts : myPageKeys.favFoods;
@@ -36,18 +39,17 @@ const LikeButtonContainer = ({ type, data, like }) => {
       }),
     {
       mutationKey: mutationKeys.like,
-      onMutate: async (requset) => {
+      onMutate: async (request) => {
         await queryClient.cancelQueries(key);
         const previousFavs = queryClient.getQueryData(key);
         queryClinet.setQueryData(
           key,
-          updateFavs(requset.like, previousFavs, requset.data),
+          updateFavs(request.like, previousFavs, request.data),
         );
         return { previousFavs };
       },
-      onSuccess: (res) => console.log('처리 상태: ', res),
-      onError: (err, _, context) => {
-        console.error('임시 에러', err);
+      onError: (_1, _2, context) => {
+        toast.error(t('myPageLikeApplyErr'), { toastId: 'likeApplyErr' });
         queryClinet.setQueryData(key, context.previousFavs);
       },
       onSettled: () => queryClinet.invalidateQueries(key),

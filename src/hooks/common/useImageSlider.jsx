@@ -101,7 +101,7 @@ const useImageSlider = (imageList = [], options = {}) => {
                 active={slideIdx === idx}
                 type="image"
                 src={url}
-                alt={`${name} 이미지`} // 여기서 분석 클래스명 쓰면 될듯 함.
+                alt={`${name} 이미지`}
                 value={`${name}`}
                 // onMouseDown={onDragDown}
                 // onMouseMove={onDragMove}

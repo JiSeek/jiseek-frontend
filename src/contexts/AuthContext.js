@@ -7,7 +7,9 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import jiseekApi from '../api';
 import { mutationKeys, myPageKeys, userKeys } from '../constants';
 import { authReducer, initialState, actions } from '../reducer';
@@ -32,6 +34,7 @@ export const initialTkn = {
 const getRefreshTime = (min) => min * 60;
 
 export const useAuth = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const timerId = useRef(null);
   const [token, dispatch] = useReducer(authReducer, initialState.auth);
@@ -68,13 +71,14 @@ export const useAuth = () => {
       mutationKey: mutationKeys.token,
       retry: 3,
       retryDelay: 10 * 60 * 1000, // 10분마다 재시도
-      onError: (err) => {
-        console.error('토큰 갱신 실패!(임시 에러처리)', err);
+      onError: () => {
+        toast.error(t('authTokenRefreshErr'), {
+          toastId: 'authTokenRefreshErr',
+        });
         clearToken();
       },
       onSuccess: (data) => {
         if (token.access) {
-          console.log('토큰 갱신 성공!(임시 성공처리)', data);
           updateToken(data);
         }
       },
@@ -83,14 +87,12 @@ export const useAuth = () => {
 
   // 실행 초기에 토큰으로 사용자 정보 불러오기
   useQuery(userKeys.info, jiseekApi.get({ token: token.access }), {
-    cacheTime: Infinity, // TODO: 상태 확인하기!!
+    cacheTime: Infinity,
     staleTime: Infinity,
     enabled: !!token.access,
-    // 테스트 용 코드
     onSuccess: () => setUserValid(true),
-    onError: (err) => {
-      // TODO: 모달로 세션 만료 띄우기
-      console.error('사용자 정보 GET FAIL!!', err);
+    onError: () => {
+      toast.error(t('authUserInfoErr'), { toastId: 'authUserInfoErr' });
       clearToken();
     },
   });

@@ -29,14 +29,16 @@ export const mutationKeys = Object.freeze({
   password: 'userPassword',
   signUp: 'signUp',
   token: 'tokenRefresh',
-  foodUpload: 'foodUpload',
-  foodResult: 'foodResult',
+  all: 'foods',
+  foodUpload: ['foods', 'upload'],
+  foodResult: ['foods', 'result'],
 });
 
 // 게시판 페이지 고유키 정의
-export const boardKeys = Object.freeze({ // Object.freeze 속성의 불변성
+export const boardKeys = Object.freeze({
+  // Object.freeze 속성의 불변성
   superior: 'boards',
   bestBoards: ['boards', 'rank'],
-  detailsById: id => ['boards', id],
-  commentsById: boardId => ['boards', boardId, 'comments'],
+  detailsById: (id) => ['boards', id],
+  commentsById: (boardId) => ['boards', boardId, 'comments'],
 });

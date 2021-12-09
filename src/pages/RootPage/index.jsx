@@ -1,27 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { injectStyle } from 'react-toastify/dist/inject-style';
 import { NavigationBar } from '../../components/common';
 import '../../styles/FontStyle.css';
 import Footer from '../../components/common/Footer';
 
-const RootPage = () => (
-  <TotalStyle>
-    <StickyOption>
-      <StickyHeader>
-        <nav>
-          <NavigationBar />
-        </nav>
-      </StickyHeader>
-      <OutletHeight>
-        <Outlet />
-      </OutletHeight>
-    </StickyOption>
-    <Footer />
-  </TotalStyle>
-);
+const RootPage = () => {
+  useEffect(() => injectStyle(), []);
 
-export default RootPage;
+  return (
+    <TotalStyle>
+      <StickyOption>
+        <StickyHeader>
+          <nav>
+            <NavigationBar />
+          </nav>
+        </StickyHeader>
+        <OutletHeight>
+          <Outlet />
+        </OutletHeight>
+      </StickyOption>
+      <Footer />
+      <StyledToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        pauseOnHover={false}
+        draggable={false}
+        theme="colored"
+      />
+    </TotalStyle>
+  );
+};
+
+const StyledToastContainer = styled(ToastContainer).attrs()`
+  .Toastify__toast {
+    top: 6.5vh;
+  }
+`;
 
 const TotalStyle = styled.div`
   font-family: 'Pretendard';
@@ -46,3 +64,5 @@ const StickyHeader = styled.header`
 const OutletHeight = styled.div`
   min-height: calc(100vh - 8vh - 200px);
 `;
+
+export default RootPage;

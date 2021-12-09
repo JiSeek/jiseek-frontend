@@ -8,7 +8,14 @@ const EN_FOOD_SEARCH = {
   foodSearchImageSubmit: 'Results',
   foodSearchAriaLable: 'Found foods',
   foodSearchSimilarity: 'Accuracy: {{what}}%',
-  foodSearchFavListErr: 'TODO: 좋아요 정보 에러 메시지',
+  // Loading
+  foodSearchAnalysisLoading: 'Food analysis loading image.',
+  // Error
+  // foodSearchServerErr: 'Server connection is unstable.',
+  foodSearchEmptyResultErr: 'There are no food results analyzed.',
+  foodSearchTimeOutErr: 'Failed to analyze a food image.(Time Out)',
+  foodSearchFavListErr: 'Failed to load favorite food.(Network Error)',
+  foodSearchFoodListErr: 'Failed to get full food list.(Network Error)',
   test: ['hidd', 'buydd'],
 };
 

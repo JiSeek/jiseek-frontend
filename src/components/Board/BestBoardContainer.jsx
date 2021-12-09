@@ -5,19 +5,22 @@ import { useQuery } from 'react-query';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
 
-function BoardContainer() {
+function BestBoardContainer() {
     const navigate = useNavigate();
-
 
     // 게시판 목록 읽어오기 (R) : 좋아요순
     const { 
-        data: Boards, 
+        data: boards, 
+        isSuccess,
         isLoading, 
         isError, 
         error } = useQuery(boardKeys.bestBoards, jiseekApi.get()); 
     
+    if (isSuccess) {
+        console.log('좋아요순 조회 성공');
+    }
     if (isError) {
-        alert('에러', error); // 모달
+        console.log('좋아요순 조회 에러', error); // 모달
         return (
             <>
                 <Link to={navigate(-1)}>
@@ -35,7 +38,7 @@ function BoardContainer() {
                 <div>로딩 아이콘</div>
                 :
                 <GridContainer>
-                    { Boards && Object.values(Boards.results).map( (board) => (
+                    { boards && Object.values(boards).map( (board) => (
                         <Link to={`/board/details/${board.id}`}>
                             <div className='items' key={board.id}>
                                 <img src={board.photo} alt='이미지' />
@@ -58,4 +61,4 @@ const GridContainer = styled.div`
 `
 
 
-export default BoardContainer;
+export default BestBoardContainer;

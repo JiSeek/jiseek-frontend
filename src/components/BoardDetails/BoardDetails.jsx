@@ -81,33 +81,35 @@ function BoardDetails() {
       ) : (
         <BoardDetailContainer>
           <img src={details.photo} alt="이미지" />
-          <BoardDetailContents>
-            <li>
-              <span>{details.user.name}</span>
+          <div>
+            <BoardDetailContents>
+              <li>
+                <span>{details.user.name}</span>
 
-              {/* 사용자와 작성자가 일치할 시, 삭제/수정과 좋아요여부/목록 기능 */}
-              {pk === details.user.pk ? (
-                <>
-                  {/* <div>{details.is_fav}</div>
-                <div>{details.like_users}</div> */}
-                  <button
-                    type="button"
-                    onClick={handleUpdate(details.photo, details.content)}
-                  >
-                    게시판 수정
-                  </button>
-                  <button type="button" onClick={handleDelete}>
-                    게시판 삭제
-                  </button>
-                </>
-              ) : null}
-            </li>
-            <li>{details.content}</li>
-            <li>{details.created}</li>
-            <li>{details.count}</li>
+                {/* 사용자와 작성자가 일치할 시, 삭제/수정과 좋아요여부/목록 기능 */}
+                {pk === details.user.pk ? (
+                  <span>
+                    <button
+                      type="button"
+                      onClick={handleUpdate(details.photo, details.content)}
+                    >
+                      수정
+                    </button>
+                    <button type="button" onClick={handleDelete}>
+                      삭제
+                    </button>
+                  </span>
+                ) : null}
+              </li>
+              <li>{details.content}</li>
+              <li>{details.created}</li>
+              <li>
+                isfav{details.is_fav} {details.count}
+              </li>
+            </BoardDetailContents>
             {/* 댓글 목록 */}
             <Comment />
-          </BoardDetailContents>
+          </div>
         </BoardDetailContainer>
       )}
     </section>
@@ -116,18 +118,54 @@ function BoardDetails() {
 
 const BoardDetailContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: auto 1fr;
+  grid-gap: 1.5rem;
 
   > img {
-    height: 60vh;
-    width: 60vh;
+    height: 70vh;
+    width: 70vh;
+    max-height: 650px;
+    max-width: 650px;
     object-fit: cover;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 
 const BoardDetailContents = styled.ul`
-  > div {
-    display: flex;
+  padding: 0.15rem 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+
+  > li {
+    margin-bottom: 0.75rem;
+
+    :first-child {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    > span {
+      :first-child {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+      > button {
+        border: none;
+        background: none;
+        color: #355f42;
+        cursor: pointer;
+
+        :last-child {
+          border-left: 1px solid;
+        }
+      }
+    }
   }
 `;
 

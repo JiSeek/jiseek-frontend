@@ -40,12 +40,12 @@ function BoardDetails() {
 
     
     // 게시판 삭제 기능 (D)
-    const deletion = useMutation((id) => {
+    const deletion = useMutation((id) => (
         jiseekApi.delete(
             `/boards/${id}/`, { 
             token: token.access,
-        });
-    }, {
+        })
+    ), {
         onSuccess: () => {
             alert('삭제 되었습니다'); // 모달
             navigate('/board');
@@ -100,6 +100,8 @@ function BoardDetails() {
                     <div>{ details.created }</div>
 
                 {/* 댓글 목록 */}
+                    <hr/>
+                    <div>댓글 목록</div>
                     <Comment />
                 </>
             }

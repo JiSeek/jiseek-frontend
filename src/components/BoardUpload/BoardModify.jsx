@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
 import { useAuthContext } from '../../contexts';
 
 
-function BoardUpload() {
+function BoardModify() {
     const { token } = useAuthContext();
     const navigate = useNavigate();
-    const [ selectedImg, setSelectedImg ] = useState({file: '', url: ''});
-    const [ text, setText ] = useState('');
-    const [ characters, setChracters ] = useState(0);
-    // const [ warning, setWarning ] = useState(false);
+    const location = useLocation();
+    const params = useParams();
+    const [ selectedImg, setSelectedImg ] = useState({file: '', url: location.state.photo});
+    const [ modifiedText, setModifiedText ] = useState('');
+    const [ modifiedCharacters, setModifiedChracters ] = useState (0);
     
 
-    // 게시판 생성 기능 (C)
-    const creation = useMutation( 
-        ({ content, photo }) => (
-            jiseekApi.post('/boards/', { 
+    // 게시판 수정 기능 (U)
+    const update = useMutation( 
+        (data) => (
+            jiseekApi.put(`/boards/${params.id}/`, { 
                 token: token.access, 
                 isForm: true,
-                content, 
-                photo })  
+                content: data.content, 
+                photo: data.photo })  
         ),
         {
             onSuccess: (da) => {
-                console.log('게시판 생성 성공', da);
+                console.log('게시판 수정 성공', da)
                 // 서버에서 id받아서 상세 페이지로 이동
                 navigate(`/board/details/${da.id}`);
             },
-            onError: (e) => toast.error('게시판 생성 에러', e),
+            onError: (e) => toast.error('게시판 수정 에러', e),
         }
     );
 
@@ -48,17 +49,17 @@ function BoardUpload() {
 
     // 텍스트는 255자로 제한까지
     useEffect(() => {
-        setChracters(text.length);
-        if (text.length > 255) {
-            setText(text.slice(0, 255));
+        setModifiedChracters(modifiedText.length);
+        if (modifiedText.length > 255) {
+            setModifiedText(modifiedText.slice(0, 255));
         }
-    }, [ text ]);
-    
+    }, [ modifiedText ]);
 
+    
     return (
-        <>
-        {/* 작성 페이지 */}
-            <form action='#' onSubmit={(e) => { e.preventDefault() }}>
+        <>               
+        {/* 수정 페이지 */}
+            <form action='#' onSubmit={(e) => {e.preventDefault()}}>
                 <input 
                     type='file' 
                     name='image'  
@@ -69,17 +70,15 @@ function BoardUpload() {
                     <img src={ selectedImg.url } alt='이미지' />}
                 <textarea 
                     type='text' 
-                    placeholder='텍스트 입력...' 
-                    value={ text } 
-                    onChange={(e) => setText(e.target.value) }
+                    defaultValue={ location.state.content } 
+                    onChange={(e) => setModifiedText(e.target.value)}
                 />
-                {/* { warning && <div>255자까지 작성하실 수 있습니다!</div>} */}
-                <div>{ characters }/255</div>
+                <div>{modifiedCharacters}/255</div>
                 
                 
                 <button 
                     type='submit' 
-                    onClick={() => creation.mutate({ content: text, photo: selectedImg.file }) }
+                    onClick={() => update.mutate({ content: modifiedText, photo: selectedImg.file }) }
                 >
                     게시판 올리기
                 </button>
@@ -96,4 +95,5 @@ function BoardUpload() {
     );
 }
 
-export default BoardUpload;
+
+export default BoardModify;

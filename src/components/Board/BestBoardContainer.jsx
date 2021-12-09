@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components'; 
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
+
 
 function BestBoardContainer() {
     const navigate = useNavigate();
@@ -20,7 +22,7 @@ function BestBoardContainer() {
         console.log('좋아요순 조회 성공');
     }
     if (isError) {
-        console.log('좋아요순 조회 에러', error); // 모달
+        toast.warn('좋아요순 조회 에러', error); // 모달
         return (
             <>
                 <Link to={navigate(-1)}>

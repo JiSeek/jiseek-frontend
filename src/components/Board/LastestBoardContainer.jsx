@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'; 
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
 
@@ -21,7 +22,7 @@ function LastestBoardContainer() {
         console.log('최신순 조회 성공');
     }
     if (isError) {
-        console.log('최신순 조회 에러', error); // 모달
+        toast.warn('최신순 조회 에러', error); // 모달
         return (
             <>
                 <Link to={navigate(-1)}>

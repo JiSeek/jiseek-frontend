@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useTranslation } from 'react-i18next';
+import { CancelledError, useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
 import { foodKeys, mutationKeys } from '../../constants';
 import { useAuthContext } from '../../contexts';
@@ -15,6 +17,7 @@ import { useImageUploader } from '../common';
     - RenderFoodUpload: 음식 업로드 컴포넌트 랜더링 함수
 */
 const useFoodUpload = () => {
+  const { t } = useTranslation();
   const { token } = useAuthContext();
   const [analysis, setAnalysis] = useState([]);
   const queryClient = useQueryClient();
@@ -24,7 +27,6 @@ const useFoodUpload = () => {
     renderImgUploader,
   } = useImageUploader();
 
-  // TODO: S3 이미지 처리 비동기 함수
   const {
     mutateAsync: imgResult,
     status,
@@ -34,12 +36,19 @@ const useFoodUpload = () => {
     {
       mutationKey: mutationKeys.foodResult,
       onSuccess: (data, { foods }) => {
-        console.log('success!', data, foods);
+        if ('errorMessage' in data) {
+          toast.error(t('foodSearchTimeOutErr'), {
+            toastId: 'foodSearchTimeOutErr',
+          });
+          return;
+        }
+        if (data.length === 0) {
+          toast.error(t('foodSearchEmptyResultErr'), {
+            toastId: 'foodSearchEmptyResultErr',
+          });
+          return;
+        }
         setAnalysis(() => data.map((url, idx) => ({ ...foods[idx], url })));
-      },
-      onError: () => {
-        // TODO: 모달 닫기 누르면 상태 클리어 or 냅둬?
-        console.log('임시 에러처리');
       },
     },
   );
@@ -54,8 +63,12 @@ const useFoodUpload = () => {
         await queryClient.cancelQueries(foodKeys.all);
       },
       onError: (err) => {
-        // TODO: 모달 닫기 누르면 상태 클리어 or 냅둬?
-        console.error('임시 에러처리', err);
+        if (err instanceof CancelledError) {
+          return;
+        }
+        toast.error(t('foodSearchTimeOutErr'), {
+          toastId: 'foodSearchTimeOutErr',
+        });
       },
       onSuccess: (data) => {
         const result = [];

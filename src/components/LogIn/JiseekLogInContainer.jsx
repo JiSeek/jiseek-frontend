@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
@@ -18,8 +19,6 @@ const JiseekLogInContainer = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { updateToken } = useAuthContext();
-  const queryClient = useQueryClient();
-
   const {
     handleSubmit,
     formState: { errors },
@@ -29,8 +28,14 @@ const JiseekLogInContainer = () => {
     defaultValues: initialState,
   });
 
+  const queryClient = useQueryClient();
   const userLogin = useMutation(
-    (loginInfo) => jiseekApi.post('/user/custom/login/', loginInfo),
+    (loginInfo) =>
+      toast.promise(jiseekApi.post('/user/custom/login/', loginInfo), {
+        toastId: 'loginToast',
+        success: t('signInSuccess'),
+        error: t('signInInfoErr'),
+      }),
     {
       mutationKey: mutationKeys.logIn,
       onSuccess: (data) => {
@@ -38,10 +43,6 @@ const JiseekLogInContainer = () => {
         queryClient.setQueryData(userKeys.info, user);
         updateToken(auth);
         navigate('/', { replace: true });
-      },
-      onError: (err) => {
-        // TODO: 모달이든 react-tostify 든 메시지 띄우기
-        console.error('임시 에러처리', err);
       },
     },
   );
@@ -52,10 +53,12 @@ const JiseekLogInContainer = () => {
   );
 
   return (
-    <JiseekLogIn
-      hookForm={{ ...hookForm, onSubmit: handleSubmit(onSubmit), errors }}
-      isSubmitting={userLogin.status === 'loading'}
-    />
+    <>
+      <JiseekLogIn
+        hookForm={{ ...hookForm, onSubmit: handleSubmit(onSubmit), errors }}
+        isSubmitting={userLogin.status === 'loading'}
+      />
+    </>
   );
 };
 

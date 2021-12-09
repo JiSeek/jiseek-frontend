@@ -76,7 +76,6 @@ const VerifyPage = () => {
         break;
       case 'naver':
         const naver = new URLSearchParams(location.hash.replace('#', '?'));
-        console.log(naver.get('access_token'));
         setAccessToken(naver.get('access_token'));
         break;
       case 'kakao':

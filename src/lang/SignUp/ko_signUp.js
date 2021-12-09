@@ -16,7 +16,9 @@ const KO_SIGN_UP = {
   signUpPasswordFormErr:
     '비밀번호는 최소 8자 이상 최대 16자 이하이며, 대소문자, 특수문자(~!@#$%*), 숫자를 1개 이상 포함해야 합니다.',
   signUpPasswordVerifyErr: '비밀번호가 일치하지 않습니다.',
-  signUpCountryRequiredErr: '국가는 필수 선택입니다.',
+  signUpCountryRequiredErr: '국가는 필수 항목입니다.',
+  signUpSameEmailErr: '이미 등록된 이메일입니다.',
+  signUpServerErr: '서버 연결이 불안정합니다.',
 };
 
 export default KO_SIGN_UP;

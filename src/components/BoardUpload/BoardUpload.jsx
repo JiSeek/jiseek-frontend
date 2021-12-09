@@ -9,7 +9,7 @@ import { useAuthContext } from '../../contexts';
 
 // 1. match로 구분 upload, modify
 // 2. 수정삭제 버튼 보이게
-// 3. 경고문
+// 3. 모달
 function BoardUpload() {
     const { token } = useAuthContext();
     const navigate = useNavigate();
@@ -24,19 +24,19 @@ function BoardUpload() {
 
     // 게시판 생성 기능 (C)
     const creation = useMutation( 
-        (content, photo) => { 
+        ({ content, photo }) => (
             jiseekApi.post('/boards/', { 
                 token: token.access, 
                 content, 
-                photo, 
-               })
-        },
+                photo })  
+        ),
         {
-            // 서버에서 id받아서 상세 페이지로 이동
             onSuccess: (da) => {
-                console.log('게시판 생성 성공', typeof(da))
-                // navigate(`/board/details/${da.id}`);
-            }
+                console.log('게시판 생성 성공', da)
+                // 서버에서 id받아서 상세 페이지로 이동
+                navigate(`/board/details/${da.id}`);
+            },
+            onError: (e) => console.log('게시판 생성 에러', e),
         }
     );
 
@@ -46,13 +46,13 @@ function BoardUpload() {
         const reader = new FileReader();
         const files = Array.from(e.target.files);
         reader.onloadend = () => {
-            setSelectedImg({file : files, url: reader.result})
+            setSelectedImg({file : files[0], url: reader.result})
         }
         reader.readAsDataURL(files[0]); // 바이너리 파일을 Base64 Encode 문자열로 반환
     };
 
 
-    // 텍스트는 255字까지
+    // 텍스트는 255자로 제한까지
     useEffect(() => {
         setChracters(text.length);
         setModifiedChracters(modifiedText.length);
@@ -113,9 +113,21 @@ function BoardUpload() {
                 <div>{modifiedCharacters}/255</div>
                 
                 
-                <button type='submit' onClick={() => creation.mutate(text, selectedImg) } >게시판 올리기</button>
+                <button 
+                    type='submit' 
+                    onClick={() => creation.mutate({ content: text, photo: selectedImg.file }) }
+                >
+                    게시판 올리기
+                </button>
             </form>
-            <button type='button' onClick={() => navigate(-1) }>돌아가기</button>
+
+
+            <button 
+                type='button' 
+                onClick={() => navigate('/board/') }
+            >
+                돌아가기
+            </button>
         </>
     );
 }

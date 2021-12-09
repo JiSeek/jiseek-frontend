@@ -18,59 +18,55 @@ function BoardDetails() {
   const {
     data: details,
     isLoading,
-    isError,
-    error,
+    // isError,
+    // error,
     isSuccess,
   } = useQuery(boardKeys.detailsById(params.id), jiseekApi.get());
 
-  if (isError) {
-    console.log('게시판 읽어오기 error:', error);
-  } else {
-    console.log('게시판 읽어오기 data', details);
-  }
-
-  if (isSuccess) {
-    if (pk === details.user.pk) {
-      console.log('pk===data.user.pk');
-    } else {
-      console.log('pk', pk);
-      console.log('data.user', details.user.pk);
-    }
-  }
+  // if (isError) {
+  //   console.log('게시판 읽어오기 error:', error);
+  // } else {
+  //   console.log('게시판 읽어오기 data', details);
+  // }
 
   // 게시판 삭제 기능 (D)
   const deletion = useMutation(
-    (id) => {
+    (id) =>
       jiseekApi.delete(`/boards/${id}/`, {
         token: token.access,
-      });
-    },
+      }),
     {
       onSuccess: () => {
         alert('삭제 되었습니다'); // 모달
         navigate('/board');
       },
-      onError: (er) => console.log('삭제오류', er),
+      // onError: (er) => console.log('삭제오류', er),
     },
   );
 
   const handleDelete = () => {
     if (window.confirm('게시물을 삭제하시겠습니까?')) {
       // 모달
-      console.log('예');
+      // console.log('예');
       deletion.mutate(params.id);
     } else {
-      console.log('아니오');
+      // console.log('아니오');
     }
   };
 
+  if (isSuccess) {
+    if (pk === details.user.pk) {
+      // console.log('pk===data.user.pk');
+    } else {
+      // console.log('pk', pk);
+      // console.log('data.user', details.user.pk);
+    }
+  }
+
   // 게시판 수정 페이지로 이동
   const handleUpdate = (photo, content) => {
-    // navigate(
-    //     `/board/modify/${ params.id }`,
-    //     { state: { photo, content }}
-    // )
-    console.log(photo, content); // 임시
+    navigate(`/board/modify/${params.id}`, { state: { photo, content } });
+    // console.log(photo, content); // 임시
   };
 
   return (

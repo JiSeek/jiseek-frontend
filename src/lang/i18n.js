@@ -7,6 +7,8 @@ import { KO_NAVIGATION_BAR, EN_NAVIGATION_BAR } from './NavigationBar';
 import { EN_PASSWORD_CHANGE, KO_PASSWORD_CHANGE } from './PasswordChange';
 import { EN_SIGN_UP, KO_SIGN_UP } from './SignUp';
 import { EN_MY_PAGE, KO_MY_PAGE } from './MyPage';
+import { EN_SIGN_OUT, KO_SIGN_OUT } from './SignOut';
+import { EN_AUTH, KO_AUTH } from './Auth';
 
 const resources = {
   ko: {
@@ -18,6 +20,8 @@ const resources = {
       ...KO_PASSWORD_CHANGE,
       ...KO_SIGN_IN,
       ...KO_MY_PAGE,
+      ...KO_SIGN_OUT,
+      ...KO_AUTH,
     },
   },
   en: {
@@ -29,6 +33,8 @@ const resources = {
       ...EN_PASSWORD_CHANGE,
       ...EN_SIGN_IN,
       ...EN_MY_PAGE,
+      ...EN_SIGN_OUT,
+      ...EN_AUTH,
     },
   },
 };

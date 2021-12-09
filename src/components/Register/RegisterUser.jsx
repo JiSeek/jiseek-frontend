@@ -3,9 +3,12 @@ import PropTypes, { oneOfType, func, object } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { StyledErrorMsg } from '../common';
 
-const RegisterUser = ({ hookForm }) => {
+const RegisterUser = ({ hookForm, isSubmitting }) => {
   const { t } = useTranslation();
 
   return (
@@ -107,13 +110,24 @@ const RegisterUser = ({ hookForm }) => {
           </>
         )}
       />
-      <StyledButton type="submit">{t('signUpSubmit')}</StyledButton>
+      <StyledButton disabled={isSubmitting} type="submit">
+        {isSubmitting ? (
+          <FontAwesomeIcon icon={faSpinner} size="lg" pulse />
+        ) : (
+          t('signUpSubmit')
+        )}
+      </StyledButton>
     </StyledRegisterForm>
   );
 };
 
 RegisterUser.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
+  isSubmitting: PropTypes.bool,
+};
+
+RegisterUser.defaultProps = {
+  isSubmitting: false,
 };
 
 // 임시 디자인 처리

@@ -6,9 +6,7 @@ import { FoodSearchBar, FoodDetails } from '../../components/FoodSearch';
 import { foodKeys } from '../../constants';
 
 const FoodSearchPage = () => {
-  // const [lang] = useLangContext();
   const [findTarget, setFindTarget] = useState('');
-  // status: foodIdMapStatus
   const { foodIdMap } = useFoodIdMap();
   const queryClient = useQueryClient();
 

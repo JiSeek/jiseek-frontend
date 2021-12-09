@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -36,11 +37,20 @@ const PasswordChangeContainer = () => {
       }),
     {
       mutationKey: mutationKeys.password,
-      onSuccess: (data) => {
-        console.log('changed new password', data);
+      onSuccess: () => {
+        toast.success(
+          t('myPageChgSuccess', { what: t('myPageChgPassword').toLowerCase() }),
+          {
+            toastId: 'myPagePasswordChgSuccess',
+          },
+        );
         navigate('/mypage');
       },
-      onError: (err) => console.error('임시 에러처리', err),
+      // TODO: 비밀 번호 변경 오류 구별해서 띄우기.
+      onError: () =>
+        toast.error(t('myPageChgPasswordErr'), {
+          toastId: 'myPageChgPasswordErr',
+        }),
     },
   );
 

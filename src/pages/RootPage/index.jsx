@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Outlet, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { injectStyle } from 'react-toastify/dist/inject-style';
 import { NavigationBar } from '../../components/common';
 import '../../styles/FontStyle.css';
 import Footer from '../../components/common/Footer';
@@ -14,6 +16,7 @@ const RootPage = () => {
   );
 
   useEffect(() => moveTop(), [moveTop, location]);
+  useEffect(() => injectStyle(), []);
 
   return (
     <TotalStyle ref={topRef}>
@@ -28,11 +31,23 @@ const RootPage = () => {
         </OutletHeight>
       </StickyOption>
       <Footer moveTop={moveTop} />
+      <StyledToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        pauseOnHover={false}
+        draggable={false}
+        theme="colored"
+      />
     </TotalStyle>
   );
 };
 
-export default RootPage;
+const StyledToastContainer = styled(ToastContainer).attrs()`
+  .Toastify__toast {
+    top: 6.5vh;
+  }
+`;
 
 const TotalStyle = styled.div`
   font-family: 'Pretendard';
@@ -57,3 +72,5 @@ const StickyHeader = styled.header`
 const OutletHeight = styled.div`
   min-height: 95vh;
 `;
+
+export default RootPage;

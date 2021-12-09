@@ -8,6 +8,10 @@ const EN_SIGN_IN = {
   // Validation
   signInRequiredErr: 'Enter an {{what}}.',
   signInEmailFormErr: 'Invalid email format.',
+  signInLoading: 'Trying to sign in...',
+  signInSuccess: 'Sign in Succeed!',
+  signInInfoErr: 'Check your e-mail or password.',
+  signInServerErr: 'Server connection is unstable.',
 };
 
 export default EN_SIGN_IN;

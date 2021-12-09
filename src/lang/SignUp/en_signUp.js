@@ -17,8 +17,9 @@ const EN_SIGN_UP = {
     'Your password must be 8-16 characters, and include at least one uppercase/lowcase letter, a number, and a symbol(~!@#$%*).',
   signUpPasswordVerifyErr: 'The password you entered does not match.',
   signUpCountryRequiredErr: 'Choose a country.',
+  // Authentication
+  signUpSameEmailErr: 'A user is already registered with this e-mail address',
+  signUpServerErr: 'Server connection is unstable.',
 };
 
 export default EN_SIGN_UP;
-
-// Your password must be 8-16 characters, and include at least one uppercase/lowcase letter, a number, and a symbol(~!@#$%*).',

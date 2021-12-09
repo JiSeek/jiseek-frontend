@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import MyInfoUpdate from './MyInfoUpdate';
@@ -12,9 +13,7 @@ import {
   userKeys,
 } from '../../constants';
 import { useAuthContext } from '../../contexts';
-// import LOGO from '../../assets/images/logo/logo_ver3_2.png';
 
-// TODO: 파일 업로드 처리
 const MyInfoUpdateContainer = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -68,9 +67,19 @@ const MyInfoUpdateContainer = () => {
         setValue('image', data.image);
         setValue('name', data.name);
         queryClient.setQueryData(userKeys.info, data);
+        toast.success(
+          t('myPageChgSuccess', { what: t('myPageInfoEdit').toLowerCase() }),
+          {
+            toastId: 'myPageMyInfoChgSuccess',
+          },
+        );
         navigate('/mypage');
       },
-      onError: (err) => console.error('임시 에러처리', err),
+      // TODO: 오류 구별해서 띄우기. 문구 조정 필요
+      onError: () =>
+        toast.error(t('myPageMyInfoUpdateErr'), {
+          toastId: 'myPageMyInfoUpdateErr',
+        }),
     },
   );
 

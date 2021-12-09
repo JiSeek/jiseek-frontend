@@ -11,7 +11,7 @@ const MyInfoContainer = () => {
     userKeys.info,
     jiseekApi.get({ token: token.access }),
     {
-      cacheTime: Infinity, // TODO: 상태 확인하기!!
+      cacheTime: Infinity,
       staleTime: Infinity,
       enabled: !!token.access,
     },

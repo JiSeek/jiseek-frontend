@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes, { any, string, number } from 'prop-types';
 import { useQuery } from 'react-query';
 import { foodKeys, myPageKeys } from '../../constants';
@@ -10,7 +10,6 @@ const getCacheTime = (min) => min * 60 * 1000;
 
 const FoodDetailsContainer = ({ type, id, onModal, children }) => {
   const { token } = useAuthContext();
-  const [favFoods, setFavFoods] = useState([]);
   const { data: foodInfo, status } = useQuery(
     foodKeys.detailById(id),
     jiseekApi.get(),
@@ -22,15 +21,19 @@ const FoodDetailsContainer = ({ type, id, onModal, children }) => {
   );
 
   // 좋아요한 음식 리스트 가져오기
-  const { status: likeStatus } = useQuery(
+  const { data: favList, status: likeStatus } = useQuery(
     myPageKeys.favFoods,
     jiseekApi.get({ token: token.access }),
     {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: type === 'image',
-      onSuccess: (data) => setFavFoods(() => data.map(({ pk }) => Number(pk))),
     },
+  );
+
+  const favFoods = useMemo(
+    () => (favList ? favList.map(({ pk }) => Number(pk)) : []),
+    [favList],
   );
 
   return (

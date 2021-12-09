@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
-import { useMutation } from 'react-query';
+import { useTranslation } from 'react-i18next';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
+import { mutationKeys } from '../../constants';
 import { useAuthContext } from '../../contexts';
 
 const authUrls = [
@@ -15,11 +18,13 @@ const authUrls = [
 const LogOutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { token, clearToken } = useAuthContext();
   const from = location.state?.from?.pathname || '/';
   // TODO: 초기 로그아웃으로 접근 개선
   // console.log('111', location, !!token.access && from === '/logout');
 
+  const queryClient = useQueryClient();
   const { mutate } = useMutation(
     () =>
       jiseekApi.post('/user/logout-all/', {
@@ -27,12 +32,13 @@ const LogOutPage = () => {
         refresh_token: token.refresh,
       }),
     {
-      onSuccess: (data) => {
-        console.log('로그아웃 성공!', data);
+      onSuccess: async () => {
+        await queryClient.cancelMutations(mutationKeys.token);
         clearToken();
-        // TODO: 실행 중인 뮤테이션 취소 해야됨.
+        toast.success(t('signOutSuccess'), { toastId: 'signOutSuccess' });
       },
-      onError: () => console.error('로그아웃 실패'), // 임시 에러처리
+      onError: () =>
+        toast.error(t('signOutFailErr'), { toastId: 'signOutFailErr' }),
       onSettled: () => {
         const redirectUrl = authUrls.indexOf(from) !== -1 ? '/' : from;
         navigate(redirectUrl, { replace: true });

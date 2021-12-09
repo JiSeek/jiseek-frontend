@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import PropTypes, { oneOfType, func, object } from 'prop-types';
 import { StyledErrorMsg } from '../common';
 
@@ -39,7 +41,11 @@ const JiseekLogIn = ({ hookForm, isSubmitting }) => {
         </label>
       </StyledLogin>
       <StyledButton disabled={isSubmitting} type="submit">
-        {t('signIn')}
+        {isSubmitting ? (
+          <FontAwesomeIcon icon={faSpinner} size="lg" pulse />
+        ) : (
+          t('signIn')
+        )}
       </StyledButton>
     </form>
   );
@@ -87,6 +93,7 @@ const StyledLogin = styled.div`
 `;
 
 const StyledButton = styled.button`
+  position: relative;
   font-size: 0.9rem;
   background-color: #407f00;
   color: #f6fff2;

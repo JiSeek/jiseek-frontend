@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import RegisterUser from './RegisterUser';
 import jiseekApi from '../../api';
+import { useModalContext } from '../../contexts';
 import { mutationKeys, getRegisterValidation } from '../../constants';
 
 const initialState = Object.freeze({
@@ -23,6 +25,7 @@ const initialState = Object.freeze({
 const RegisterUserContainer = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const openModal = useModalContext();
   const {
     setValue,
     getValues,
@@ -43,13 +46,23 @@ const RegisterUserContainer = () => {
     {
       mutationKey: mutationKeys.signUp,
       onSuccess: (data) => {
-        // TODO: 모달 띄우고 확인 누르면 메인으로 가도록
-        console.log(data, 'register');
+        // TODO: 메시지 변경 -> 이메일 확인해달라는 어쩌고저쩌고
+        openModal(data.detail);
         navigate('/', { replace: true });
       },
       onError: (err) => {
-        // TODO: 에러 메시지 모달
-        console.error('등록 임시 에러', err);
+        const { response } = err;
+        const message = Object.values(response?.data)[0][0];
+        let errMsg;
+        if (message.includes('e-mail')) {
+          errMsg = t('signUpSameEmailErr');
+          toast.error(errMsg, { toastId: 'signUpSameEmailErr' });
+        } else {
+          errMsg = t('signUpServerErr');
+          toast.error(errMsg, { toastId: 'signUpServerErr' });
+        }
+        // TODO: 동작X, 네트워크 연결 실패시 무한 로딩 문제
+        // signUp.reset();
       },
     },
   );
@@ -68,6 +81,7 @@ const RegisterUserContainer = () => {
         onSubmit: handleSubmit(onSubmit),
         errors,
       }}
+      isSubmitting={signUp.status === 'loading'}
     />
   );
 };

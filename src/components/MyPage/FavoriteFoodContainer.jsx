@@ -14,7 +14,7 @@ const FavoriteFoodContainer = () => {
   const { data: favFoods, status } = useQuery(
     myPageKeys.favFoods,
     jiseekApi.get({ token: token.access }),
-    { staleTime: Infinity },
+    { cacheTime: Infinity, staleTime: Infinity },
   );
 
   // TODO: 임시 상세 보기 모달

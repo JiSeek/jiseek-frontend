@@ -24,7 +24,7 @@ export const createQueryApi =
 
       return response.data;
     } catch (err) {
-      throw new Error(err);
+      return Promise.reject(err);
     }
   };
 
@@ -57,7 +57,7 @@ export const createMutationApi =
 
       return response.data;
     } catch (err) {
-      throw new Error(err);
+      return Promise.reject(err);
     }
   };
 

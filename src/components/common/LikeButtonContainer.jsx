@@ -52,7 +52,7 @@ const LikeButtonContainer = ({ type, data, like }) => {
         toast.error(t('myPageLikeApplyErr'), { toastId: 'likeApplyErr' });
         queryClinet.setQueryData(key, context.previousFavs);
       },
-      onSettled: () => queryClinet.invalidateQueries(key),
+      // onSettled: () => queryClinet.invalidateQueries(key),
     },
   );
 

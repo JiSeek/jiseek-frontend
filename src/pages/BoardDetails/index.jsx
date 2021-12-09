@@ -3,12 +3,7 @@ import { BoardDetails } from '../../components/BoardDetails';
 
 const BoardDetailsPage = () => {
   console.log('디테일');
-  return (
-    <div>
-      BoardDetails
-      <BoardDetails />
-    </div>
-  );
+  return <BoardDetails />;
 };
 
 export default BoardDetailsPage;

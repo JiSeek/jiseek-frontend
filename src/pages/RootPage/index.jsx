@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import { NavigationBar } from '../../components/common';
@@ -8,10 +8,18 @@ import '../../styles/FontStyle.css';
 import Footer from '../../components/common/Footer';
 
 const RootPage = () => {
+  const topRef = useRef(null);
+  const location = useLocation();
+  const moveTop = useCallback(
+    () => topRef.current.scrollTo({ top: 0, behavior: 'smooth' }),
+    [],
+  );
+
+  useEffect(() => moveTop(), [moveTop, location]);
   useEffect(() => injectStyle(), []);
 
   return (
-    <TotalStyle>
+    <TotalStyle ref={topRef}>
       <StickyOption>
         <StickyHeader>
           <nav>
@@ -22,7 +30,7 @@ const RootPage = () => {
           <Outlet />
         </OutletHeight>
       </StickyOption>
-      <Footer />
+      <Footer moveTop={moveTop} />
       <StyledToastContainer
         position="top-center"
         autoClose={2000}
@@ -62,7 +70,7 @@ const StickyHeader = styled.header`
 `;
 
 const OutletHeight = styled.div`
-  min-height: calc(100vh - 8vh - 200px);
+  min-height: 95vh;
 `;
 
 export default RootPage;

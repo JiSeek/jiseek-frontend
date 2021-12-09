@@ -23,7 +23,7 @@ const FavoriteFoodContainer = () => {
       openModal(
         <FoodDetailsContainer id={e.target.value} onModal>
           TEST
-        </FoodDetailsContainer>,
+        </FoodDetailsContainer>,'message'
       ),
     [openModal],
   );

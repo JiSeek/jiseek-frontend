@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MdEmail } from 'react-icons/md';
@@ -10,12 +11,12 @@ import {
   FooterYoutube,
 } from '../../assets/images/images';
 
-const Footer = () => {
+const Footer = ({ moveTop }) => {
   const { t } = useTranslation();
 
   return (
     <FooterBackground>
-      <img src={FooterLogo} alt="Footer Logo" />
+      <input type='image' onClick={moveTop} src={FooterLogo} alt="Footer Logo" />
       <FooterContents>
         <About>
           <ul>
@@ -84,17 +85,25 @@ const Footer = () => {
   );
 };
 
+Footer.propTypes = {
+  moveTop: PropTypes.func,
+};
+
+Footer.defaultProps = {
+  moveTop: null,
+};
+
 const FooterBackground = styled.div`
   width: 100vw;
+  height: 24vh;
   background: #09351b;
   color: #fffdfa;
   font-size: 0.85rem;
   line-height: 1.2rem;
-  padding: 3rem 0;
   position: relative;
   text-align: center;
 
-  > img {
+  > input {
     height: 60px;
     object-fit: contain;
     position: absolute;
@@ -106,7 +115,7 @@ const FooterBackground = styled.div`
 const FooterContents = styled.div`
   display: flex;
   margin: auto;
-  padding: 0 4vw 2rem 3vw;
+  padding: 4vh 4vw 2rem 3vw;
   justify-content: space-evenly;
   max-width: 1320px;
 `;

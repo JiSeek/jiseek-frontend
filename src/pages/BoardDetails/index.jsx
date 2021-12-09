@@ -5,7 +5,6 @@ const BoardDetailsPage = () => {
   console.log('디테일');
   return (
     <div>
-      BoardDetails
       <BoardDetails />
     </div>
   );

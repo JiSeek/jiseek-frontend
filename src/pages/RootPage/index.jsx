@@ -1,25 +1,36 @@
-import React from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { NavigationBar } from '../../components/common';
 import '../../styles/FontStyle.css';
 import Footer from '../../components/common/Footer';
 
-const RootPage = () => (
-  <TotalStyle>
-    <StickyOption>
-      <StickyHeader>
-        <nav>
-          <NavigationBar />
-        </nav>
-      </StickyHeader>
-      <OutletHeight>
-        <Outlet />
-      </OutletHeight>
-    </StickyOption>
-    <Footer />
-  </TotalStyle>
-);
+const RootPage = () => {
+  const topRef = useRef(null);
+  const location = useLocation();
+  const moveTop = useCallback(
+    () => topRef.current.scrollTo({ top: 0, behavior: 'smooth' }),
+    [],
+  );
+
+  useEffect(() => moveTop(), [moveTop, location]);
+
+  return (
+    <TotalStyle ref={topRef}>
+      <StickyOption>
+        <StickyHeader>
+          <nav>
+            <NavigationBar />
+          </nav>
+        </StickyHeader>
+        <OutletHeight>
+          <Outlet />
+        </OutletHeight>
+      </StickyOption>
+      <Footer moveTop={moveTop} />
+    </TotalStyle>
+  );
+};
 
 export default RootPage;
 
@@ -44,5 +55,5 @@ const StickyHeader = styled.header`
 `;
 
 const OutletHeight = styled.div`
-  min-height: 68vh;
+  min-height: 95vh;
 `;

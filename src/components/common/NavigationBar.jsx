@@ -58,7 +58,7 @@ const Navbar = styled.nav`
   margin: auto;
   padding: 0 3vw;
   display: grid;
-  grid-template-columns: 250px 1fr 6fr 1fr 250px;
+  grid-template-columns: 280px 1fr 6fr 1fr 300px;
   align-items: center;
 `;
 

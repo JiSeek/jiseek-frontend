@@ -50,7 +50,7 @@ const LikeButtonContainer = ({ type, data, like }) => {
         console.error('임시 에러', err);
         queryClinet.setQueryData(key, context.previousFavs);
       },
-      onSettled: () => queryClinet.invalidateQueries(key),
+      // onSettled: () => queryClinet.invalidateQueries(key),
     },
   );
 

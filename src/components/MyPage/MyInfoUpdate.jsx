@@ -64,11 +64,11 @@ const UpdateInfo = styled.form`
       color: #789180;
     }
 
-      :focus {
-        transition: 0.3s;
-        box-shadow: rgb(0 0 0 / 13%) 0px 1px 3px 0px,
-          rgb(0 0 0 / 19%) 0px 1px 2px 0px;
-      }
+    :focus {
+      transition: 0.3s;
+      box-shadow: rgb(0 0 0 / 13%) 0px 1px 3px 0px,
+        rgb(0 0 0 / 19%) 0px 1px 2px 0px;
+    }
 
     :first-child {
       margin-top: 0;
@@ -84,7 +84,7 @@ const ProfileImage = styled.img`
 
 const FileLabel = styled.label`
   font-size: 0.8rem;
-  background-color: #c1dda0;
+  background-color: #92ce4d;
   text-align: center;
   padding: 0.35rem 0;
   margin: 1rem 0;
@@ -108,7 +108,7 @@ const StyledButton = styled.button`
   margin-top: 0.5rem;
 
   :disabled {
-    opacity: 0.6;
+    background-color: #3f7f00a0;
   }
 `;
 

@@ -3,11 +3,11 @@ import PropTypes, { any, number } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import FoodRecipesContainer from './FoodRecipesContainer';
-// import Nutrition from './Nutrition';
+import Nutrition from './Nutrition';
 import { LoadingCircle } from '../../assets/images/images';
 import { LikeButton, StyledErrorMsg } from '../common';
-import FoodNutritionTable from './FoodNutritionTable';
-import FoodNutritionChart from './FoodNutritionChart'
+// import FoodNutritionTable from './FoodNutritionTable';
+// import FoodNutritionChart from './FoodNutritionChart'
 
 const FoodDetails = ({
   type,
@@ -60,12 +60,12 @@ const FoodDetails = ({
               )}
             </section>
             <section>
-              {/* <Nutrition foodInfo={foodInfo} /> */}
-              <div style={{height:330}}>
+              <Nutrition foodInfo={foodInfo} />
+              {/* <div style={{height:330}}>
               <Subtitle>영양 정보</Subtitle>
               <FoodNutritionChart foodInfo={foodInfo} />
               </div>
-            <FoodNutritionTable foodInfo={foodInfo} />
+            <FoodNutritionTable foodInfo={foodInfo} /> */}
             </section>
             {!onModal && (
               <section>

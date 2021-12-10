@@ -9,10 +9,10 @@ import { useAuthContext } from '../../contexts';
 function Board(){
     const navigate = useNavigate();
     const { token } = useAuthContext();
-
+    console.log('tokennnnnnnn', token, token.access);
     // 작성 페이지로 이동
     const handleClick = () => {
-        if (token.acess) {   
+        if (token.access) {   
           navigate('/board/upload');
         } else {
           toast.info('로그인이 필요한 서비스입니다');

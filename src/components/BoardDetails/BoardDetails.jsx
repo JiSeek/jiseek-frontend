@@ -32,13 +32,7 @@ function BoardDetails() {
     }
 
     if (isSuccess) {
-        if (pk === details.user.pk) {
-            console.log('pk===data.user.pk');
-            
-        } else {
-            console.log('pk', pk);
-            console.log('data.user', details.user.pk);
-        }
+        console.log('게시판 읽어오기 성공', details);
     }
 
     
@@ -102,7 +96,13 @@ function BoardDetails() {
                     <img src={ details.photo } alt='이미지'/>
                     <div>{ details.count }</div>
                     <div>{ details.content }</div>
-                    <div>{ getLocaleDate(details.created, 'en') }</div>
+                {/* 게시판 날짜 표시, 수정 여부 */}
+                    <div>
+                        { getLocaleDate(details.created, 'en') }
+                        { details.created.slice(0, 20) !== details.modified.slice(0, 20) ?  
+                            <> (수정됨) </> : null
+                        }
+                    </div>
 
                 {/* 댓글 목록 */}
                     <hr/>

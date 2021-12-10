@@ -18,13 +18,34 @@ function BoardModify() {
 
     // 게시판 수정 기능 (U)
     const update = useMutation( 
-        (data) => (
-            jiseekApi.put(`/boards/${params.id}/`, { 
-                token: token.access, 
-                isForm: true,
-                content: data.content, 
-                photo: data.photo })  
-        ),
+        ({ photo, content }) => {
+            const accessTkn = { token: token.access };
+            if (photo && content) {
+                return ( 
+                    jiseekApi.put(`/boards/${params.id}/`, { 
+                    ...accessTkn, 
+                    isForm: true,
+                    photo,
+                    content })  
+                );
+            } 
+            if (!photo && content) {
+                return (
+                    jiseekApi.patch(`/boards/${params.id}/`, {
+                        ...accessTkn,
+                        isForm: true,
+                        content
+                    })
+                );
+            } 
+            return (
+                jiseekApi.patch(`/boards/${params.id}/`, {
+                    ...accessTkn,
+                    isForm: true,
+                    photo
+                })
+            );
+        },
         {
             onSuccess: (da) => {
                 console.log('게시판 수정 성공', da)
@@ -34,6 +55,14 @@ function BoardModify() {
             onError: (e) => toast.error('게시판 수정 에러', e),
         }
     );
+
+    const handleUpdate = () => {
+        if (!selectedImg.file && !modifiedText) {
+            toast.warn('수정된 내용이 없습니다!');
+        } else {
+           update.mutate({ content: modifiedText, photo: selectedImg.file });
+        }
+    }
 
 
     // 이미지 선택
@@ -78,7 +107,7 @@ function BoardModify() {
                 
                 <button 
                     type='submit' 
-                    onClick={() => update.mutate({ content: modifiedText, photo: selectedImg.file }) }
+                    onClick={ handleUpdate }
                 >
                     게시판 올리기
                 </button>
@@ -87,7 +116,7 @@ function BoardModify() {
 
             <button 
                 type='button' 
-                onClick={() => navigate('/board') }
+                onClick={() => navigate(`/board/details/${params.id}`) }
             >
                 돌아가기
             </button>

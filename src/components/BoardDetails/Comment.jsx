@@ -127,7 +127,11 @@ function Comment(){
     )
 
     const handleUpdate = (id) => {
-        setShownUpdate(id)
+        if (!modifiedText){
+            toast.warn('수정된 내용이 없습니다!');
+        } else {
+            update.mutate({ id, content: modifiedText });
+        }
     }
 
 
@@ -138,7 +142,13 @@ function Comment(){
                 <div key={ comm.id } >
                     <div>{ comm.username }</div>
                     <div>{ comm.content }</div>
-                    <div>{ getLocaleDate(comm.created, 'en') }</div>
+                {/* 댓글 날짜 표시, 수정여부 */}
+                    <div>
+                        { getLocaleDate(comm.created, 'en') }
+                        { comm.created.slice(0, 20) !== comm.modified.slice(0, 20) ?
+                            <> (수정됨) </> : null
+                        }
+                    </div>
                     
                 {/* 사용자와 작성자가 일치할 시, 수정/삭제 버튼 */}
                     { pk === comm.user ?
@@ -151,11 +161,12 @@ function Comment(){
                                         defaultValue={ comm.content }
                                         onChange={(e) => setModifiedText(e.target.value)}
                                     />
-                                    <button type='button' onClick={() => update.mutate({ id: comm.id, content: modifiedText }) }>댓글 수정하기</button>
+                                    <button type='button' onClick={() => handleUpdate(comm.id) }>댓글 수정하기</button>
+                                    <button type='button' onClick={ () => setShownUpdate() }>댓글 수정 취소</button>
                                 </>
                             :
                                 <>
-                                    <button type='button' onClick={ () => handleUpdate(comm.id) }>댓글 수정버튼</button>
+                                    <button type='button' onClick={ () => setShownUpdate(comm.id) }>댓글 수정버튼</button>
                                     <button type='button' onClick={ () => handleDelete(comm.id) }>댓글 삭제버튼</button>
                                 </>
                             }

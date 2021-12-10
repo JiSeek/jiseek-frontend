@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
@@ -12,7 +13,7 @@ function BoardUpload() {
     const [ selectedImg, setSelectedImg ] = useState({file: '', url: ''});
     const [ text, setText ] = useState('');
     const [ characters, setChracters ] = useState(0);
-    // const [ warning, setWarning ] = useState(false);
+    const { t } = useTranslation();
     
 
     // 게시판 생성 기능 (C)
@@ -26,11 +27,11 @@ function BoardUpload() {
         ),
         {
             onSuccess: (da) => {
-                console.log('게시판 생성 성공', da);
+                toast.success(t('boardCreateSucc'), da);
                 // 서버에서 id받아서 상세 페이지로 이동
                 navigate(`/board/details/${da.id}`);
             },
-            onError: (e) => toast.error('게시판 생성 에러', e),
+            onError: (e) => toast.error(t('boardCreateErr'), e),
         }
     );
 
@@ -50,9 +51,10 @@ function BoardUpload() {
     useEffect(() => {
         setChracters(text.length);
         if (text.length > 255) {
+            toast(t('boardLimitedText'));
             setText(text.slice(0, 255));
         }
-    }, [ text ]);
+    }, [ text, t ]);
     
 
     return (
@@ -69,11 +71,10 @@ function BoardUpload() {
                     <img src={ selectedImg.url } alt='이미지' />}
                 <textarea 
                     type='text' 
-                    placeholder='텍스트 입력...' 
+                    placeholder={t('boardPlaceHolder')} 
                     value={ text } 
                     onChange={(e) => setText(e.target.value) }
                 />
-                {/* { warning && <div>255자까지 작성하실 수 있습니다!</div>} */}
                 <div>{ characters }/255</div>
                 
                 

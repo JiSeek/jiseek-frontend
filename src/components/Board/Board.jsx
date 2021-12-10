@@ -1,28 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import LastestBoardContainer from "./LastestBoardContainer";
 import BestBoardContainer from "./BestBoardContainer";
-import { useAuthContext } from '../../contexts';
+import { useAuthContext, useModalContext } from '../../contexts';
 
 function Board(){
     const navigate = useNavigate();
     const { token } = useAuthContext();
-    console.log('tokennnnnnnn', token, token.access);
+    const { t } = useTranslation();
+    const modal = useModalContext();
+
     // 작성 페이지로 이동
     const handleClick = () => {
         if (token.access) {   
           navigate('/board/upload');
         } else {
-          toast.info('로그인이 필요한 서비스입니다');
-          navigate('/login');
+          modal(t('boardRequiredLogin'), 'select', {
+            yes: () => navigate('/login'),
+            no: () => {},
+          })
         }
     }
 
     return (
         <BoardContainer>
-            <StyledButton type='button' onClick={ handleClick }>게시물 작성</StyledButton>
+            <StyledButton type='button' onClick={ handleClick }>{ t('boardUploadButton') }</StyledButton>
             <BestBoardContainer />
             {/* <hr/> */}
             <LastestBoardContainer />

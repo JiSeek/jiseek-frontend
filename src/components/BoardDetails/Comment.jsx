@@ -75,16 +75,14 @@ function Comment() {
 
   // 댓글 삭제 기능 (D)
   const deletion = useMutation(
-    (commentId) => {
+    (commentId) =>
       jiseekApi.delete(`/boards/${params.id}/comments/${commentId}/`, {
         token: token.access,
-      });
-    },
+      }),
     {
       onMutate: (d) => console.log('aaaaaaaa', d),
       onSuccess: (d) => {
         console.log('댓글 삭제 성공', d);
-        window.location.reload(); // 그 화면 전체 로딩이아니라 댓글만 재로딩 안될까?
       },
       onError: (e) => console.log('댓글 삭제 에러', e),
       onSettled: () => {

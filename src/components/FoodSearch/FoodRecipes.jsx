@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { RiYoutubeLine } from 'react-icons/ri';
 import { VscEye } from 'react-icons/vsc';
 import { BiTimeFive } from 'react-icons/bi';
+import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useModalContext } from '../../contexts';
 
 const FoodRecipes = ({ food, recipes, status }) => (
@@ -17,7 +18,7 @@ const FoodRecipes = ({ food, recipes, status }) => (
           target="_blank"
           rel="noreferrer"
         >
-          레시피 더보기
+          레시피 더보기 <MdOutlineArrowForwardIos />
         </a>
         <div>
           {recipes.map((recipe) => (
@@ -46,7 +47,13 @@ const FoodRecipes = ({ food, recipes, status }) => (
                   <li>
                     <BiTimeFive />
                     {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
-                    <span>{recipe.contentDetails.duration}</span>
+                    <span>
+                      {recipe.contentDetails.duration
+                        .split(/[PTHMS]/)
+                        .filter((ch) => !!ch)
+                        .map((ch) => (ch.length === 1 ? `0${ch}` : ch))
+                        .join(':')}
+                    </span>
                   </li>
                 </span>
                 <li>
@@ -108,7 +115,7 @@ export const YoutubeContent = ({ recipe }) => {
 
   return (
     <ModalButton onClick={onClick} type="button">
-      설명 더보기
+      설명 더보기 <MdOutlineArrowForwardIos />
     </ModalButton>
   );
 };
@@ -122,21 +129,25 @@ YoutubeContent.propTypes = {
 const RecipesStructure = styled.div`
   > a {
     float: right;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+
+    > svg {
+      font-size: 0.75rem;
+    }
   }
 
   > div {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-gap: 1.5rem;
+    grid-gap: 2rem 1.5rem;
     width: 100%;
 
     @media only screen and (max-width: 800px) {
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: repeat(4, 1fr);
-      >ul >li >iframe {
+      > ul > li > iframe {
         height: calc(100vw * 9 / 16);
       }
     }
@@ -147,9 +158,13 @@ const RecipesInfo = styled.span`
   > span {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.35rem;
     > li {
       display: flex;
       align-items: center;
+      >svg{
+        margin-right: 0.25rem;
+      }
     }
   }
 
@@ -163,6 +178,10 @@ const ModalButton = styled.button`
   background: none;
   padding: 0;
   cursor: pointer;
+
+  > svg {
+    font-size: 0.65rem;
+  }
 `;
 
 export default FoodRecipes;

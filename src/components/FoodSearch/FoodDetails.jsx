@@ -7,7 +7,7 @@ import Nutrition from './Nutrition';
 import { LoadingCircle } from '../../assets/images/images';
 import { LikeButton, StyledErrorMsg } from '../common';
 // import FoodNutritionTable from './FoodNutritionTable';
-// import FoodNutritionChart from './FoodNutritionChart'
+// import FoodNutritionChart from './FoodNutritionChart';
 
 const FoodDetails = ({
   type,
@@ -30,42 +30,42 @@ const FoodDetails = ({
       {status === 'error' && <>요기다 에러메시지 퐉</>}
       {status === 'success' && (
         <>
-          <Title>{foodInfo?.name}</Title>
+          <TitleWithButton>
+            <Title>{foodInfo?.name}</Title>
+            {type === 'image' && (
+              <>
+                <LikeButton
+                  type="food"
+                  data={{
+                    pk: foodInfo?.id,
+                    name: foodInfo?.name,
+                    image: foodInfo?.image1,
+                  }}
+                  like={favFoods.indexOf(foodInfo?.id) !== -1}
+                />
+                {likeStatus === 'error' && (
+                  <StyledErrorMsg>{t('foodSearchFavListErr')}</StyledErrorMsg>
+                )}
+              </>
+            )}
+          </TitleWithButton>
           <GridResult>
             <section>
-              <Subtitle> 음식 사진 </Subtitle>
+              {type !== 'image' && <Subtitle> 음식 사진 </Subtitle>}
               {!children && (
-                <img
-                  src={foodInfo?.image1}
-                  alt="test"
-                  style={{ width: '100%' }}
-                />
+                <ImageSquare>
+                  <img src={foodInfo?.image1} alt="test" />
+                </ImageSquare>
               )}
               {children}
-              {type === 'image' && (
-                <>
-                  <LikeButton
-                    type="food"
-                    data={{
-                      pk: foodInfo?.id,
-                      name: foodInfo?.name,
-                      image: foodInfo?.image1,
-                    }}
-                    like={favFoods.indexOf(foodInfo?.id) !== -1}
-                  />
-                  {likeStatus === 'error' && (
-                    <StyledErrorMsg>{t('foodSearchFavListErr')}</StyledErrorMsg>
-                  )}
-                </>
-              )}
             </section>
             <section>
-              <Nutrition foodInfo={foodInfo} />
-              {/* <div style={{height:330}}>
               <Subtitle>영양 정보</Subtitle>
-              <FoodNutritionChart foodInfo={foodInfo} />
-              </div>
-            <FoodNutritionTable foodInfo={foodInfo} /> */}
+              <Nutrition foodInfo={foodInfo} />
+              {/* <div style={{ height: 330 }}>
+                <FoodNutritionChart foodInfo={foodInfo} />
+              </div> */}
+              {/*  <FoodNutritionTable foodInfo={foodInfo} /> */}
             </section>
             {!onModal && (
               <section>
@@ -104,6 +104,13 @@ FoodDetails.defaultProps = {
 const Center = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const TitleWithButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin-bottom: 2.2rem;
 `;
 
 const Result = styled.article`
@@ -150,14 +157,27 @@ const Title = styled.h2`
   text-align: center;
   font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 2.2rem;
 `;
 
 const Subtitle = styled.h3`
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin: 1.25rem;
+`;
+
+const ImageSquare = styled.div`
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+
+  > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 export default FoodDetails;

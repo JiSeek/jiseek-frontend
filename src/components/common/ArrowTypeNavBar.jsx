@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { GiChopsticks } from 'react-icons/gi';
 import FormLessButton from './FormLessButton';
 
 const ArrowTypeNavBar = ({
   label,
-  name,
+  // name,
   curIndex,
   min,
   max,
@@ -16,18 +15,20 @@ const ArrowTypeNavBar = ({
 }) => (
   <StyledNav aria-labelledby={label}>
     <FormLessButton hidden={curIndex <= min} onClick={onPrev}>
-      <FontAwesomeIcon icon={faAngleLeft} size="lg" />
+      <GiChopsticks style={{ transform: 'rotate(60deg)', fontSize: '2rem' }} />
     </FormLessButton>
-    <span>{`${curIndex + 1}. ${name}`}</span>
+    <span style={{ fontSize: '1.15rem' }}>
+      {curIndex + 1}/{max + 1}
+    </span>
     <FormLessButton hidden={curIndex >= max} onClick={onNext}>
-      <FontAwesomeIcon icon={faAngleRight} size="lg" />
+      <GiChopsticks style={{ transform: 'rotate(240deg)', fontSize: '2rem' }} />
     </FormLessButton>
   </StyledNav>
 );
 
 ArrowTypeNavBar.propTypes = {
   label: PropTypes.string,
-  name: PropTypes.string,
+  // name: PropTypes.string,
   curIndex: PropTypes.number,
   min: PropTypes.number,
   max: PropTypes.number,
@@ -37,7 +38,7 @@ ArrowTypeNavBar.propTypes = {
 
 ArrowTypeNavBar.defaultProps = {
   label: '',
-  name: '',
+  // name: '',
   curIndex: 0,
   min: 0,
   max: 0,
@@ -48,10 +49,11 @@ ArrowTypeNavBar.defaultProps = {
 // 임시 껍데기
 const StyledNav = styled.nav`
   display: grid;
-  grid-template: 'left middle right' / 30px 150px 30px;
+  grid-template: 'left middle right' / 50px 1fr 50px;
   text-align: center;
   justify-content: center;
   align-content: center;
+  align-items: center;
 
   > button:first-child {
     grid-area: left;

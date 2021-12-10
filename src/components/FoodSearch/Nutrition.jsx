@@ -112,7 +112,8 @@ function Nutrition({ foodInfo }) {
           marginBottom: '3.5rem',
           width: '50vw',
           maxWidth: '600px',
-          height: '480px',
+          height: '40vw',
+          maxHeight: '640px'
         }}
       >
         <Bar

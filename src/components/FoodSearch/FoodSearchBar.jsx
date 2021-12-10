@@ -100,7 +100,7 @@ const StyledInput = styled.input`
   :focus {
     transition: 0.3s;
     box-shadow: rgb(0 0 0 / 13%) 0px 1px 3px 0px,
-          rgb(0 0 0 / 19%) 0px 1px 2px 0px;
+      rgb(0 0 0 / 19%) 0px 1px 2px 0px;
   }
 `;
 
@@ -114,6 +114,7 @@ const StyledList = styled.ul`
   position: absolute;
   width: 17rem;
   background: #fbfbfb;
+  z-index: 2;
 `;
 
 const StyledItem = styled.li`

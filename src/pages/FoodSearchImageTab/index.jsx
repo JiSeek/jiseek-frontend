@@ -31,29 +31,51 @@ const FoodSearchImageTab = () => {
   useEffect(() => () => cancel(), [cancel]);
 
   return (
-    <article style={{ display: 'flex', justifyContent: 'center' }}>
+    <article>
       {analysis.length === 0 ? (
-        <FoodUploadContainer>
+        <FoodUploadContainer
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
           {status === 'loading' && (
-            <img src={AnalysisGif} alt={t('foodSearchAnalysisLoading')} />
+            <img
+              src={AnalysisGif}
+              alt={t('foodSearchAnalysisLoading')}
+              style={{ objectFit: 'contain', background: '#fbfbfb' }}
+            />
           )}
           {RenderFoodUpload()}
         </FoodUploadContainer>
       ) : (
         status === 'success' && (
-          <FoodDetails type="image" id={analysis[slideIdx]?.id || -1}>
-            {RenderImageSlider()}
-            <div>
-              <span>
-                {t('foodSearchSimilarity', {
-                  what: analysis[slideIdx]?.similarity,
-                })}
-              </span>
-            </div>
-            <button type="button" onClick={() => reset()}>
-              다시 검사하기
-            </button>
-          </FoodDetails>
+          <>
+            <ResultFoodNames>
+              <span>결과 : </span>
+              {analysis.map((eachList) => (
+                <span>{eachList.name}</span>
+              ))}
+              <button type="button" onClick={() => reset()}>
+                다시 검색하기
+              </button>
+            </ResultFoodNames>
+
+            <FoodDetails type="image" id={analysis[slideIdx]?.id || -1}>
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginBottom: '1rem',
+                  fontSize: '1.15rem',
+                }}
+              >
+                <span>
+                  {/* 정확도 */}
+                  {t('foodSearchSimilarity', {
+                    what: analysis[slideIdx]?.similarity,
+                  })}
+                </span>
+              </div>
+              {RenderImageSlider()}
+            </FoodDetails>
+          </>
         )
       )}
     </article>
@@ -69,6 +91,27 @@ const FoodUploadContainer = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
+  }
+`;
+
+const ResultFoodNames = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+
+  > span {
+    padding: 0 0.5rem;
+
+    :nth-child(2n) {
+      border-right: 1px solid;
+    }
+
+    :first-child {
+      border-left: none;
+    }
+    :last-child {
+      border-right: none;
+    }
   }
 `;
 

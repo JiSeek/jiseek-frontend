@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components'; 
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useQuery } from 'react-query';
-import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
 
 
 function LastestBoardContainer() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     // 게시판 목록 읽어오기 (R) : 최신순
     const { 
@@ -16,13 +17,19 @@ function LastestBoardContainer() {
         isSuccess,
         isLoading, 
         isError, 
-        error } = useQuery(boardKeys.superior, jiseekApi.get()); 
+        error 
+    } = useQuery(
+        boardKeys.superior,
+        jiseekApi.get(), {
+            refetchOnWindowFocus: true,
+            staleTime: 600000,
+        }); 
     
     if (isSuccess) {
         console.log('최신순 조회 성공');
     }
     if (isError) {
-        toast.warn('최신순 조회 에러', error); // 모달
+        console.log(t('boardReadErr'), error);
         return (
             <>
                 <Link to={navigate(-1)}>

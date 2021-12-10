@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -13,7 +14,8 @@ function BoardModify() {
     const params = useParams();
     const [ selectedImg, setSelectedImg ] = useState({file: '', url: location.state.photo});
     const [ modifiedText, setModifiedText ] = useState('');
-    const [ modifiedCharacters, setModifiedChracters ] = useState (0);
+    const [ modifiedCharacters, setModifiedChracters ] = useState(0);
+    const { t } = useTranslation();
     
 
     // 게시판 수정 기능 (U)
@@ -26,8 +28,8 @@ function BoardModify() {
                     ...accessTkn, 
                     isForm: true,
                     photo,
-                    content })  
-                );
+                    content,
+                }));
             } 
             if (!photo && content) {
                 return (
@@ -48,17 +50,17 @@ function BoardModify() {
         },
         {
             onSuccess: (da) => {
-                console.log('게시판 수정 성공', da)
+                toast.success(t('boardUpdateSucc'), da)
                 // 서버에서 id받아서 상세 페이지로 이동
                 navigate(`/board/details/${da.id}`);
             },
-            onError: (e) => toast.error('게시판 수정 에러', e),
+            onError: (e) => toast.error(t('boardUpdateErr'), e),
         }
     );
 
     const handleUpdate = () => {
         if (!selectedImg.file && !modifiedText) {
-            toast.warn('수정된 내용이 없습니다!');
+            toast.warn(t('boardUpdateNone'));
         } else {
            update.mutate({ content: modifiedText, photo: selectedImg.file });
         }
@@ -80,9 +82,10 @@ function BoardModify() {
     useEffect(() => {
         setModifiedChracters(modifiedText.length);
         if (modifiedText.length > 255) {
+            toast.warn(t('boardLimitedText'));
             setModifiedText(modifiedText.slice(0, 255));
         }
-    }, [ modifiedText ]);
+    }, [ modifiedText, t ]);
 
     
     return (

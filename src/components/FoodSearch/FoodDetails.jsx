@@ -3,11 +3,11 @@ import PropTypes, { any, number } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import FoodRecipesContainer from './FoodRecipesContainer';
-import Nutrition from './Nutrition';
+// import Nutrition from './Nutrition';
 import { LoadingCircle, NoResultGif } from '../../assets/images/images';
 import { LikeButton, StyledErrorMsg } from '../common';
-// import FoodNutritionTable from './FoodNutritionTable';
-// import FoodNutritionChart from './FoodNutritionChart';
+import FoodNutritionTable from './FoodNutritionTable';
+import FoodNutritionChart from './FoodNutritionChart';
 
 const FoodDetails = ({
   type,
@@ -53,7 +53,6 @@ const FoodDetails = ({
           </TitleWithButton>
           <GridResult>
             <section>
-              {type !== 'image' && <Subtitle> 음식 사진 </Subtitle>}
               {(!children || !imgUrl) && (
                 <ImageSquare>
                   <img src={foodInfo?.image1} alt="test" />
@@ -63,19 +62,19 @@ const FoodDetails = ({
             </section>
             <section>
               <Subtitle>영양 정보</Subtitle>
-              <Nutrition foodInfo={foodInfo} />
-              {/* <div style={{ height: 330 }}>
+              {/* <Nutrition foodInfo={foodInfo} /> */}
+              <div>
                 <FoodNutritionChart foodInfo={foodInfo} />
-              </div> */}
-              {/*  <FoodNutritionTable foodInfo={foodInfo} /> */}
+                <FoodNutritionTable foodInfo={foodInfo} />
+              </div>
             </section>
-            {!onModal && (
-              <section>
-                <Subtitle>음식 레시피</Subtitle>
-                <FoodRecipesContainer food={foodInfo?.name || ''} />
-              </section>
-            )}
           </GridResult>
+          {!onModal && (
+            <section>
+              <Subtitle>음식 레시피</Subtitle>
+              <FoodRecipesContainer food={foodInfo?.name || ''} />
+            </section>
+          )}
         </>
       )}
     </Result>
@@ -124,38 +123,23 @@ const Result = styled.article`
 
 const GridResult = styled.div`
   display: grid;
-  margin: 0 2rem;
-  grid-gap: 2rem 4rem;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-areas:
-    'photo chart'
-    'recipes chart';
+  grid-gap: 4rem;
+  grid-template-columns: 1fr 2fr;
   text-align: initial; // TODO: 임시 처리
 
   section {
-    &:first-child {
-      grid-area: photo;
-    }
-    &:nth-child(2) {
-      grid-area: chart;
-    }
     &:last-child {
-      grid-area: recipes;
-      width: 100%;
+      > div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
 
   @media only screen and (max-width: 800px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-areas: 'photo' 'chart' 'recipes';
+    /* grid-template-columns: repeat(1, 1fr);
     grid-gap: 3rem;
-    margin: 0;
-
-    section {
-      &:nth-child(2) {
-        margin: 0 2rem;
-      }
-    }
+    margin: 0; */
   }
 `;
 
@@ -170,6 +154,25 @@ const Subtitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 500;
   margin: 1.25rem;
+  
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+
+  ::before,
+  ::after {
+    content: '';
+    flex-grow: 1;
+    background: #00110036;
+    height: 1px;
+  }
+
+  ::before {
+    margin-right: 1rem;
+  }
+  ::after {
+    margin-left: 1rem;
+  }
 `;
 
 const ImageSquare = styled.div`
@@ -177,6 +180,7 @@ const ImageSquare = styled.div`
   width: 100%;
   padding-bottom: 100%;
   overflow: hidden;
+  box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
 
   > img {
     position: absolute;

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { RiYoutubeLine } from 'react-icons/ri';
 import { VscEye } from 'react-icons/vsc';
 import { BiTimeFive } from 'react-icons/bi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
@@ -36,10 +35,6 @@ const FoodRecipes = ({ food, recipes, status }) => (
               </li>
               <RecipesInfo>
                 <span>
-                  <li>
-                    <RiYoutubeLine />
-                    <span>{recipe.snippet.publishedAt.slice(0, 10)}</span>
-                  </li>
                   <li>
                     <VscEye />
                     <span>{recipe.statistics.viewCount}</span>
@@ -138,9 +133,8 @@ const RecipesStructure = styled.div`
 
   > div {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-gap: 2rem 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.5rem;
     width: 100%;
 
     @media only screen and (max-width: 800px) {
@@ -154,7 +148,7 @@ const RecipesStructure = styled.div`
   }
 `;
 
-const RecipesInfo = styled.span`
+const RecipesInfo = styled.div`
   > span {
     display: flex;
     justify-content: space-between;
@@ -162,7 +156,7 @@ const RecipesInfo = styled.span`
     > li {
       display: flex;
       align-items: center;
-      >svg{
+      > svg {
         margin-right: 0.25rem;
       }
     }

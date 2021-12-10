@@ -30,23 +30,24 @@ const Table = ({
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
+
+    state: { pageIndex },
   } = useTable(
     {
       columns,
       data,
+      initialState: { pageIndex: 0 },
+      manualPagination: true,
+
       pageCount: controlledPageCount,
     },
     usePagination,
   );
-  console.log('pageCount', pageCount);
 
   useEffect(() => {
-    fetchData({ pageIndex, pageSize });
-  }, [fetchData, pageIndex, pageSize]);
+    fetchData({ pageIndex });
+  }, [fetchData, pageIndex]);
 
-  console.log('headerGroups', headerGroups);
   return (
     <>
       <table {...getTableProps()}>
@@ -54,16 +55,7 @@ const Table = ({
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  <span>
-                    {column.isSorted ? (
-                      <>{column.isSortedDesc ? ' 🔽' : ' 🔼'}</>
-                    ) : (
-                      ''
-                    )}
-                  </span>
-                </th>
+                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
               ))}
             </tr>
           ))}
@@ -84,7 +76,7 @@ const Table = ({
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                Showing {page.length} of ~{controlledPageCount * 5}
                 results
               </td>
             )}
@@ -98,58 +90,34 @@ const Table = ({
           disabled={!canPreviousPage}
         >
           {'<<'}
-        </button>{' '}
+        </button>
         <button
           type="button"
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
         >
           {'<'}
-        </button>{' '}
+        </button>
+        <span>
+          Page
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>
+        </span>
         <button
           type="button"
           onClick={() => nextPage()}
           disabled={!canNextPage}
         >
           {'>'}
-        </button>{' '}
+        </button>
         <button
           type="button"
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
         >
           {'>>'}
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <span>
-          | Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={(e) => {
-              const tempPage = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(tempPage);
-            }}
-            style={{ width: '100px' }}
-          />
-        </span>{' '}
-        <select
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((tempPageSize) => (
-            <option key={tempPageSize} value={tempPageSize}>
-              Show {tempPageSize}
-            </option>
-          ))}
-        </select>
+        </button>
       </div>
     </>
   );
@@ -171,72 +139,30 @@ const FoodNutritionTable = ({ foodInfo }) => {
     }));
   }, [foodInfo]);
 
-  // return (
-  //   <StyledTableContainer>
-  //     <ThemeProvider theme={theme}>
-  //       <MaterialTable
-  //         title="Detail Information"
-  //         columns={columns}
-  //         data={detail}
-  //         options={{
-  //           search: true,
-  //           sorting: true,
-  //         }}
-  //         style={{ zIndex: '1' }}
-  //       />
-  //     </ThemeProvider>
-  //   </StyledTableContainer>
-  // );
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const fetchIdRef = useRef(0);
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex }) => {
-      console.log('pageSize123', pageSize);
-      console.log('fetchIdRef.current', fetchIdRef.current);
+    ({ pageIndex }) => {
       fetchIdRef.current += 1;
       const fetchId = fetchIdRef.current;
 
       setLoading(true);
 
-      console.log('?!?!?!?!?!?!?!?!?!?');
-      console.log('fetchId', fetchId);
-      console.log('fetchIdRef.current', fetchIdRef.current);
-      console.log('?!?!?!?!?!?!?!?!?!?');
       setTimeout(() => {
         if (fetchId === fetchIdRef.current) {
-          console.log('fetchId', fetchId);
-          console.log('fetchIdRef.current', fetchIdRef.current);
-          const startRow = pageSize * pageIndex;
-          const endRow = startRow + pageSize;
+          const startRow = 5 * pageIndex;
+          const endRow = startRow + 5;
           setData(detail.slice(startRow, endRow));
-
-          setPageCount(Math.ceil(detail.length / pageSize));
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-          console.log('fetchId', fetchId);
-          console.log('pageSize', pageSize);
-          console.log('pageIndex', pageIndex);
-          console.log('startRow', startRow);
-          console.log('endRow', endRow);
-          console.log('detail.length', detail.length);
-          console.log('pageCount', pageCount);
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
+          setPageCount(Math.ceil(detail.length / 5));
           setLoading(false);
         }
       }, 1000);
     },
-    [detail, pageCount],
+    [detail],
   );
-  console.log('-------------------------');
-  console.log('detail', detail);
-  console.log('detail.length', detail.length);
-  console.log('columns', columns);
-  console.log('data', data);
-  console.log('pageCount', pageCount);
-  console.log('-------------------------');
   return (
     <Styles>
       <Table
@@ -261,12 +187,6 @@ Table.propTypes = {
 FoodNutritionTable.propTypes = {
   foodInfo: PropTypes.oneOfType([any]).isRequired,
 };
-
-// const StyledTableContainer = styled.div`
-//   margin-bottom: 3.5rem;
-//   margin: '0';
-//   width: 100%;
-// `;
 
 const Styles = styled.div`
   padding: 1rem;

@@ -43,7 +43,7 @@ const COLORS = {
 
 // const getSummary = (foodInfo) => {
 
-function getSummary(foodInfo){
+function getSummary(foodInfo) {
   // const standard = {
   //   label: '1일 권장량(% Daily Values)',
   //   fill: true,
@@ -60,28 +60,30 @@ function getSummary(foodInfo){
   //     BGCOLORS.protein,
   //     BGCOLORS.fat,
   //     BGCOLORS.Cholesterol,
-  //   ], 
+  //   ],
   // };
 
   const over100 = {
-    label : "servings, energy",
-    fill : true,
-    data : [
-      foodInfo.size, foodInfo.kcal, 0, 0, 0, 0, 0
-    ],
+    label: 'servings, energy',
+    fill: true,
+    data: [foodInfo.size, foodInfo.kcal, 0, 0, 0, 0, 0],
     borderColor: 'rgba(0, 0, 0, 0)',
     borderWidth: 1,
-    backgroundColor: [
-      COLORS.size,
-      COLORS.kcal,
-      COLORS.Cholesterol,
-    ],
-    yAxisID: 'over100'
-  }
+    backgroundColor: [COLORS.size, COLORS.kcal, COLORS.Cholesterol],
+    yAxisID: 'over100',
+  };
 
   const under100 = {
-    label : "nutritions",
-    data : [0, 0, foodInfo.carbohydrate, foodInfo.total_sugar, foodInfo.protein, foodInfo.fat, foodInfo.Cholesterol],
+    label: 'nutritions',
+    data: [
+      0,
+      0,
+      foodInfo.carbohydrate,
+      foodInfo.total_sugar,
+      foodInfo.protein,
+      foodInfo.fat,
+      foodInfo.Cholesterol,
+    ],
     borderColor: 'rgba(0, 0, 0, 0)',
     borderWidth: 1,
     backgroundColor: [
@@ -90,9 +92,9 @@ function getSummary(foodInfo){
       COLORS.protein,
       COLORS.fat,
     ],
-    yAxisID : 'under100'
-  }
-  
+    yAxisID: 'under100',
+  };
+
   // const foodData = {
   //   label: foodInfo.name,
   //   fill: true,
@@ -121,7 +123,13 @@ function getSummary(foodInfo){
   // };
 
   // console.log(foodData.data);
-  console.log(foodInfo.carbohydrate, foodInfo.total_sugar, foodInfo.protein, foodInfo.fat, foodInfo.Cholesterol)
+  console.log(
+    foodInfo.carbohydrate,
+    foodInfo.total_sugar,
+    foodInfo.protein,
+    foodInfo.fat,
+    foodInfo.Cholesterol,
+  );
 
   return !foodInfo
     ? {}
@@ -133,11 +141,11 @@ function getSummary(foodInfo){
           'Total_sugar(g)',
           'Protein(g)',
           'Fat(g)',
-          'Cholesterol(mg)', 
+          'Cholesterol(mg)',
         ],
-        datasets: [over100, under100]
+        datasets: [over100, under100],
       };
-};
+}
 
 const FoodNutritionChart = ({ foodInfo }) => (
   <StyledChartContainer>
@@ -145,17 +153,22 @@ const FoodNutritionChart = ({ foodInfo }) => (
       data={getSummary(foodInfo)}
       options={{
         maintainAspectRatio: false,
-        responsive: false,
+        // responsive: false,
         tooltip: {
           mode: 'index',
           intersect: true,
         },
-        yAxes: [{
-          id: 'over100'
-        }, {
-          id: 'under100'
-        }]
+        yAxes: [
+          {
+            id: 'over100',
+          },
+          {
+            id: 'under100',
+          },
+        ],
       }}
+      // width='300px'
+      // height='300px'
     />
   </StyledChartContainer>
 );
@@ -165,9 +178,13 @@ FoodNutritionChart.propTypes = {
 };
 
 const StyledChartContainer = styled.div`
-  margin-bottom: 3.5rem;
-  /* width: 100%; */
-  height: 100%;
+  /* margin-bottom: 3.5rem; */
+  /* width: 100%;
+  height: 100%; */
+  > canvas {
+    /* height: 100%;
+    width: 100%; */
+  }
 `;
 
 export default FoodNutritionChart;

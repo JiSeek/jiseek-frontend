@@ -19,6 +19,7 @@ import {
   BoardPage,
   BoardDetailsPage,
   BoardUploadPage,
+  BoardModifyPage,
   MyPage,
   VerifyPage,
   LogOutPage,
@@ -60,7 +61,7 @@ const App = () => (
             />
             <Route path="board" element={<BoardPage />}>
               <Route path="upload" element={<BoardUploadPage />} />
-              <Route path="modify/:id" element={<BoardUploadPage />} />
+              <Route path="modify/:id" element={<BoardModifyPage />} />
               <Route path="details/:id" element={<BoardDetailsPage />} />
             </Route>
             <Route

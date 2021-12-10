@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import LogInButton from './LogInButton';
 import { NaverLogo } from '../../assets/images/images';
 import { oAuth2 } from '../../api';
@@ -80,19 +81,19 @@ const NaverLogIn = ({ lang }) => {
   });
 
   return (
-    <>
-      <a
+    <NaverLoginContainer>
+      {/* <a
         href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${oAuth2.naver.apiKey}&state=123&redirect_uri=${oAuth2.naver.redirectUrl}`}
-      >
-        <LogInButton
-          logo={NaverLogo}
-          sns={lang === 'ko' ? '네이버 로그인' : 'Login with Naver'}
-          background="#00BF18"
-        />
-      </a>
+      > */}
+      <LogInButton
+        logo={NaverLogo}
+        sns={lang === 'ko' ? '네이버 로그인' : 'Login with Naver'}
+        background="#00BF18"
+      />
+      {/* </a> */}
       {/* <Naver /> */}
       <div id="naverIdLogin" />
-    </>
+    </NaverLoginContainer>
   );
 };
 
@@ -103,5 +104,15 @@ NaverLogIn.propTypes = {
 NaverLogIn.defaultProps = {
   lang: 'ko',
 };
+
+const NaverLoginContainer = styled.div`
+  position: relative;
+  > div:last-child {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    opacity: 0.1;
+  }
+`;
 
 export default NaverLogIn;

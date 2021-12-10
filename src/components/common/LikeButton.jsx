@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTyps from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const LikeButton = ({ like }) => (
-  <FontAwesomeIcon icon={faThumbsUp} color={like ? 'red' : 'auto'} />
+  <FontAwesomeIcon icon={faHeart} size="2x" color={like ? '#FE3A31' : 'gray'} />
 );
 
 LikeButton.propTypes = {

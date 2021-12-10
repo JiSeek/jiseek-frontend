@@ -19,7 +19,9 @@ const FoodSearchImageTab = () => {
   useEffect(
     () =>
       analysis &&
-      setListFind(() => analysis.map(({ name, url }) => ({ name, url }))),
+      setListFind(() =>
+        analysis.map(({ id, name, url }) => ({ id, name, url })),
+      ),
     [analysis],
   );
 
@@ -51,14 +53,17 @@ const FoodSearchImageTab = () => {
             <ResultFoodNames>
               <span>결과 : </span>
               {analysis.map((eachList) => (
-                <span>{eachList.name}</span>
+                <span key={eachList.id}>{eachList.name}</span>
               ))}
               <button type="button" onClick={() => reset()}>
                 다시 검색하기
               </button>
             </ResultFoodNames>
-
-            <FoodDetails type="image" id={analysis[slideIdx]?.id || -1}>
+            <FoodDetails
+              type="image"
+              id={analysis[slideIdx]?.id || -1}
+              imgUrl={analysis[slideIdx]?.url}
+            >
               <div
                 style={{
                   textAlign: 'center',

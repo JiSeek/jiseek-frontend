@@ -34,9 +34,9 @@ const RootPage = () => {
       <StyledToastContainer
         position="top-center"
         autoClose={2000}
-        hideProgressBar={false}
+        hideProgressBar
         pauseOnHover={false}
-        draggable={false}
+        draggable
         theme="colored"
       />
     </TotalStyle>

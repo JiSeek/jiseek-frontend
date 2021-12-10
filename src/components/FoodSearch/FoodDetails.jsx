@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import FoodRecipesContainer from './FoodRecipesContainer';
 import Nutrition from './Nutrition';
-import { LoadingCircle } from '../../assets/images/images';
+import { LoadingCircle, NoResultGif } from '../../assets/images/images';
 import { LikeButton, StyledErrorMsg } from '../common';
 // import FoodNutritionTable from './FoodNutritionTable';
 // import FoodNutritionChart from './FoodNutritionChart';
@@ -13,6 +13,7 @@ const FoodDetails = ({
   type,
   foodInfo,
   status,
+  imgUrl,
   favFoods,
   likeStatus,
   onModal,
@@ -27,7 +28,8 @@ const FoodDetails = ({
           <img src={LoadingCircle} alt="loading" />
         </Center>
       )}
-      {status === 'error' && <>요기다 에러메시지 퐉</>}
+      {/* TODO: 수정 필요, 임시 처리 */}
+      {status === 'error' && <img src={NoResultGif} alt="결과 없음 이미지" />}
       {status === 'success' && (
         <>
           <TitleWithButton>
@@ -52,12 +54,12 @@ const FoodDetails = ({
           <GridResult>
             <section>
               {type !== 'image' && <Subtitle> 음식 사진 </Subtitle>}
-              {!children && (
+              {(!children || !imgUrl) && (
                 <ImageSquare>
                   <img src={foodInfo?.image1} alt="test" />
                 </ImageSquare>
               )}
-              {children}
+              {imgUrl && children}
             </section>
             <section>
               <Subtitle>영양 정보</Subtitle>
@@ -83,6 +85,7 @@ const FoodDetails = ({
 FoodDetails.propTypes = {
   type: PropTypes.string,
   foodInfo: PropTypes.oneOfType([any]),
+  imgUrl: PropTypes.string,
   status: PropTypes.string,
   favFoods: PropTypes.arrayOf(number),
   likeStatus: PropTypes.string,
@@ -93,6 +96,7 @@ FoodDetails.propTypes = {
 FoodDetails.defaultProps = {
   type: 'name',
   foodInfo: {},
+  imgUrl: '',
   status: '',
   favFoods: [],
   likeStatus: '',
@@ -115,6 +119,7 @@ const TitleWithButton = styled.div`
 
 const Result = styled.article`
   padding: 2rem 0;
+  text-align: center; // TODO: 임시 처리
 `;
 
 const GridResult = styled.div`
@@ -125,6 +130,7 @@ const GridResult = styled.div`
   grid-template-areas:
     'photo chart'
     'recipes chart';
+  text-align: initial; // TODO: 임시 처리
 
   section {
     &:first-child {

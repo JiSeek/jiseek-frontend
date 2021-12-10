@@ -95,23 +95,27 @@ const useImageSlider = (imageList = [], options = {}) => {
     <div>
       <StyledSliderContainer>
         <StyledSlider slideIdx={slideIdx}>
-          {imageList.map(({ name, url }, idx) => (
-            <li key={`${name}`}>
-              <StyledSlide
-                active={slideIdx === idx}
-                type="image"
-                src={url}
-                alt={`${name} 이미지`}
-                value={`${name}`}
-                // onMouseDown={onDragDown}
-                // onMouseMove={onDragMove}
-                // onMouseUp={onDragUp}
-                // onMouseLeave={onAreaLeave}
-                onTouchStart={onDragDown}
-                onTouchMove={onDragMove}
-                onTouchEnd={onDragUp}
-              />
-            </li>
+          {imageList.map(({ id, name, url }, idx) => (
+            <React.Fragment key={`${name}-${id}`}>
+              {url && (
+                <li>
+                  <StyledSlide
+                    active={slideIdx === idx}
+                    type="image"
+                    src={url}
+                    alt={`${name} 이미지`}
+                    value={`${name}`}
+                    // onMouseDown={onDragDown}
+                    // onMouseMove={onDragMove}
+                    // onMouseUp={onDragUp}
+                    // onMouseLeave={onAreaLeave}
+                    onTouchStart={onDragDown}
+                    onTouchMove={onDragMove}
+                    onTouchEnd={onDragUp}
+                  />
+                </li>
+              )}
+            </React.Fragment>
           ))}
         </StyledSlider>
       </StyledSliderContainer>

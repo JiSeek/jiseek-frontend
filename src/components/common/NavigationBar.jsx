@@ -75,6 +75,7 @@ const StyledUl = styled.ul`
   height: 100%;
   letter-spacing: 0.05rem;
   position: relative;
+  padding-top:0.65rem;
 `;
 
 const StyledLi = styled.li`

@@ -43,5 +43,5 @@ const SelectBar = styled.div`
   height: 0.5rem;
   background: #72af2c;
   position: absolute;
-  bottom: 0;
+  bottom: 0.3rem;
 `;

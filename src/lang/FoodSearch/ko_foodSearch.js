@@ -2,8 +2,8 @@ import { foodsMapKoToEn } from '../../constants';
 
 const KO_FOOD_SEARCH = {
   foodSearchTitle: '음식 알아보기',
-  foodSearchNameTab: '음식으로 검색하기',
-  foodSearchImageTab: '사진으로 검색하기',
+  foodSearchNameTab: '음식 이름',
+  foodSearchImageTab: '음식 사진',
   foodSearchSearchBar: '음식명을 입력해주세요.',
   foodSearchImageAlt: '업로드한 이미지',
   foodSearchImageUpload: '사진 선택',
@@ -21,6 +21,7 @@ const KO_FOOD_SEARCH = {
   foodSearchTitleRecipes: '음식 레시피',
   foodSearchMoreRecipesLink: '레시피 더보기',
   foodSearchMoreInfo: '설명 더보기',
+  foodSearchNoRecipesErr: '유튜브에서 레시피를 불러올 수 없습니다.',
   // Loading
   foodSearchAnalysisLoading: '음식 분석 로딩 이미지',
   // Error

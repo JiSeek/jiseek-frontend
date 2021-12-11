@@ -166,8 +166,9 @@ const StyledSelectModal = styled.div`
 
 const StyledMessageModal = styled.div`
   ${ModalCommon}
-  width: 330px;
-  height: 70%;
+  width: 50vw;
+  max-width: 660px;
+  max-height: 70vh;
   display: flex;
   flex-direction: column;
 
@@ -182,14 +183,27 @@ const StyledMessageModal = styled.div`
   > div {
     display: flex;
     max-width: 100%;
-    margin: 0px 20px 25px 20px;
+    margin: 0px 0 3rem 0;
+    padding: 0px 4rem 0 4rem;
     text-align: center;
     overflow-y: auto;
+
     ::-webkit-scrollbar {
-      display: none;
+      width: 0.4vw;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
     }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #72af2c95;
+      border-radius: 30px;
+    }
+
+    /* ::-webkit-scrollbar-thumb {
+      background:red;
+    } */
+    /* -ms-overflow-style: none;
+    scrollbar-width: none; */
   }
 
   @media screen and (max-width: 480px) {

@@ -100,7 +100,7 @@ const DropContainer = styled.div`
 `;
 
 const FileLabel = styled.label`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   background-color: #92ce4d;
   text-align: center;
   padding: 1rem 0;

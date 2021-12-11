@@ -51,12 +51,14 @@ const FoodSearchImageTab = () => {
         status === 'success' && (
           <>
             <ResultFoodNames>
-              <span>{t('foodSearchImgResultTitle')}</span>
-              {analysis.map((eachList) => (
-                <span key={eachList.id}>
-                  {t(`foodSearchFoodName.${eachList.name}`)}
-                </span>
-              ))}
+              <span>
+                <span>{t('foodSearchImgResultTitle')}</span>
+                {analysis.map((eachList) => (
+                  <span key={eachList.id}>
+                    {t(`foodSearchFoodName.${eachList.name}`)},
+                  </span>
+                ))}
+              </span>
               <button type="button" onClick={() => reset()}>
                 {t('foodSearchImgRetry')}
               </button>
@@ -104,21 +106,40 @@ const FoodUploadContainer = styled.div`
 const ResultFoodNames = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 
   > span {
-    padding: 0 0.5rem;
+    border-bottom: 2px solid #c1dda0;
+    padding: 0.7rem 0 0.5rem 0;
 
-    :nth-child(2n) {
-      border-right: 1px solid;
-    }
+    > span {
+      padding: 0 0.5rem;
 
-    :first-child {
-      border-left: none;
+      :nth-child(2n) {
+        /* border-right: 1px solid; */
+      }
+
+      :first-child {
+        border-left: none;
+      }
+      :last-child {
+        border-right: none;
+      }
     }
-    :last-child {
-      border-right: none;
-    }
+  }
+
+  > button {
+    font-size: 0.9rem;
+    background-color: #407f00;
+    color: #f6fff2;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1.25rem;
+    letter-spacing: 1px;
+
+    margin-left: 2rem;
   }
 `;
 

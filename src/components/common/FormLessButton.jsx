@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const FormLessButton = ({ hidden, disable, onClick, children }) => (
+const FormLessButton = ({ hidden, disabled, onClick, children }) => (
   <StyledButton
-    disable={disable}
+    disabled={disabled}
     type="button"
     hidden={hidden}
     onClick={onClick}
@@ -15,14 +15,14 @@ const FormLessButton = ({ hidden, disable, onClick, children }) => (
 
 FormLessButton.propTypes = {
   hidden: PropTypes.bool,
-  disable: PropTypes.bool,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.element,
 };
 
 FormLessButton.defaultProps = {
   hidden: false,
-  disable: false,
+  disabled: false,
   onClick: null,
   children: null,
 };
@@ -33,6 +33,9 @@ const StyledButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
+  :disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export default FormLessButton;

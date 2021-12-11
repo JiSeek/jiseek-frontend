@@ -5,6 +5,14 @@ export const foodKeys = Object.freeze({
   recipes: (name) => ['foods', 'recipes', name],
 });
 
+// 게시판 페이지 고유키 정의
+export const boardKeys = Object.freeze({
+  all: 'boards',
+  best: ['boards', 'rank'],
+  postById: (id) => ['boards', id],
+  commentsByBoardId: (boardId) => ['boards', boardId, 'comments'],
+});
+
 // 사용자 정보 고유키 정의
 export const userKeys = Object.freeze({
   all: 'user',
@@ -29,16 +37,8 @@ export const mutationKeys = Object.freeze({
   password: 'userPassword',
   signUp: 'signUp',
   token: 'tokenRefresh',
-  all: 'foods',
+  foodAll: 'foods',
   foodUpload: ['foods', 'upload'],
   foodResult: ['foods', 'result'],
-});
-
-// 게시판 페이지 고유키 정의
-export const boardKeys = Object.freeze({
-  // Object.freeze 속성의 불변성
-  superior: 'boards',
-  bestBoards: ['boards', 'rank'],
-  detailsById: (id) => ['boards', id],
-  commentsById: (boardId) => ['boards', boardId, 'comments'],
+  postDelete: ['boards', 'delete'],
 });

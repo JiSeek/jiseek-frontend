@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import PropTypes, { bool, any } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -23,13 +23,17 @@ const updateFavs = (like, preFavs, data) => {
       *주의: 게시판의 경우 상세 보기의 url에 해당 값이 포함되어 있음. 
     - data:
       *주의: 게시판의 경우 상세 보기의 url에 있는 id(pk)값을 data에 포함시켜줘야 함. => data = {id(url의 id값), ...}
-    - initState: boolean 타입, 좋아요 초기 상태값
+    - like: boolean 타입, 좋아요 현재 상태값
+    - refreshKey: 좋아요 반영 후 리프레쉬를 적용시킬 대상 key값.
 */
-const LikeButtonContainer = ({ type, data, like }) => {
+const LikeButtonContainer = ({ type, data, like, refreshKey }) => {
   const { t } = useTranslation();
   const { token } = useAuthContext();
   const queryClient = useQueryClient();
-  const key = type === 'board' ? myPageKeys.favPosts : myPageKeys.favFoods;
+  const key = useMemo(
+    () => (type === 'board' ? myPageKeys.favPosts : myPageKeys.favFoods),
+    [type],
+  );
 
   const queryClinet = useQueryClient();
   const likeTarget = useMutation(
@@ -40,24 +44,26 @@ const LikeButtonContainer = ({ type, data, like }) => {
     {
       mutationKey: mutationKeys.like,
       onMutate: async (request) => {
-        await queryClient.cancelQueries(key);
+        await queryClient.cancelQueries(refreshKey || key);
         const previousFavs = queryClient.getQueryData(key);
         queryClinet.setQueryData(
           key,
-          updateFavs(request.like, previousFavs, request.data),
+          updateFavs(request.like, previousFavs || [], request.data),
         );
         return { previousFavs };
       },
+      onSuccess: (res) => console.log('좋아요 상태: ', res),
       onError: (_1, _2, context) => {
         toast.error(t('myPageLikeApplyErr'), { toastId: 'likeApplyErr' });
         queryClinet.setQueryData(key, context.previousFavs);
       },
-      // onSettled: () => queryClinet.invalidateQueries(key),
+      onSettled: () => queryClinet.invalidateQueries(refreshKey || key),
     },
   );
 
   return (
     <FormLessButton
+      disabled={!token.access}
       onClick={() => {
         if (!data?.pk || data.pk === -1) {
           return;
@@ -73,12 +79,14 @@ const LikeButtonContainer = ({ type, data, like }) => {
 LikeButtonContainer.propTypes = {
   type: PropTypes.oneOf(['board', 'food']).isRequired,
   data: PropTypes.objectOf(PropTypes.any),
-  like: PropTypes.bool,
+  like: bool,
+  refreshKey: PropTypes.oneOfType([any]),
 };
 
 LikeButtonContainer.defaultProps = {
   data: {},
   like: false,
+  refreshKey: '',
 };
 
 export default LikeButtonContainer;

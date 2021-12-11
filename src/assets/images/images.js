@@ -19,6 +19,7 @@ export { default as NoResultGif } from './gif/no_result.gif';
 export { default as NotFoundGif } from './gif/not_found.gif';
 export { default as Authentication } from './gif/authentication.gif';
 export { default as YoutubeServerError } from './gif/youtube err 2.gif';
+export { default as BoardLoadFailError } from './gif/board_load_fail.gif';
 
 export { default as FileUpload } from './icons/upload3.png';
 

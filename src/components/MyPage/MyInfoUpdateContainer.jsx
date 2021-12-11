@@ -64,8 +64,9 @@ const MyInfoUpdateContainer = () => {
     {
       mutationKey: mutationKeys.userInfo,
       onSuccess: (data) => {
-        setValue('image', data.image);
-        setValue('name', data.name);
+        // TODO: 이걸 왜했지??
+        // setValue('image', data.image);
+        // setValue('name', data.name);
         queryClient.setQueryData(userKeys.info, data);
         toast.success(
           t('myPageChgSuccess', { what: t('myPageInfoEdit').toLowerCase() }),

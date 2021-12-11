@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
 import { FileUpload } from '../../assets/images/images';
 
-// TODO: 초기값 설정해서 내정보 수정에서 쓰기
 const useImageUploader = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [imageFile, setImageFile] = useState(null);

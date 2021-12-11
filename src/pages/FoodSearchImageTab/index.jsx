@@ -27,7 +27,7 @@ const FoodSearchImageTab = () => {
 
   const queryClient = useQueryClient();
   const cancel = useCallback(async () => {
-    await queryClient.cancelMutations(mutationKeys.all);
+    await queryClient.cancelMutations(mutationKeys.foodAll);
   }, [queryClient]);
 
   useEffect(() => () => cancel(), [cancel]);

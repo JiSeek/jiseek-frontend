@@ -17,9 +17,9 @@ import {
   RegisterPage,
   LogInPage,
   BoardPage,
-  BoardDetailsPage,
-  BoardUploadPage,
-  BoardModifyPage,
+  // BoardDetailsPage,
+  // BoardUploadPage,
+  // BoardModifyPage,
   MyPage,
   VerifyPage,
   LogOutPage,
@@ -58,11 +58,11 @@ const App = () => (
                 </FilteredRoute>
               }
             />
-            <Route path="board" element={<BoardPage />}>
-              <Route path="upload" element={<BoardUploadPage />} />
+            <Route path="board/*" element={<BoardPage />} />
+            {/* <Route path="upload" element={<BoardUploadPage />} />
+              <Route path="post/:id" element={<BoardDetailsPage />} />
               <Route path="modify/:id" element={<BoardModifyPage />} />
-              <Route path="details/:id" element={<BoardDetailsPage />} />
-            </Route>
+            </Route> */}
             <Route
               path="mypage/*"
               element={

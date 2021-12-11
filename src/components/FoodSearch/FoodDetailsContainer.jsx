@@ -35,7 +35,7 @@ const FoodDetailsContainer = ({ type, id, imgUrl, onModal, children }) => {
     () => (favList ? favList.map(({ pk }) => Number(pk)) : []),
     [favList],
   );
-  
+
   // TODO: 테스트 필요
   const queryClient = useQueryClient();
   const cancel = useCallback(async () => {

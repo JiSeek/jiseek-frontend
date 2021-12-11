@@ -2,19 +2,30 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { RiYoutubeLine } from 'react-icons/ri';
 import { VscEye } from 'react-icons/vsc';
 import { BiTimeFive } from 'react-icons/bi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useModalContext } from '../../contexts';
+import { YoutubeServerError, LoadingDot } from '../../assets/images/images';
 
 const FoodRecipes = ({ food, recipes, status }) => {
   const { t } = useTranslation();
+
   return (
     <div>
-      {/* TODO: 에러처리 */}
-      {status === 'loading' && <h1>Loading...</h1>}
-      {status === 'error' && <h1>error!!</h1>}
+      {status === 'loading' && (
+        <img src={LoadingDot} alt="youtube server loading" height={60} />
+      )}
+      {status === 'error' && (
+        <>
+          <img
+            src={YoutubeServerError}
+            alt="youtube server error"
+            height={80}
+          />
+          <p>유튜브에서 레시피를 불러올 수 없습니다.</p>
+        </>
+      )}
       {status === 'success' && (
         <RecipesStructure>
           <a
@@ -22,8 +33,7 @@ const FoodRecipes = ({ food, recipes, status }) => {
             target="_blank"
             rel="noreferrer"
           >
-            {t('foodSearchMoreRecipesLink')}
-            <MdOutlineArrowForwardIos />
+            {t('foodSearchMoreRecipesLink')} <MdOutlineArrowForwardIos />
           </a>
           <div>
             {recipes.map((recipe) => (
@@ -41,10 +51,6 @@ const FoodRecipes = ({ food, recipes, status }) => {
                 </li>
                 <RecipesInfo>
                   <span>
-                    <li>
-                      <RiYoutubeLine />
-                      <span>{recipe.snippet.publishedAt.slice(0, 10)}</span>
-                    </li>
                     <li>
                       <VscEye />
                       <span>{recipe.statistics.viewCount}</span>
@@ -145,9 +151,8 @@ const RecipesStructure = styled.div`
 
   > div {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-gap: 2rem 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.5rem;
     width: 100%;
 
     @media only screen and (max-width: 800px) {
@@ -161,14 +166,20 @@ const RecipesStructure = styled.div`
   }
 `;
 
-const RecipesInfo = styled.span`
+const RecipesInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
   > span {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.35rem;
     > li {
       display: flex;
       align-items: center;
+
+      :first-child {
+        margin-right: 0.5rem;
+      }
+
       > svg {
         margin-right: 0.25rem;
       }

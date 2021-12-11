@@ -18,9 +18,7 @@ const FoodSearchPage = () => {
 
   return (
     <StyledSearch>
-      <Title>{t('foodSearchTitle')}</Title>
       <StyledNav>
-        <div />
         <NavLink
           to="."
           end
@@ -35,7 +33,6 @@ const FoodSearchPage = () => {
         >
           {t('foodSearchImageTab')}
         </NavLink>
-        <div />
       </StyledNav>
       <Routes>
         <Route path="/" element={<FoodSearchNameTab />} />
@@ -51,19 +48,17 @@ const StyledSearch = styled.div`
   margin: auto;
 `;
 
-const Title = styled.div`
-  font-size: 2.5rem;
-  font-weight: 800;
-  display: flex;
-  justify-content: center;
-`;
-
 const StyledNav = styled.nav`
-  display: grid;
-  grid-template-columns: 4fr 150px 1rem 150px 4fr;
-  font-size: 1.2rem;
+  font-size: 2rem;
   text-align: center;
-  margin: 2.5rem 0;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  letter-spacing: 1px;
+  word-spacing: 5px;
+
+  > a {
+    margin: auto 1rem;
+  }
 `;
 
 export default FoodSearchPage;

@@ -8,6 +8,13 @@ import React, {
 import PropTypes, { any } from 'prop-types';
 import styled from 'styled-components';
 import { useTable, usePagination } from 'react-table';
+import {
+  BiArrowToLeft,
+  BiArrowToRight,
+  BiLeftArrowAlt,
+  BiRightArrowAlt,
+} from 'react-icons/bi';
+import { LoadingDot } from '../../assets/images/images';
 
 const Table = ({
   columns,
@@ -20,7 +27,7 @@ const Table = ({
   const {
     getTableProps,
     getTableBodyProps,
-    headerGroups,
+    // headerGroups,
     prepareRow,
     page,
     canPreviousPage,
@@ -30,44 +37,30 @@ const Table = ({
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
+
+    state: { pageIndex },
   } = useTable(
     {
       columns,
       data,
+      initialState: { pageIndex: 0 },
+      manualPagination: true,
+
       pageCount: controlledPageCount,
     },
     usePagination,
   );
-  console.log('pageCount', pageCount);
 
   useEffect(() => {
-    fetchData({ pageIndex, pageSize });
-  }, [fetchData, pageIndex, pageSize]);
+    fetchData({ pageIndex });
+  }, [fetchData, pageIndex]);
 
-  console.log('headerGroups', headerGroups);
+  console.log(loading);
+
   return (
     <>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  <span>
-                    {column.isSorted ? (
-                      <>{column.isSortedDesc ? ' 🔽' : ' 🔼'}</>
-                    ) : (
-                      ''
-                    )}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
+      <StyledTable {...getTableProps()}>
+        <thead />
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
@@ -79,78 +72,49 @@ const Table = ({
               </tr>
             );
           })}
-          <tr>
-            {loading ? (
-              <td colSpan="10000">Loading...</td>
-            ) : (
-              <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
-                results
-              </td>
-            )}
-          </tr>
         </tbody>
-      </table>
-      <div className="pagination">
-        <button
-          type="button"
-          onClick={() => gotoPage(0)}
-          disabled={!canPreviousPage}
-        >
-          {'<<'}
-        </button>{' '}
-        <button
-          type="button"
-          onClick={() => previousPage()}
-          disabled={!canPreviousPage}
-        >
-          {'<'}
-        </button>{' '}
-        <button
-          type="button"
-          onClick={() => nextPage()}
-          disabled={!canNextPage}
-        >
-          {'>'}
-        </button>{' '}
-        <button
-          type="button"
-          onClick={() => gotoPage(pageCount - 1)}
-          disabled={!canNextPage}
-        >
-          {'>>'}
-        </button>{' '}
+      </StyledTable>
+      <Pagination>
         <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
+          <button
+            type="button"
+            onClick={() => gotoPage(0)}
+            disabled={!canPreviousPage}
+          >
+            <BiArrowToLeft />
+          </button>
+          <button
+            type="button"
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+          >
+            <BiLeftArrowAlt />
+          </button>
         </span>
+        {loading ? (
+          <img src={LoadingDot} alt="loading" width={40}/>
+        ) : (
+          <p>
+            {pageIndex + 1} / {pageOptions.length}
+          </p>
+        )}
         <span>
-          | Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={(e) => {
-              const tempPage = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(tempPage);
-            }}
-            style={{ width: '100px' }}
-          />
-        </span>{' '}
-        <select
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((tempPageSize) => (
-            <option key={tempPageSize} value={tempPageSize}>
-              Show {tempPageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+          <button
+            type="button"
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+          >
+            <BiRightArrowAlt />
+          </button>
+          <button
+            type="button"
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            <BiArrowToRight />
+          </button>
+        </span>
+      </Pagination>
     </>
   );
 };
@@ -171,74 +135,33 @@ const FoodNutritionTable = ({ foodInfo }) => {
     }));
   }, [foodInfo]);
 
-  // return (
-  //   <StyledTableContainer>
-  //     <ThemeProvider theme={theme}>
-  //       <MaterialTable
-  //         title="Detail Information"
-  //         columns={columns}
-  //         data={detail}
-  //         options={{
-  //           search: true,
-  //           sorting: true,
-  //         }}
-  //         style={{ zIndex: '1' }}
-  //       />
-  //     </ThemeProvider>
-  //   </StyledTableContainer>
-  // );
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const fetchIdRef = useRef(0);
 
   const fetchData = useCallback(
-    ({ pageSize, pageIndex }) => {
-      console.log('pageSize123', pageSize);
-      console.log('fetchIdRef.current', fetchIdRef.current);
+    ({ pageIndex }) => {
       fetchIdRef.current += 1;
       const fetchId = fetchIdRef.current;
 
       setLoading(true);
 
-      console.log('?!?!?!?!?!?!?!?!?!?');
-      console.log('fetchId', fetchId);
-      console.log('fetchIdRef.current', fetchIdRef.current);
-      console.log('?!?!?!?!?!?!?!?!?!?');
       setTimeout(() => {
         if (fetchId === fetchIdRef.current) {
-          console.log('fetchId', fetchId);
-          console.log('fetchIdRef.current', fetchIdRef.current);
-          const startRow = pageSize * pageIndex;
-          const endRow = startRow + pageSize;
+          const startRow = 7 * pageIndex;
+          const endRow = startRow + 7;
           setData(detail.slice(startRow, endRow));
-
-          setPageCount(Math.ceil(detail.length / pageSize));
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-          console.log('fetchId', fetchId);
-          console.log('pageSize', pageSize);
-          console.log('pageIndex', pageIndex);
-          console.log('startRow', startRow);
-          console.log('endRow', endRow);
-          console.log('detail.length', detail.length);
-          console.log('pageCount', pageCount);
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
+          setPageCount(Math.ceil(detail.length / 7));
           setLoading(false);
         }
       }, 1000);
     },
-    [detail, pageCount],
+    [detail],
   );
-  console.log('-------------------------');
-  console.log('detail', detail);
-  console.log('detail.length', detail.length);
-  console.log('columns', columns);
-  console.log('data', data);
-  console.log('pageCount', pageCount);
-  console.log('-------------------------');
   return (
     <Styles>
+      <h2>상세 영양 정보</h2>
       <Table
         columns={columns}
         data={data}
@@ -262,42 +185,72 @@ FoodNutritionTable.propTypes = {
   foodInfo: PropTypes.oneOfType([any]).isRequired,
 };
 
-// const StyledTableContainer = styled.div`
-//   margin-bottom: 3.5rem;
-//   margin: '0';
-//   width: 100%;
-// `;
-
 const Styles = styled.div`
-  padding: 1rem;
+  width: 24vw;
+  height: 28vw;
+  max-width: 320px;
+  max-height: 340px;
 
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
+  > h2 {
+    text-align: center;
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+  }
+`;
 
-    tr {
+const StyledTable = styled.table`
+  font-size: 0.85rem;
+  margin-top: 2rem;
+
+  > thead {
+    display: none;
+  }
+
+  > tbody > tr {
+    > td {
+      padding: 0.95rem 1.25rem;
+
+      :first-child {
+        min-width: 140px;
+        background: #f0f3ee;
+        border-radius: 0 0 5px 5px;
+        font-weight: 500;
+      }
       :last-child {
-        td {
-          border-bottom: 0;
+        min-width: 98px;
+      }
+    }
+
+    :nth-child(2n) {
+      > td {
+        :first-child {
+          background: none;
+        }
+        :last-child {
+          background: #f6fff2;
         }
       }
     }
-
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
-  }
-
-  .pagination {
-    padding: 0.5rem;
   }
 `;
+
+const Pagination = styled.div`
+  width: 22vw;
+  max-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem auto;
+
+  button {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin-bottom: 0.15rem;
+  }
+`;
+
 export default FoodNutritionTable;

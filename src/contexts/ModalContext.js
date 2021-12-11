@@ -198,12 +198,6 @@ const StyledMessageModal = styled.div`
       background-color: #72af2c95;
       border-radius: 30px;
     }
-
-    /* ::-webkit-scrollbar-thumb {
-      background:red;
-    } */
-    /* -ms-overflow-style: none;
-    scrollbar-width: none; */
   }
 
   @media screen and (max-width: 480px) {

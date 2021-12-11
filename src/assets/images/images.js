@@ -21,6 +21,8 @@ export { default as Authentication } from './gif/authentication.gif';
 export { default as YoutubeServerError } from './gif/youtube err 2.gif';
 
 export { default as FileUpload } from './icons/upload3.png';
+export { default as HeartFull } from './icons/heart_full.svg';
+export { default as HeartLine } from './icons/heart_line.svg';
 
 export { default as MainFirst } from './main/main2.jpg';
 export { default as MainTitle } from './main/main3.png';

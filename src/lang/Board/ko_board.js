@@ -10,7 +10,9 @@ const KO_BOARD = {
     boardDeleteSucc: '데이터를 삭제했습니다',
 
     boardRequiredLogin: '로그인이 필요한 서비스입니다! 로그인 페이지로 이동하시겠습니까?',
-    boardDeleteNor: '댓글을 삭제하시겠습니까?',
+    boardSelectPhoto: '이미지를 선택해주세요!',
+    boardWritetContent: '내용을 작성해주세요!',
+    boardDeleteNor: '삭제하시겠습니까?',
     boardUpdateNone: '수정된 내용이 없습니다!',
     boardLimitedText: '255자까지 적을 수 있습니다!',
 

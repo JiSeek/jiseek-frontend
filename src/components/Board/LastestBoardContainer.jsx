@@ -22,7 +22,7 @@ function LastestBoardContainer() {
         boardKeys.superior,
         jiseekApi.get(), {
             refetchOnWindowFocus: true,
-            staleTime: 600000,
+            staleTime: 5 * 60 * 1000, // 5분
         }); 
     
     if (isSuccess) {

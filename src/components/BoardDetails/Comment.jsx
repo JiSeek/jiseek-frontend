@@ -53,7 +53,10 @@ function Comment(){
                 content })
         ),
         {
-            onSuccess: (d) => toast.success(t('boardCreateSucc'), d),
+            onSuccess: (d) => { 
+                toast.success(t('boardCreateSucc'), d);
+                setText('');
+            },
             onError: (e) => toast.error(t('boardCreateErr'), e),
             onSettled: () => { queryClient.invalidateQueries(boardKeys.detailsById(params.id)) }
         }

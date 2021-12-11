@@ -29,10 +29,15 @@ function BoardDetailsContainer() {
     isLoading,
     isError,
     error,
-  } = useQuery(boardKeys.detailsById(params.id), jiseekApi.get(), {
-    refetchOnWindowFocus: true,
-    staleTime: 600000,
-  });
+  } = useQuery(
+    boardKeys.detailsById(params.id), 
+    jiseekApi.get(), {
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: true,
+      staleTime: 5 * 60 * 1000, // 5분
+    }
+  );
 
   if (isError) {
     console.log(t('boardReadErr'), error);
@@ -42,7 +47,7 @@ function BoardDetailsContainer() {
 
   // 게시판 삭제 기능 (D)
   const deletion = useMutation(
-    (id) =>
+    (id) => 
       jiseekApi.delete(`/boards/${id}/`, {
         token: token.access,
       }),
@@ -52,6 +57,7 @@ function BoardDetailsContainer() {
         navigate('/board');
       },
       onError: (er) => toast.error(t('boardDeleteErr'), er),
+      onSettled: () => queryClient.invalidateQueries(boardKeys.superior),
     },
   );
 

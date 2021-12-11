@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
+import { boardKeys } from '../../constants';
 import { useAuthContext } from '../../contexts';
 
 function BoardUpload() {
@@ -13,6 +14,7 @@ function BoardUpload() {
   const [text, setText] = useState('');
   const [characters, setChracters] = useState(0);
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   // 게시판 생성 기능 (C)
   const creation = useMutation(
@@ -30,8 +32,22 @@ function BoardUpload() {
         navigate(`/board/details/${da.id}`);
       },
       onError: (e) => toast.error(t('boardCreateErr'), e),
+      onSettled: () => queryClient.invalidateQueries(boardKeys.superior),
     },
   );
+
+  const handleCreation = () => {
+    if (!selectedImg.file) {
+      toast.warn(t('boardSelectPhoto'))
+    } else if (!text) {
+      toast.warn(t('boardWriteContent'))
+    } else {
+      creation.mutate({ 
+        content: text, 
+        photo: selectedImg.file }
+      )
+    }
+  }
 
   // 이미지 선택
   const handleSelectImg = (e) => {
@@ -78,9 +94,7 @@ function BoardUpload() {
 
         <button
           type="submit"
-          onClick={() =>
-            creation.mutate({ content: text, photo: selectedImg.file })
-          }
+          onClick={ handleCreation }
         >
           게시판 올리기
         </button>

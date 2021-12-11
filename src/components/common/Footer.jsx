@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -11,84 +10,44 @@ import {
   FooterYoutube,
 } from '../../assets/images/images';
 
-const Footer = ({ moveTop }) => {
-  const { t } = useTranslation();
-
-  return (
-    <FooterBackground>
-      <input
-        type="image"
-        onClick={moveTop}
-        src={FooterLogo}
-        alt="Footer Logo"
-      />
-      <FooterContents>
-        <About>
-          <ul>
-            <li>
-              <span>지식</span>知食
-            </li>
-            <li>
-              <Link to="member">
-                고예림, 고정현, 김지훈, 박지윤, 이민영, 전진성
-              </Link>
-            </li>
-            <li>
-              image2jiseek@gmail.com
-              <a href="mailto:image2jiseek@gmail.com">
-                <MdEmail />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/JiSeek"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={FooterGithub} alt="Jiseek Github Link" />
-              </a>
-              <a
-                href="https://kdt-gitlab.elice.io/002-part3-cnn/team2"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={FooterGitlab} alt="Jiseek Gitlab Link" />
-              </a>
-              <a
-                href="https://www.youtube.com/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={FooterYoutube} alt="Jiseek Youtube Link" />
-              </a>
-            </li>
-          </ul>
-        </About>
-        <SiteMap>
-          <ul>
-            <li>
-              <Link to="/">{t('footerSiteMapHome')}</Link>
-            </li>
-            <li>{t('footerSiteMapSearchFood')}</li>
-            <li>
-              <span>
-                <Link to="food">{t('footerSiteMapSearchName')}</Link>
-                <Link to="food/image">{t('footerSiteMapSearchPhoto')}</Link>
-              </span>
-            </li>
-            <li>
-              <Link to="board">{t('footerSiteMapCommunity')}</Link>
-            </li>
-          </ul>
-        </SiteMap>
-      </FooterContents>
-      <Copyright>
-        COPYRIGHT &copy; JISEEK, 대한민국 NO.1 음식 검색 서비스 (KOREA&apos;S
-        NO.1 FOOD SEARCH SERVICE)
-      </Copyright>
-    </FooterBackground>
-  );
-};
+const Footer = ({ moveTop }) => (
+  <FooterBackground>
+    <input type="image" onClick={moveTop} src={FooterLogo} alt="Footer Logo" />
+    <FooterContents>
+      <li>
+        <span>지식</span>知食
+      </li>
+      <li>
+        <Link to="member">고예림, 고정현, 김지훈, 박지윤, 이민영, 전진성</Link>
+      </li>
+      <li>
+        image2jiseek@gmail.com
+        <a href="mailto:image2jiseek@gmail.com">
+          <MdEmail />
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/JiSeek" target="_blank" rel="noreferrer">
+          <img src={FooterGithub} alt="Jiseek Github Link" />
+        </a>
+        <a
+          href="https://kdt-gitlab.elice.io/002-part3-cnn/team2"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src={FooterGitlab} alt="Jiseek Gitlab Link" />
+        </a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+          <img src={FooterYoutube} alt="Jiseek Youtube Link" />
+        </a>
+      </li>
+    </FooterContents>
+    <Copyright>
+      COPYRIGHT &copy; JISEEK, 대한민국 NO.1 음식 검색 서비스 (KOREA&apos;S NO.1
+      FOOD SEARCH SERVICE)
+    </Copyright>
+  </FooterBackground>
+);
 
 Footer.propTypes = {
   moveTop: PropTypes.func,
@@ -100,13 +59,13 @@ Footer.defaultProps = {
 
 const FooterBackground = styled.div`
   width: 100vw;
-  height: 24vh;
   background: #09351b;
   color: #fffdfa;
   font-size: 0.85rem;
   line-height: 1.2rem;
   position: relative;
   text-align: center;
+  padding: 60px 0 4vh 0;
 
   > input {
     height: 60px;
@@ -117,77 +76,50 @@ const FooterBackground = styled.div`
   }
 `;
 
-const FooterContents = styled.div`
-  display: flex;
-  margin: auto;
-  padding: 4vh 4vw 2rem 3vw;
-  justify-content: space-evenly;
+const FooterContents = styled.ul`
+  padding-bottom: 2rem;
   max-width: 1320px;
-`;
+  margin: auto;
 
-const About = styled.div`
-  > ul {
-    > li {
-      text-align: center;
-      justify-content: center;
-      margin-bottom: 0.65rem;
+  > li {
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 0.65rem;
+
+    :first-child {
+      /* 지식 知食 */
+      display: block;
+      font-size: 1rem;
+      padding-left: 0.25rem;
+      > span {
+        /* 지식 */
+        font-size: 2rem;
+        font-weight: 500;
+      }
+    }
+
+    > a > svg {
+      /* 이메일 주소 옆 아이콘 높이 맞춤 */
+      vertical-align: text-bottom;
+    }
+
+    :nth-child(3) > a {
+      /* 이메일과 contact 아이콘 사이 간격 띄움 */
+      margin-left: 0.35rem;
+    }
+
+    :last-child {
+      /* contact icon */
       display: flex;
-      align-items: center;
-
-      :first-child {
-        display: block;
-        > span {
-          font-size: 1.5rem;
-          font-weight: 500;
-        }
+      justify-content: center;
+      margin-top: 0.85rem;
+      > a + a {
+        margin-left: 1.5rem;
       }
-
-      > a {
-        > svg {
-          vertical-align: text-bottom;
-        }
-      }
-
-      :nth-child(3) > a {
-        margin-left: 0.35rem;
-      }
-
-      :last-child {
-        display: flex;
-        justify-content: center;
-        margin-top: 0.85rem;
-        > a + a {
-          margin-left: 1.5rem;
-        }
-        > a > img {
-          width: 30px;
-          height: 30px;
-          border-radius: 30px;
-        }
-      }
-    }
-  }
-`;
-
-const SiteMap = styled.div`
-  font-size: 1.1rem;
-  font-weight: 500;
-  > ul > li {
-    margin-bottom: 1.2rem;
-    :nth-child(2) {
-      margin-bottom: 0.25rem;
-    }
-    > span {
-      font-size: 0.75rem;
-      font-weight: 400;
-      > a {
-        :first-child {
-          padding-right: 0.5rem;
-          border-right: 1px solid;
-        }
-        :last-child {
-          margin-left: 0.5rem;
-        }
+      > a > img {
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
       }
     }
   }

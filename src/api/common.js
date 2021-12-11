@@ -34,7 +34,7 @@ export const createMutationApi =
   (method) =>
   async (url, sendData = {}) => {
     try {
-      const { token, isForm, ...rest } = sendData;
+      const { token, isForm, timeout, ...rest } = sendData;
       let data;
       if (isForm) {
         data = new FormData();
@@ -51,7 +51,7 @@ export const createMutationApi =
           'Content-Type': 'application/json',
           Authorization: token ? `Bearer ${token}` : '',
         },
-        timeout: 10000,
+        timeout: timeout || 10000,
         data,
       });
 

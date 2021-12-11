@@ -51,12 +51,14 @@ const FoodSearchImageTab = () => {
         status === 'success' && (
           <>
             <ResultFoodNames>
-              <span>결과 : </span>
+              <span>{t('foodSearchImgResultTitle')}</span>
               {analysis.map((eachList) => (
-                <span key={eachList.id}>{eachList.name}</span>
+                <span key={eachList.id}>
+                  {t(`foodSearchFoodName.${eachList.name}`)}
+                </span>
               ))}
               <button type="button" onClick={() => reset()}>
-                다시 검색하기
+                {t('foodSearchImgRetry')}
               </button>
             </ResultFoodNames>
             <FoodDetails

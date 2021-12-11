@@ -12,6 +12,8 @@ const EN_SIGN_IN = {
   signInSuccess: 'Sign in Succeed!',
   signInInfoErr: 'Check your e-mail or password.',
   signInServerErr: 'Server connection is unstable.',
+  // Authentication
+  signInAuthFail: 'User authentication failed!',
 };
 
 export default EN_SIGN_IN;

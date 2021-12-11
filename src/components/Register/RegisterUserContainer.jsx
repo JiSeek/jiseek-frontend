@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useForm } from 'react-hook-form';
@@ -45,9 +45,29 @@ const RegisterUserContainer = () => {
       }),
     {
       mutationKey: mutationKeys.signUp,
-      onSuccess: (data) => {
-        // TODO: 메시지 변경 -> 이메일 확인해달라는 어쩌고저쩌고
-        openModal(data.detail);
+      onSuccess: (_1, { email }) => {
+        openModal(
+          <article>
+            <h2>{t('signUpEmailConfirmTitle')}</h2>
+            <p>
+              <Trans i18nKey="signUpEmailConfirmMsg">
+                {t('signUpEmailConfirmContent', {
+                  what: `<a href=${email} alt="확인 이메일">
+                      ${email}
+                    </a>`,
+                })}
+              </Trans>
+
+              {/* {t('signUpEmailConfirmContent', {
+                what: (
+                  <a href={email} alt="이메일">
+                    {email}
+                  </a>
+                ),
+              })} */}
+            </p>
+          </article>,
+        );
         navigate('/', { replace: true });
       },
       onError: (err) => {

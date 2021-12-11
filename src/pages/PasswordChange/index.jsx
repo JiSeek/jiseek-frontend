@@ -1,16 +1,26 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import { Navigate } from 'react-router-dom';
 import { PasswordChange } from '../../components/PasswordChange';
 
-const PasswordChangePage = () => (
-  <PasswordChangeStructure>
-    <div>
-      <Title>비밀번호 변경</Title>
-      <PasswordChange />
-    </div>
-  </PasswordChangeStructure>
-);
+const PasswordChangePage = () => {
+  const location = useLocation();
+  const { t } = useTranslation();
+
+  if (!location.state) {
+    return <Navigate to="/mypage" replace />;
+  }
+
+  return (
+    <PasswordChangeStructure>
+      <div>
+        <Title>{t('myPageChgPasswordTitle')}</Title>
+        <PasswordChange />
+      </div>
+    </PasswordChangeStructure>
+  );
+};
 
 const PasswordChangeStructure = styled.div`
   padding: 4rem 0;

@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { RiYoutubeLine } from 'react-icons/ri';
 import { VscEye } from 'react-icons/vsc';
@@ -7,66 +8,71 @@ import { BiTimeFive } from 'react-icons/bi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useModalContext } from '../../contexts';
 
-const FoodRecipes = ({ food, recipes, status }) => (
-  <div>
-    {status === 'loading' && <h1>Loading...</h1>}
-    {status === 'error' && <h1>error!!</h1>}
-    {status === 'success' && (
-      <RecipesStructure>
-        <a
-          href={`https://www.youtube.com/results?search_query=${food} 레시피`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          레시피 더보기 <MdOutlineArrowForwardIos />
-        </a>
-        <div>
-          {recipes.map((recipe) => (
-            <ul key={recipe.id}>
-              <li>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${recipe.id}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </li>
-              <RecipesInfo>
-                <span>
-                  <li>
-                    <RiYoutubeLine />
-                    <span>{recipe.snippet.publishedAt.slice(0, 10)}</span>
-                  </li>
-                  <li>
-                    <VscEye />
-                    <span>{recipe.statistics.viewCount}</span>
-                  </li>
-                  <li>
-                    <BiTimeFive />
-                    {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
-                    <span>
-                      {recipe.contentDetails.duration
-                        .split(/[PTHMS]/)
-                        .filter((ch) => !!ch)
-                        .map((ch) => (ch.length === 1 ? `0${ch}` : ch))
-                        .join(':')}
-                    </span>
-                  </li>
-                </span>
+const FoodRecipes = ({ food, recipes, status }) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      {/* TODO: 에러처리 */}
+      {status === 'loading' && <h1>Loading...</h1>}
+      {status === 'error' && <h1>error!!</h1>}
+      {status === 'success' && (
+        <RecipesStructure>
+          <a
+            href={`https://www.youtube.com/results?search_query=${food} 레시피`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t('foodSearchMoreRecipesLink')}
+            <MdOutlineArrowForwardIos />
+          </a>
+          <div>
+            {recipes.map((recipe) => (
+              <ul key={recipe.id}>
                 <li>
-                  <YoutubeContent recipe={recipe} />
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${recipe.id}`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </li>
-              </RecipesInfo>
-            </ul>
-          ))}
-        </div>
-      </RecipesStructure>
-    )}
-  </div>
-);
+                <RecipesInfo>
+                  <span>
+                    <li>
+                      <RiYoutubeLine />
+                      <span>{recipe.snippet.publishedAt.slice(0, 10)}</span>
+                    </li>
+                    <li>
+                      <VscEye />
+                      <span>{recipe.statistics.viewCount}</span>
+                    </li>
+                    <li>
+                      <BiTimeFive />
+                      {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
+                      <span>
+                        {recipe.contentDetails.duration
+                          .split(/[PTHMS]/)
+                          .filter((ch) => !!ch)
+                          .map((ch) => (ch.length === 1 ? `0${ch}` : ch))
+                          .join(':')}
+                      </span>
+                    </li>
+                  </span>
+                  <li>
+                    <YoutubeContent recipe={recipe} />
+                  </li>
+                </RecipesInfo>
+              </ul>
+            ))}
+          </div>
+        </RecipesStructure>
+      )}
+    </div>
+  );
+};
 
 FoodRecipes.propTypes = {
   food: PropTypes.string,
@@ -107,6 +113,7 @@ ModalContent.propTypes = {
 };
 
 export const YoutubeContent = ({ recipe }) => {
+  const { t } = useTranslation();
   const openModal = useModalContext();
   const onClick = useCallback(
     () => openModal(<ModalContent youtube={recipe} />, 'message'),
@@ -115,7 +122,7 @@ export const YoutubeContent = ({ recipe }) => {
 
   return (
     <ModalButton onClick={onClick} type="button">
-      설명 더보기 <MdOutlineArrowForwardIos />
+      {t('foodSearchMoreInfo')} <MdOutlineArrowForwardIos />
     </ModalButton>
   );
 };
@@ -162,7 +169,7 @@ const RecipesInfo = styled.span`
     > li {
       display: flex;
       align-items: center;
-      >svg{
+      > svg {
         margin-right: 0.25rem;
       }
     }

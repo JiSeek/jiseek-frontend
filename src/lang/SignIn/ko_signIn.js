@@ -12,6 +12,8 @@ const KO_SIGN_IN = {
   signInSuccess: '로그인 성공!',
   signInInfoErr: '로그인 정보를 확인해주세요.',
   signInServerErr: '서버 연결이 불안정합니다.',
+  // Error
+  signInAuthErr: '사용자 인증 실패!',
 };
 
 export default KO_SIGN_IN;

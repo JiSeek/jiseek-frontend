@@ -6,14 +6,26 @@ import { VscEye } from 'react-icons/vsc';
 import { BiTimeFive } from 'react-icons/bi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useModalContext } from '../../contexts';
+import { YoutubeServerError, LoadingDot } from '../../assets/images/images';
 
 const FoodRecipes = ({ food, recipes, status }) => {
   const { t } = useTranslation();
 
   return (
     <div>
-      {status === 'loading' && <h1>Loading...</h1>}
-      {status === 'error' && <h1>error!!</h1>}
+      {status === 'loading' && (
+        <img src={LoadingDot} alt="youtube server loading" height={60} />
+      )}
+      {status === 'error' && (
+        <>
+          <img
+            src={YoutubeServerError}
+            alt="youtube server error"
+            height={80}
+          />
+          <p>유튜브에서 레시피를 불러올 수 없습니다.</p>
+        </>
+      )}
       {status === 'success' && (
         <RecipesStructure>
           <a

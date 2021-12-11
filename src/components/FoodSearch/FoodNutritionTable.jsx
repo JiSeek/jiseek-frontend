@@ -14,6 +14,7 @@ import {
   BiLeftArrowAlt,
   BiRightArrowAlt,
 } from 'react-icons/bi';
+import { LoadingDot } from '../../assets/images/images';
 
 const Table = ({
   columns,
@@ -90,9 +91,13 @@ const Table = ({
             <BiLeftArrowAlt />
           </button>
         </span>
-        <p>
-          {pageIndex + 1} / {pageOptions.length}
-        </p>
+        {loading ? (
+          <img src={LoadingDot} alt="loading" width={40}/>
+        ) : (
+          <p>
+            {pageIndex + 1} / {pageOptions.length}
+          </p>
+        )}
         <span>
           <button
             type="button"

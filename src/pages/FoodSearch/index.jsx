@@ -52,7 +52,7 @@ const StyledNav = styled.nav`
   font-size: 2rem;
   text-align: center;
   margin-top: 1rem;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   letter-spacing: 1px;
   word-spacing: 5px;
 

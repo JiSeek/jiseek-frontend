@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+// import { BiSearchAlt2 } from 'react-icons/bi';
 
 const FoodSearchBar = ({
   keyword,
@@ -87,10 +88,11 @@ const StyledSearchBar = styled.div`
 const StyledInput = styled.input`
   font-family: inherit;
   text-align: center;
+  font-size: 1.25rem;
   border: none;
   border-bottom: 2px solid #c1dda0;
   padding: 0.7rem 0 0.5rem 0;
-  width: 17rem;
+  width: 25rem;
   background: #fbfbfb;
 
   ::placeholder {
@@ -112,7 +114,7 @@ const StyledList = styled.ul`
   text-align: center;
   border: solid 1px #c1dda0;
   position: absolute;
-  width: 17rem;
+  width: 25rem;
   background: #fbfbfb;
   z-index: 2;
 `;

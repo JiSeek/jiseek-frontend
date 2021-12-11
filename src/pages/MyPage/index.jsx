@@ -14,9 +14,9 @@ const MyPage = () => {
 
   return (
     <StyledMyPage>
-      <Title>{t('myPageTitle')}</Title>
       <MyPageStructure>
         <Profile>
+          <Title>{t('myPageTitle')}</Title>
           <Routes>
             <Route path="/" element={<MyInfo />} />
             <Route path="info" element={<MyInfoUpdate />} />
@@ -48,10 +48,11 @@ const MyPageStructure = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 2.5rem;
+  letter-spacing: 2px;
 `;
 
 const Profile = styled.div`
@@ -61,8 +62,10 @@ const Profile = styled.div`
 
 const Favorite = styled.div`
   width: 100%;
+  max-width: calc(1320px - 280px - 4.75rem);
   > section {
     :first-child {
+      margin-top: 2rem;
       margin-bottom: 3rem;
     }
   }
@@ -74,6 +77,7 @@ const Subtitle = styled.h2`
   display: flex;
   flex-basis: 100%;
   align-items: center;
+  margin-bottom: 1rem;
 
   ::after {
     content: '';

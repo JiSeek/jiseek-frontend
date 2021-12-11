@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes, { any, number } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import FoodRecipesContainer from './FoodRecipesContainer';
 // import Nutrition from './Nutrition';
 import { LoadingCircle, NoResultGif } from '../../assets/images/images';
@@ -22,7 +22,7 @@ const FoodDetails = ({
   const { t } = useTranslation();
 
   return (
-    <Result>
+    <Result onModal={onModal}>
       {status === 'loading' && (
         <Center>
           <img src={LoadingCircle} alt="loading" />
@@ -33,7 +33,7 @@ const FoodDetails = ({
       {status === 'success' && (
         <>
           <TitleWithButton>
-            <Title>{t(`foodSearchFoodName.${foodInfo?.name}`)}</Title>
+            <h2>{t(`foodSearchFoodName.${foodInfo?.name}`)}</h2>
             {type === 'image' && (
               <>
                 <LikeButton
@@ -112,14 +112,79 @@ const Center = styled.div`
 const TitleWithButton = styled.div`
   display: flex;
   justify-content: center;
-  align-items: baseline;
+  align-items: flex-end;
   margin-bottom: 2.2rem;
   margin-top: 1rem;
+
+  > h2 {
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 500;
+  }
+
+  > button {
+    height: 3.25rem;
+    > img {
+      height: 100%;
+    }
+  }
 `;
 
 const Result = styled.article`
   padding: 5rem 0;
   text-align: center; // TODO: 임시 처리
+
+  ${(props) =>
+    props.onModal &&
+    css`
+      padding: 0;
+      width: 100%;
+
+      h2 {
+        font-size: 2.5rem;
+        font-weight: 500;
+      }
+
+      img {
+        border-radius: 15px;
+      }
+
+      > div {
+        :last-child {
+          display: flex;
+          flex-direction: column;
+
+          > section {
+            > h3 {
+              font-size: 1.75rem;
+            }
+            > div {
+              box-shadow: none;
+            }
+            :last-child > div {
+              display: flex;
+              flex-direction: column;
+              h2 {
+                font-size: 1.15rem;
+                margin-top: 0.75rem;
+              }
+              > section > div {
+                max-width: 500px;
+              }
+              > div {
+                width: 30vw;
+                max-width: 500px;
+                max-height: 400px;
+                > table {
+                  margin: 1.5rem auto 0 auto;
+                  width: 80%;
+                }
+              }
+            }
+          }
+        }
+      }
+    `}
 `;
 
 const GridResult = styled.div`
@@ -144,12 +209,6 @@ const GridResult = styled.div`
     grid-gap: 3rem;
     margin: 0; */
   }
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  font-size: 3.5rem;
-  font-weight: 500;
 `;
 
 const Subtitle = styled.h3`

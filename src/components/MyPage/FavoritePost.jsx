@@ -38,6 +38,8 @@ const FavoritePost = ({ favPosts, status }) => {
   );
 };
 
+
+
 FavoritePost.propTypes = {
   favPosts: PropTypes.arrayOf(PropTypes.object),
   status: PropTypes.string,

@@ -19,9 +19,7 @@ const FavoriteFoodContainer = () => {
   const onClick = useCallback(
     (e) =>
       openModal(
-        <FoodDetailsContainer id={e.target.value} onModal>
-          TEST
-        </FoodDetailsContainer>,
+        <FoodDetailsContainer id={e.target.value} onModal />,
         'message',
       ),
     [openModal],

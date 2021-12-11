@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import PropTypes, { any, string, number } from 'prop-types';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { foodKeys, myPageKeys } from '../../constants';
 import jiseekApi from '../../api';
 import FoodDetails from './FoodDetails';
@@ -35,6 +35,15 @@ const FoodDetailsContainer = ({ type, id, imgUrl, onModal, children }) => {
     () => (favList ? favList.map(({ pk }) => Number(pk)) : []),
     [favList],
   );
+  
+  // TODO: 테스트 필요
+  const queryClient = useQueryClient();
+  const cancel = useCallback(async () => {
+    await queryClient.cancelQueries(foodKeys.detailById(id));
+    await queryClient.cancelQueries(myPageKeys.favFoods);
+  }, [id, queryClient]);
+
+  useEffect(() => () => cancel(), [cancel]);
 
   return (
     <FoodDetails

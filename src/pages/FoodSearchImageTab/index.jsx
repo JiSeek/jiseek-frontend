@@ -53,11 +53,11 @@ const FoodSearchImageTab = () => {
             <ResultFoodNames>
               <span>
                 <span>{t('foodSearchImgResultTitle')}</span>
-                {analysis.map((eachList) => (
-                  <span key={eachList.id}>
-                    {t(`foodSearchFoodName.${eachList.name}`)},
-                  </span>
-                ))}
+                <span>
+                  {analysis
+                    .map((eachList) => t(`foodSearchFoodName.${eachList.name}`))
+                    .join(', ')}
+                </span>
               </span>
               <button type="button" onClick={() => reset()}>
                 {t('foodSearchImgRetry')}

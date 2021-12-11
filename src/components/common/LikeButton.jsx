@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTyps from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { HeartFull, HeartLine } from '../../assets/images/images';
 
-const LikeButton = ({ like }) => (
-  <FontAwesomeIcon icon={faHeart} size="2x" color={like ? '#FE3A31' : 'gray'} />
-);
+const LikeButton = ({ like }) =>
+  like ? (
+    <img src={HeartFull} alt="like" />
+  ) : (
+    <img src={HeartLine} alt="dislike" />
+  );
 
 LikeButton.propTypes = {
   like: PropTyps.bool,

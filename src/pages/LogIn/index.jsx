@@ -49,6 +49,8 @@ const LogInPage = () => {
             </li>
             <li>
               <NaverLogIn />
+            </li>
+            <li>
               <GoogleLogIn />
             </li>
           </ul>

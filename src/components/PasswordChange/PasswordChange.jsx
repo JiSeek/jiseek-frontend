@@ -70,7 +70,8 @@ const StyledChangeForm = styled.form`
   > label {
     display: flex;
     flex-direction: column;
-    height: 60px;
+    width: 400px;
+    height: 70px;
 
     > input {
       font-family: inherit;

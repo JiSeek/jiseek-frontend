@@ -25,15 +25,16 @@ const FoodDetails = ({
     <Result>
       {status === 'loading' && (
         <Center>
-          <img src={LoadingCircle} alt="loading" />
+          <img src={LoadingCircle} alt={t('foodSearchAnalysisLoading')} />
         </Center>
       )}
-      {/* TODO: 수정 필요, 임시 처리 */}
-      {status === 'error' && <img src={NoResultGif} alt="결과 없음 이미지" />}
+      {status === 'error' && (
+        <img src={NoResultGif} alt={t('foodSearchNoResult')} />
+      )}
       {status === 'success' && (
         <>
           <TitleWithButton>
-            <Title>{foodInfo?.name}</Title>
+            <Title>{t(`foodSearchFoodName.${foodInfo?.name}`)}</Title>
             {type === 'image' && (
               <>
                 <LikeButton
@@ -53,7 +54,6 @@ const FoodDetails = ({
           </TitleWithButton>
           <GridResult>
             <section>
-              {type !== 'image' && <Subtitle> 음식 사진 </Subtitle>}
               {(!children || !imgUrl) && (
                 <ImageSquare>
                   <img src={foodInfo?.image1} alt="test" />
@@ -62,7 +62,7 @@ const FoodDetails = ({
               {imgUrl && children}
             </section>
             <section>
-              <Subtitle>영양 정보</Subtitle>
+              <Subtitle>{t('foodSearchTitleNutrition')}</Subtitle>
               <Nutrition foodInfo={foodInfo} />
               {/* <div style={{ height: 330 }}>
                 <FoodNutritionChart foodInfo={foodInfo} />
@@ -71,7 +71,7 @@ const FoodDetails = ({
             </section>
             {!onModal && (
               <section>
-                <Subtitle>음식 레시피</Subtitle>
+                <Subtitle>{t('foodSearchTitleRecipes')}</Subtitle>
                 <FoodRecipesContainer food={foodInfo?.name || ''} />
               </section>
             )}

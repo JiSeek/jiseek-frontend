@@ -44,7 +44,7 @@ i18n.use(initReactI18next).init({
   lng: 'ko',
   fallbackLng: 'ko',
   // debug: true,
-  keySeparator: false,
+  // keySeparator: false,
   interpolation: {
     escapeValue: false, // 기본적으로 문자열을 escape하지 않음.
   },

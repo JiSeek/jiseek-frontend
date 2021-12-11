@@ -19,6 +19,9 @@ const KO_SIGN_UP = {
   signUpCountryRequiredErr: '국가는 필수 항목입니다.',
   signUpSameEmailErr: '이미 등록된 이메일입니다.',
   signUpServerErr: '서버 연결이 불안정합니다.',
+  // Authentication
+  signUpEmailConfirmTitle: '인증 메일이 발송되었습니다.',
+  signUpEmailConfirmContent: '메일함에서({{what}}) 인증 메일을 확인해주세요.',
 };
 
 export default KO_SIGN_UP;

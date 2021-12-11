@@ -39,6 +39,7 @@ const MyInfo = ({ user, status }) => {
     <MyInfoContainer>
       <MyInfoTitle>{t('myPageMyInfo')}</MyInfoTitle>
       <div>
+        {/* TODO: 에러 처리 */}
         {status === 'loading' && 'Loading Logo'}
         {status === 'error' && 'Error Logo'}
         {status === 'success' && (
@@ -71,6 +72,7 @@ const MyInfo = ({ user, status }) => {
               <NavLink
                 to="/ch_pswrd"
                 style={({ isActive }) => (isActive ? activeState : undefined)}
+                state={{ isSocial: !!user?.social_platform }}
               >
                 {t('myPageChgPassword')}
               </NavLink>

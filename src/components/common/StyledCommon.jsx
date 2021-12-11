@@ -6,8 +6,12 @@ export const StyledErrorMsg = styled.span`
   margin-top: 3px;
 `;
 
-// 임시 디자인...
 export const StyledFavContainer = styled.div`
   display: flex;
-  
+  justify-content: center;
+  align-items: center;
+
+  > div {
+    display: flex;
+  }
 `;

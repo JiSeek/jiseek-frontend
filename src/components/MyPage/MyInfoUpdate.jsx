@@ -1,33 +1,42 @@
 import React from 'react';
 import PropTypes, { oneOfType, object, func } from 'prop-types';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { StyledErrorMsg } from '../common';
 
-const MyInfoUpdate = ({ hookForm, imgUrl, onImgUpload, lockSubmit }) => (
-  /* eslint-disable react/jsx-props-no-spreading */
-  <UpdateInfo onSubmit={hookForm.onSubmit}>
-    <ProfileImage src={imgUrl} alt="프로필 사진" />
-    <FileLabel htmlFor="avatar">
-      사진 선택
-      <input
-        type="file"
-        id="avatar"
-        name="avatar"
-        accept="image/*"
-        {...hookForm.register('image', { onChange: onImgUpload })}
-      />
-    </FileLabel>
-    <label htmlFor="user-name">
-      <input type="text" id="user-name" {...hookForm.register('name')} />
-    </label>
-    <StyledErrorMsg>
-      {hookForm.errors.name && hookForm.errors.name.message}
-    </StyledErrorMsg>
-    <StyledButton disabled={lockSubmit} type="submit">
-      수정
-    </StyledButton>
-  </UpdateInfo>
-);
+const MyInfoUpdate = ({ hookForm, imgUrl, onImgUpload, lockSubmit }) => {
+  const { t } = useTranslation();
+
+  return (
+    /* eslint-disable react/jsx-props-no-spreading */
+    <UpdateInfo onSubmit={hookForm.onSubmit}>
+      <ProfileImage src={imgUrl} alt={t('myPageMyInfoProfile')} />
+      <FileLabel htmlFor="avatar">
+        {t('myPageMyInfoProfileSelect')}
+        <input
+          type="file"
+          id="avatar"
+          name="avatar"
+          accept="image/*"
+          {...hookForm.register('image', { onChange: onImgUpload })}
+        />
+      </FileLabel>
+      <label htmlFor="user-name">
+        <input type="text" id="user-name" {...hookForm.register('name')} />
+      </label>
+      <StyledErrorMsg>
+        {hookForm.errors.name && hookForm.errors.name.message}
+      </StyledErrorMsg>
+      <StyledBtnContainer>
+        <Link to="..">{t('myPageMyInfoCancelBtn')}</Link>
+        <button disabled={lockSubmit} type="submit">
+          {t('myPageMyInfoUpdateBtn')}
+        </button>
+      </StyledBtnContainer>
+    </UpdateInfo>
+  );
+};
 
 MyInfoUpdate.propTypes = {
   hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
@@ -49,7 +58,6 @@ const UpdateInfo = styled.form`
   text-align: center;
   box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
   padding: 40px;
-  // TODO: form border 확인
 
   > label > input {
     font-family: inherit;
@@ -83,12 +91,14 @@ const ProfileImage = styled.img`
 `;
 
 const FileLabel = styled.label`
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.35rem 0;
+  border-radius: 5px;
+  text-align: center;
   font-size: 0.8rem;
   background-color: #92ce4d;
-  text-align: center;
-  padding: 0.35rem 0;
-  margin: 1rem 0;
-  width: 100%;
+  color: #f6fff2;
   cursor: pointer;
 
   > input {
@@ -96,19 +106,33 @@ const FileLabel = styled.label`
   }
 `;
 
-const StyledButton = styled.button`
-  font-size: 0.9rem;
-  background-color: #407f00;
-  color: #f6fff2;
-  text-align: center;
-  width: 100%;
+const StyledBtnContainer = styled.div`
   height: 30px;
-  cursor: pointer;
-  border: none;
-  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
 
-  :disabled {
-    background-color: #3f7f00a0;
+  > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  > button,
+  a {
+    width: 48%;
+    height: 100%;
+    border: none;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    background-color: #407f00;
+    color: #f6fff2;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    :disabled {
+      background-color: #3f7f00a0;
+      cursor: not-allowed;
+    }
   }
 `;
 

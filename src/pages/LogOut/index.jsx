@@ -21,8 +21,6 @@ const LogOutPage = () => {
   const { t } = useTranslation();
   const { token, clearToken } = useAuthContext();
   const from = location.state?.from?.pathname || '/';
-  // TODO: 초기 로그아웃으로 접근 개선
-  // console.log('111', location, !!token.access && from === '/logout');
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
@@ -30,6 +28,7 @@ const LogOutPage = () => {
       jiseekApi.post('/user/logout-all/', {
         token: token.access,
         refresh_token: token.refresh,
+        timeout: 3000,
       }),
     {
       onSuccess: async () => {
@@ -46,15 +45,19 @@ const LogOutPage = () => {
     },
   );
 
+  // TODO: 초기 로그아웃으로 접근 개선
+  // console.log('111', location, !!token.access && from === '/logout');
   useEffect(() => {
     if (!token.access) {
+      navigate('/login', { replace: true, state: { from: '/logout' } });
+      // console.log('sdfsdnfls', 1);
       return;
     }
+    // console.log('sdfsdnfls', 2);
     mutate();
-  }, [mutate, token.access]);
+  }, [mutate, token.access, navigate]);
 
   return <></>;
-  // return <>{!token.access ? <Navigate to="/" replace /> : <></>}</>;
 };
 
 export default LogOutPage;

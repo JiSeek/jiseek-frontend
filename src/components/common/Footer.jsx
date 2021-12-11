@@ -16,7 +16,12 @@ const Footer = ({ moveTop }) => {
 
   return (
     <FooterBackground>
-      <input type='image' onClick={moveTop} src={FooterLogo} alt="Footer Logo" />
+      <input
+        type="image"
+        onClick={moveTop}
+        src={FooterLogo}
+        alt="Footer Logo"
+      />
       <FooterContents>
         <About>
           <ul>

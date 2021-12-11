@@ -1,8 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useMatch, Outlet } from 'react-router-dom';
 import { Board } from '../../components/Board';
-import { useTranslation } from 'react-i18next';
 
 const BoardPage = () => {
   const match = useMatch({ path: '/board', end: true });
@@ -10,7 +10,7 @@ const BoardPage = () => {
 
   return (
     <StyledMyPage>
-      <Title>{ t('boardCommunityTitle') }</Title>
+      <Title>{t('boardCommunityTitle')}</Title>
       {match && <Board />}
       <Outlet />
     </StyledMyPage>

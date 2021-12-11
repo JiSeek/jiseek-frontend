@@ -9,6 +9,7 @@ import { EN_SIGN_UP, KO_SIGN_UP } from './SignUp';
 import { EN_MY_PAGE, KO_MY_PAGE } from './MyPage';
 import { EN_SIGN_OUT, KO_SIGN_OUT } from './SignOut';
 import { EN_AUTH, KO_AUTH } from './Auth';
+import { EN_BOARD, KO_BOARD } from './Board';
 
 const resources = {
   ko: {
@@ -22,6 +23,7 @@ const resources = {
       ...KO_MY_PAGE,
       ...KO_SIGN_OUT,
       ...KO_AUTH,
+      ...KO_BOARD,
     },
   },
   en: {
@@ -35,6 +37,7 @@ const resources = {
       ...EN_MY_PAGE,
       ...EN_SIGN_OUT,
       ...EN_AUTH,
+      ...EN_BOARD,
     },
   },
 };
@@ -44,7 +47,7 @@ i18n.use(initReactI18next).init({
   lng: 'ko',
   fallbackLng: 'ko',
   // debug: true,
-  keySeparator: false,
+  // keySeparator: false,
   interpolation: {
     escapeValue: false, // 기본적으로 문자열을 escape하지 않음.
   },

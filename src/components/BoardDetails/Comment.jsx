@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
-import { boardKeys, userKeys } from '../../constants';
+import { useTranslation } from 'react-i18next';
 import jiseekApi from '../../api';
-import { useAuthContext } from '../../contexts';
+import { boardKeys, userKeys } from '../../constants';
+import { useAuthContext, useLangContext, useModalContext } from '../../contexts';
 import { getLocaleDate } from '../../utils';
 
 
@@ -18,20 +19,29 @@ function Comment(){
     const [ text, setText ] = useState('');
     const [ modifiedText, setModifiedText ] = useState('');
     const [ shownUpdate, setShownUpdate ] = useState();
+    const [ lang ] = useLangContext();
+    const { t } = useTranslation();
+    const modal = useModalContext();
 
  
     // 댓글 조회 기능 (R)
     const { 
         data: comments,
         isSuccess, 
-        error } = useQuery(boardKeys.commentsById(params.id), jiseekApi.get());
+        error,
+    } = useQuery(
+        boardKeys.commentsById(params.id), 
+        jiseekApi.get(), {
+            refetchOnWindowFocus: true,
+            staleTime: 600000,
+        }
+    );
     
     if (isSuccess) {
-        console.log('댓글 조회 성공', comments);
-        // toast(Object.values(comments))
+        console.log('조회 성공', comments);
 
     } else {
-        console.log('댓글 조회 에러', error);
+        console.log(t('boardReadErr'), error);
     }
 
 
@@ -43,24 +53,20 @@ function Comment(){
                 content })
         ),
         {
-            onSuccess: (d) => {
-                console.log('댓글 생성 성공', d);
-                window.location.reload(); // 그 화면 전체 로딩이아니라 댓글만 재로딩 안될까?
-            },
-            onError: (e) => toast.error('댓글 생성 에러', e)
+            onSuccess: (d) => toast.success(t('boardCreateSucc'), d),
+            onError: (e) => toast.error(t('boardCreateErr'), e),
+            onSettled: () => { queryClient.invalidateQueries(boardKeys.detailsById(params.id)) }
         }
     )
 
-    const handleSubmit = () => {
-        creation.mutate(text)
-        
+    const handleCreate = () => {
         if (!token.access) {
-            if (window.confirm('로그인이 필요한 서비스입니다. 로그인페이지로 이동하시겠습니까?')) {
-                navigate('/login')
-            } else {
-                console.log('로그인 페이지 이동 취소')
-            }
-
+            modal(t('boardRequiredLogin'), 'select', {
+                yes: () => navigate('/login'),
+                no: () => {},
+            })
+        } else {
+            creation.mutate(text)
         }
     }
 
@@ -68,38 +74,35 @@ function Comment(){
     // 댓글 255자로 제한
     useEffect(() => {
         if (text.length > 255) {
+            toast.warn(t('boardLimitedText'));
             setText(text.slice(0, 255));
         }
         if (modifiedText.length > 255) {
+            toast.warn(t('boardLimitedText'));
             setText(modifiedText.slice(0, 255));
         }
-    }, [text, modifiedText]);
+    }, [text, modifiedText, t]);
 
 
     // 댓글 삭제 기능 (D)
     const deletion = useMutation(
-        (commentId) => {
+        (commentId) => 
             jiseekApi.delete(
                 `/boards/${params.id}/comments/${commentId}/`, {
                 token: token.access })
-        },
+        ,
         {
-            onMutate: (d) => console.log('aaaaaaaa', d),
-            onSuccess: (d) => {
-                toast.success('댓글 삭제 성공', d);
-                window.location.reload(); // 그 화면 전체 로딩이아니라 댓글만 재로딩 안될까?
-            },
-            onError: (e) => toast.error('댓글 삭제 에러', e)
+            onSuccess: () => toast.success(t('boardDeleteSucc')),
+            onError: () => toast.error(t('boardDeleteErr')),
+            onSettled: () => { queryClient.invalidateQueries(boardKeys.commentsById(params.id)) }
         }
     )
     
     const handleDelete = (id) => {
-        if (window.confirm('댓글을 삭제하시겠습니까?')) { // 모달
-            deletion.mutate(id);
-        } 
-        else {
-            console.log('댓글삭제 취소');
-        }
+        modal(t('boardDeleteNor'), 'select', {
+            yes: () => deletion.mutate(id),
+            no: () => {} }
+        )
     }
     
 
@@ -109,7 +112,8 @@ function Comment(){
             jiseekApi.put(
             `/boards/${params.id}/comments/${data.id}/`, {
                 token: token.access,
-                content: data.content })
+                content: data.content 
+            })
         ),
         {
             // onMutate: async newContent => {
@@ -120,16 +124,16 @@ function Comment(){
             // },
             onSuccess: (d) => { 
                 setShownUpdate(false);
-                toast('댓글 수정 성공', d);
-                window.location.reload(); // 그 화면 전체 로딩이아니라 댓글만 재로딩 안될까?
+                toast.success(t('boardUpdateSucc'), d);
             },
-            onError: (e) => toast.error('댓글 수정 에러', e)
+            onError: (e) => toast.error(t('boardUpdateErr'), e),
+            onSettled: () => { queryClient.invalidateQueries(boardKeys.commentsById(params.id)) }
         }
     )
 
     const handleUpdate = (id) => {
         if (!modifiedText){
-            toast.warn('수정된 내용이 없습니다!');
+            toast.warn(t('boardUpdateNone'));
         } else {
             update.mutate({ id, content: modifiedText });
         }
@@ -145,9 +149,9 @@ function Comment(){
                     <div>{ comm.content }</div>
                 {/* 댓글 날짜 표시, 수정여부 */}
                     <div>
-                        { getLocaleDate(comm.created, 'en') }
+                        { getLocaleDate(comm.created, lang) }
                         { comm.created.slice(0, 20) !== comm.modified.slice(0, 20) ?
-                            <> (수정됨) </> : null
+                            <> { t('boardBeModified') } </> : null
                         }
                     </div>
                     
@@ -180,10 +184,10 @@ function Comment(){
  
         {/* 댓글 입력창 */}
             <form action="#">
-                <button type='button' onClick={ handleSubmit }>댓글 올리기</button>
+                <button type='button' onClick={ handleCreate }>댓글 올리기</button>
                 <textarea
                     type='text'
-                    placeholder='텍스트 입력...'
+                    placeholder={ t('boardPlaceHolder') }
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />

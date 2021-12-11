@@ -4,9 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-const UtilBar = ({ token, lang, onLangChange }) => {
+const UtilBar = ({ token, onLangChange }) => {
   const location = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <StyledUtilBar>
@@ -31,7 +31,7 @@ const UtilBar = ({ token, lang, onLangChange }) => {
               {name}
             </StyledLink>
           ))}
-      <StyledSelect name="lang" onChange={onLangChange} value={lang}>
+      <StyledSelect name="lang" onChange={onLangChange} value={i18n.language}>
         {[
           ['ko', '한국어'],
           ['en', 'English'],
@@ -47,13 +47,11 @@ const UtilBar = ({ token, lang, onLangChange }) => {
 
 UtilBar.propTypes = {
   token: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  lang: PropTypes.string,
   onLangChange: PropTypes.func,
 };
 
 UtilBar.defaultProps = {
   token: '',
-  lang: 'ko',
   onLangChange: null,
 };
 

@@ -33,7 +33,7 @@ const FoodDetails = ({
       {status === 'success' && (
         <>
           <TitleWithButton>
-            <Title>{foodInfo?.name}</Title>
+            <Title>{t(`foodSearchFoodName.${foodInfo?.name}`)}</Title>
             {type === 'image' && (
               <>
                 <LikeButton
@@ -61,7 +61,7 @@ const FoodDetails = ({
               {imgUrl && children}
             </section>
             <section>
-              <Subtitle>영양 정보</Subtitle>
+              <Subtitle>{t('foodSearchTitleNutrition')}</Subtitle>
               {/* <Nutrition foodInfo={foodInfo} /> */}
               <div>
                 <FoodNutritionChart foodInfo={foodInfo} />
@@ -71,7 +71,7 @@ const FoodDetails = ({
           </GridResult>
           {!onModal && (
             <section>
-              <Subtitle>음식 레시피</Subtitle>
+              <Subtitle>{t('foodSearchTitleRecipes')}</Subtitle>
               <FoodRecipesContainer food={foodInfo?.name || ''} />
             </section>
           )}

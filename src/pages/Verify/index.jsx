@@ -6,15 +6,19 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuthContext } from '../../contexts';
 import jiseekApi, { oAuth2 } from '../../api';
 import { mutationKeys, userKeys } from '../../constants';
+import { Authentication } from '../../assets/images/images';
 
-// TODO: 리다이렉트 문제...
 const VerifyPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { type } = useParams();
   const [params] = useSearchParams();
   const { updateToken } = useAuthContext();
@@ -37,12 +41,11 @@ const VerifyPage = () => {
         const { user, ...auth } = data;
         queryClient.setQueryData(userKeys.info, user);
         updateToken(auth);
-        // TODO: 이메일 전송했다는 모달 창 띄우고 확인 누르면 이동하기.
+        toast.success(t('signInSuccess'), { toastId: 'signInAuthSuccess' });
         navigate('/', { replace: true });
       },
-      onError: (err) => {
-        // TODO: 에러 메시지 띄우고 머물러있기.
-        alert('로그인 인증 실패!', err);
+      onError: () => {
+        toast.error(t('signInAuthFail'), { toastId: 'signInAuthFail' });
         navigate('/login', { replace: true });
       },
     },
@@ -60,9 +63,8 @@ const VerifyPage = () => {
     {
       mutationKey: mutationKeys.oAuth2,
       onSuccess: (data) => setAccessToken(data.access_token),
-      onError: (err) => {
-        // TODO: 에러 모달
-        console.log('에러 테스트', err);
+      onError: () => {
+        toast.error(t('signInAuthFail'), { toastId: 'signInAuthFail' });
         navigate('/login', { replace: true });
       },
     },
@@ -72,19 +74,25 @@ const VerifyPage = () => {
   useEffect(() => {
     switch (type) {
       case 'email':
-        setAccessToken(code);
+        if (code) {
+          setAccessToken(code);
+          return;
+        }
         break;
       case 'naver':
         const naver = new URLSearchParams(location.hash.replace('#', '?'));
-        setAccessToken(naver.get('access_token'));
+        const accessTkn = naver.get('access_token');
+        if (accessTkn) {
+          setAccessToken(accessTkn);
+          return;
+        }
         break;
       case 'kakao':
         kakaoAccessTkn();
-        break;
+        return;
       default:
-        navigate('/not_found', { replace: true });
-        break;
     }
+    navigate('/login', { replace: true });
   }, [type, code, kakaoAccessTkn, location, navigate]);
 
   // Jiseek 서버로 Access Token 전송
@@ -95,9 +103,18 @@ const VerifyPage = () => {
     loginVerify();
   }, [accessToken, loginVerify]);
 
-  // TODO: 로딩 중 멀 넣을지 고민해봐야할듯...?
-  return <></>;
-  // return <>{!params.get('code') ? <Navigate to="/login" replace /> : <></>}</>;
+  return (
+    <VerifyContainer>
+      <img src={Authentication} alt="인증 이미지" />
+    </VerifyContainer>
+  );
 };
+
+const VerifyContainer = styled.div`
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default VerifyPage;

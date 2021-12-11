@@ -12,10 +12,12 @@ export { default as GoogleLogo } from './sns/google.png';
 
 export { default as LoadingFood } from './gif/loading_food.gif';
 export { default as LoadingCircle } from './gif/loading_circle.gif';
+export { default as LoadingDot } from './gif/loading_dot.gif';
 export { default as LoadingCircleNoBg } from './gif/loading_circle_no_bg.gif';
 export { default as AnalysisGif } from './gif/analysis.gif';
 export { default as NoResultGif } from './gif/no_result.gif';
 export { default as NotFoundGif } from './gif/not_found.gif';
+export { default as Authentication } from './gif/authentication.gif';
 
 export { default as FileUpload } from './icons/upload3.png';
 

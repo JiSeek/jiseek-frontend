@@ -1,4 +1,4 @@
-export const foodsMapKoToEn = {
+const foodsMapKoToEn = {
   쌀밥: 'Rice',
   오곡밥: 'Five-grain Rice',
   콩밥: 'Rice with Beans',
@@ -99,7 +99,7 @@ export const foodsMapKoToEn = {
   떡만둣국: 'Sliced Rice Cake and Dumpling Soup',
   고기만두: 'Meat Dumplings',
   군만두: 'Fried Dumplings',
-  '1김치만두': 'Kimchi Dumplings',
+  김치만두: 'Kimchi Dumplings',
   물만두: 'Boiled Dumplings',
   만둣국: 'Dumpling Soup',
   게살죽: 'Crab Meat Rice Porridge',
@@ -399,3 +399,5 @@ export const foodsMapKoToEn = {
   산자: 'Sanja',
   깨강정: 'Sweet Sesame Puffs',
 };
+
+export default foodsMapKoToEn;

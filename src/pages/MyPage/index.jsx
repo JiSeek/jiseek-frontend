@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   FavoriteFood,
   FavoritePost,
@@ -8,29 +9,33 @@ import {
   MyInfoUpdate,
 } from '../../components/MyPage';
 
-const MyPage = () => (
-  <StyledMyPage>
-    <Title>마이페이지</Title>
-    <MyPageStructure>
-      <Profile>
-        <Routes>
-          <Route path="/" element={<MyInfo />} />
-          <Route path="info" element={<MyInfoUpdate />} />
-        </Routes>
-      </Profile>
-      <Favorite>
-        <div>
-          <Subtitle>관심 음식 목록</Subtitle>
-          <FavoriteFood />
-        </div>
-        <div>
-          <Subtitle>관심 게시글 목록</Subtitle>
-          <FavoritePost />
-        </div>
-      </Favorite>
-    </MyPageStructure>
-  </StyledMyPage>
-);
+const MyPage = () => {
+  const { t } = useTranslation();
+
+  return (
+    <StyledMyPage>
+      <Title>{t('myPageTitle')}</Title>
+      <MyPageStructure>
+        <Profile>
+          <Routes>
+            <Route path="/" element={<MyInfo />} />
+            <Route path="info" element={<MyInfoUpdate />} />
+          </Routes>
+        </Profile>
+        <Favorite>
+          <section>
+            <Subtitle>{t('myPageFavFoodsTitle')}</Subtitle>
+            <FavoriteFood />
+          </section>
+          <section>
+            <Subtitle>{t('myPageFavPostsTitle')}</Subtitle>
+            <FavoritePost />
+          </section>
+        </Favorite>
+      </MyPageStructure>
+    </StyledMyPage>
+  );
+};
 
 const StyledMyPage = styled.div`
   max-width: 1320px;
@@ -56,7 +61,7 @@ const Profile = styled.div`
 
 const Favorite = styled.div`
   width: 100%;
-  > div {
+  > section {
     :first-child {
       margin-bottom: 3rem;
     }

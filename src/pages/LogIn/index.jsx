@@ -16,14 +16,13 @@ import {
   KakaoLogIn,
   NaverLogIn,
 } from '../../components/LogIn';
-import { useLangContext } from '../../contexts/LangContext';
 
+// TODO: 로그인 url 다이렉트 접근 시 깜빡이고 떳다 없어지는 문제
 const LogInPage = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const match = useMatch({ path: '/login', end: true });
   const { token } = useAuthContext();
-  const [lang] = useLangContext();
   const from = location.state?.from?.pathname || '/';
 
   if (token.access) {
@@ -46,11 +45,11 @@ const LogInPage = () => {
           <Or>{t('signInOption')}</Or>
           <ul>
             <li>
-              <KakaoLogIn lang={lang} />
+              <KakaoLogIn />
             </li>
             <li>
-              <NaverLogIn lang={lang} />
-              <GoogleLogIn lang={lang} />
+              <NaverLogIn />
+              <GoogleLogIn />
             </li>
           </ul>
         </section>

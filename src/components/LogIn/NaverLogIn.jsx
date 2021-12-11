@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import LogInButton from './LogInButton';
 import { NaverLogo } from '../../assets/images/images';
@@ -61,7 +61,8 @@ import { oAuth2 } from '../../api';
 //   );
 // };
 
-const NaverLogIn = ({ lang }) => {
+const NaverLogIn = () => {
+  const { i18n } = useTranslation();
   const initializeNaverLogin = useCallback(() => {
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
@@ -87,7 +88,7 @@ const NaverLogIn = ({ lang }) => {
       > */}
       <LogInButton
         logo={NaverLogo}
-        sns={lang === 'ko' ? '네이버 로그인' : 'Login with Naver'}
+        sns={i18n.language === 'ko' ? '네이버 로그인' : 'Login with Naver'}
         background="#00BF18"
       />
       {/* </a> */}
@@ -95,14 +96,6 @@ const NaverLogIn = ({ lang }) => {
       <div id="naverIdLogin" />
     </NaverLoginContainer>
   );
-};
-
-NaverLogIn.propTypes = {
-  lang: PropTypes.string,
-};
-
-NaverLogIn.defaultProps = {
-  lang: 'ko',
 };
 
 const NaverLoginContainer = styled.div`

@@ -9,8 +9,10 @@ const EN_BOARD = {
     boardReadSucc: 'Succeed to load data',
     boardDeleteSucc: 'Succeed to delete data',
     
-    boardRequiredLogin: 'This service requires login. Do you want to go SignIn page?',
-    boardDeleteNor: 'Are you sure to delete?',
+    boardRequiredLogin: 'Go to sign in page',
+    boardSelectPhoto: 'Select a photo',
+    boardWriteContent: 'Write content',
+    boardDeleteNor: 'Are you sure you want to delete this?',
     boardUpdateNone: 'There\'s nothing to update',
     boardLimitedText: 'It\'s limited to 255 characters',
 

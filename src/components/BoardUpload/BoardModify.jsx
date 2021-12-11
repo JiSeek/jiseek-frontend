@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import jiseekApi from '../../api';
+import { boardKeys } from '../../constants';
 import { useAuthContext } from '../../contexts';
 
 function BoardModify() {
@@ -18,6 +19,8 @@ function BoardModify() {
   const [modifiedText, setModifiedText] = useState('');
   const [modifiedCharacters, setModifiedChracters] = useState(0);
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+
 
   // 게시판 수정 기능 (U)
   const update = useMutation(
@@ -51,6 +54,7 @@ function BoardModify() {
         navigate(`/board/details/${da.id}`);
       },
       onError: (e) => toast.error(t('boardUpdateErr'), e),
+      onSettled: () => queryClient.invalidateQueries(boardKeys.detailsById(params.id)),
     },
   );
 

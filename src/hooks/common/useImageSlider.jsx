@@ -140,10 +140,14 @@ const useImageSlider = (imageList = [], options = {}) => {
 
 // TODO: 임시 스타일링 프레젠테이션으로 만들 것!
 const StyledSliderContainer = styled.div`
-  width: 600px;
-  height: 600px;
+  width: 28vw;
+  max-width: 380px;
+  height: 28vw;
+  max-height: 380px;
   margin: auto;
+  margin-bottom: 0.75rem;
   overflow: hidden;
+  box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
 `;
 
 const StyledSlider = styled.ul`
@@ -157,8 +161,10 @@ const StyledSlider = styled.ul`
 `;
 
 const StyledSlide = styled.input`
-  width: 600px;
-  height: 600px;
+  width: 28vw;
+  max-width: 380px;
+  height: 28vw;
+  max-height: 380px;
   opacity: 0.3;
   pointer-events: none;
   transition: ease-in-out 0.5s all;

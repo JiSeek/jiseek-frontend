@@ -118,7 +118,7 @@ const TitleWithButton = styled.div`
 `;
 
 const Result = styled.article`
-  padding: 3rem 0;
+  padding: 5rem 0;
   text-align: center; // TODO: 임시 처리
 `;
 

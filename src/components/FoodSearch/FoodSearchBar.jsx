@@ -92,7 +92,7 @@ const StyledInput = styled.input`
   border: none;
   border-bottom: 2px solid #c1dda0;
   padding: 0.7rem 0 0.5rem 0;
-  width: 25rem;
+  width: 38rem;
   background: #fbfbfb;
 
   ::placeholder {
@@ -114,7 +114,7 @@ const StyledList = styled.ul`
   text-align: center;
   border: solid 1px #c1dda0;
   position: absolute;
-  width: 25rem;
+  width: 38rem;
   background: #fbfbfb;
   z-index: 2;
 `;

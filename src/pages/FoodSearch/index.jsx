@@ -11,6 +11,7 @@ const activeState = {
   borderBottom: '2px solid',
   borderRadius: '1px',
   paddingBottom: '0.3rem',
+  color: '#001100',
 };
 
 const FoodSearchPage = () => {
@@ -49,12 +50,14 @@ const StyledSearch = styled.div`
 `;
 
 const StyledNav = styled.nav`
-  font-size: 2rem;
+  font-size: 4.5rem;
+  font-weight: 500;
   text-align: center;
   margin-top: 1rem;
-  margin-bottom: 3rem;
-  letter-spacing: 1px;
-  word-spacing: 5px;
+  margin-bottom: 5rem;
+  letter-spacing: 2px;
+  word-spacing: -3px;
+  color: #0011009e;
 
   > a {
     margin: auto 1rem;

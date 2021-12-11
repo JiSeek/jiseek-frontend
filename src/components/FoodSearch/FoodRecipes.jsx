@@ -23,7 +23,7 @@ const FoodRecipes = ({ food, recipes, status }) => {
             alt="youtube server error"
             height={80}
           />
-          <p>유튜브에서 레시피를 불러올 수 없습니다.</p>
+          <p>{t('foodSearchNoRecipesErr')}</p>
         </>
       )}
       {status === 'success' && (
@@ -92,53 +92,6 @@ FoodRecipes.defaultProps = {
   status: '',
 };
 
-export const ModalContent = ({ youtube }) => (
-  <div>
-    <ul>
-      <li>
-        <span>{youtube.snippet.title}</span>
-      </li>
-    </ul>
-    <div>
-      <p>
-        {youtube.snippet.description.split('\n').map((text, idx) => (
-          <React.Fragment key={`text${idx + 1}`}>
-            {text}
-            <br />
-          </React.Fragment>
-        ))}
-      </p>
-    </div>
-  </div>
-);
-
-ModalContent.propTypes = {
-  youtube: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  ).isRequired,
-};
-
-export const YoutubeContent = ({ recipe }) => {
-  const { t } = useTranslation();
-  const openModal = useModalContext();
-  const onClick = useCallback(
-    () => openModal(<ModalContent youtube={recipe} />, 'message'),
-    [openModal, recipe],
-  );
-
-  return (
-    <ModalButton onClick={onClick} type="button">
-      {t('foodSearchMoreInfo')} <MdOutlineArrowForwardIos />
-    </ModalButton>
-  );
-};
-
-YoutubeContent.propTypes = {
-  recipe: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  ).isRequired,
-};
-
 const RecipesStructure = styled.div`
   > a {
     float: right;
@@ -190,6 +143,63 @@ const RecipesInfo = styled.div`
     float: right;
   }
 `;
+
+export const ModalContent = ({ youtube }) => (
+  <article>
+    <RecipesTitle>{youtube.snippet.title}</RecipesTitle>
+    <RecipesContents>
+      {youtube.snippet.description.split('\n').map((text, idx) => (
+        <React.Fragment key={`text${idx + 1}`}>
+          {text}
+          <br />
+        </React.Fragment>
+      ))}
+    </RecipesContents>
+  </article>
+);
+
+ModalContent.propTypes = {
+  youtube: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  ).isRequired,
+};
+
+const RecipesTitle = styled.h2`
+  word-break: keep-all;
+  font-size: 1.3rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.5rem;
+`;
+
+const RecipesContents = styled.p`
+  text-align: left;
+  word-break: keep-all;
+  margin-top: 2.5rem;
+  line-height: 1.25rem;
+  font-size: 1rem;
+`;
+
+export const YoutubeContent = ({ recipe }) => {
+  const { t } = useTranslation();
+  const openModal = useModalContext();
+  const onClick = useCallback(
+    () => openModal(<ModalContent youtube={recipe} />, 'message'),
+    [openModal, recipe],
+  );
+
+  return (
+    <ModalButton onClick={onClick} type="button">
+      {t('foodSearchMoreInfo')} <MdOutlineArrowForwardIos />
+    </ModalButton>
+  );
+};
+
+YoutubeContent.propTypes = {
+  recipe: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  ).isRequired,
+};
 
 const ModalButton = styled.button`
   border: none;

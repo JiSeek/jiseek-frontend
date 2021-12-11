@@ -64,6 +64,7 @@ const StyledUtilBar = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1.5fr 1.5fr;
   align-items: center;
+  padding-top: 0.65rem;
 `;
 
 const StyledLink = styled(Link)`

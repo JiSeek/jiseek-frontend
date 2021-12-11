@@ -2,8 +2,8 @@ import { foodsMapKoToEn } from '../../constants';
 
 const EN_FOOD_SEARCH = {
   foodSearchTitle: 'Food Search',
-  foodSearchNameTab: 'Search by name',
-  foodSearchImageTab: 'Search By photo',
+  foodSearchNameTab: 'By Food Name',
+  foodSearchImageTab: 'By Food Photo',
   foodSearchSearchBar: 'Enter the food name',
   foodSearchImageAlt: 'Uploaded image',
   foodSearchImageUpload: 'Upload a photo',
@@ -18,6 +18,7 @@ const EN_FOOD_SEARCH = {
   foodSearchTitleRecipes: 'Food Recipes',
   foodSearchMoreRecipesLink: 'More recipes',
   foodSearchMoreInfo: 'More Info',
+  foodSearchNoRecipesErr: "Can't load recipes from Youtube.",
   // Loading
   foodSearchAnalysisLoading: 'Food analysis loading image.',
   // Error

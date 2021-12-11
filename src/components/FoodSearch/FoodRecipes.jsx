@@ -149,13 +149,19 @@ const RecipesStructure = styled.div`
 `;
 
 const RecipesInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
   > span {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.35rem;
     > li {
       display: flex;
       align-items: center;
+
+      :first-child{
+        margin-right: 0.5rem;
+      }
+
       > svg {
         margin-right: 0.25rem;
       }

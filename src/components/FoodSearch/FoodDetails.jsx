@@ -114,6 +114,7 @@ const TitleWithButton = styled.div`
   justify-content: center;
   align-items: baseline;
   margin-bottom: 2.2rem;
+  margin-top: 1rem;
 `;
 
 const Result = styled.article`
@@ -126,12 +127,14 @@ const GridResult = styled.div`
   grid-gap: 4rem;
   grid-template-columns: 1fr 2fr;
   text-align: initial; // TODO: 임시 처리
+  margin-bottom: 4rem;
 
   section {
     &:last-child {
       > div {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1.5fr 1fr;
+        grid-gap: 1.5rem;
       }
     }
   }
@@ -145,8 +148,8 @@ const GridResult = styled.div`
 
 const Title = styled.h2`
   text-align: center;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 3.5rem;
+  font-weight: 500;
 `;
 
 const Subtitle = styled.h3`
@@ -154,7 +157,7 @@ const Subtitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 500;
   margin: 1.25rem;
-  
+
   display: flex;
   flex-basis: 100%;
   align-items: center;
@@ -180,6 +183,7 @@ const ImageSquare = styled.div`
   width: 100%;
   padding-bottom: 100%;
   overflow: hidden;
+  margin-top: 2rem;
   box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
 
   > img {

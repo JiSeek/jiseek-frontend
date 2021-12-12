@@ -23,7 +23,7 @@ const FavoritePost = ({ favPosts, status }) => {
                 <li>{pk}</li>
                 <li>{getLocaleDate(created, i18n.language)}</li>
                 <li>{content}</li>
-                <Link to={`/board/${pk}`}>게시글 가기</Link>
+                <Link to={`/board/details/${pk}`}>게시글 가기</Link>
               </ul>
               <LikeButton
                 type="board"

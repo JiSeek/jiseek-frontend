@@ -9,14 +9,13 @@ const BoardDetailsPage = ({ user }) => {
   const params = useParams();
   const { token } = useAuthContext();
   const id = Number(params.id);
+  const { action } = params;
 
-  if (!/^\d+$/.test(id)) {
+  if (!/^\d+$/.test(id) || [undefined, 'modify'].indexOf(action) === -1) {
     // TODO: 한/영 변환필요
     toast.error('유효하지 않은 게시물입니다.', { toastId: '' });
     return <Navigate to=".." />;
   }
-  // TODO: 라우팅 구조 잡는 중...
-  // console.log('xxxx', params);
 
   return (
     <article>
@@ -25,6 +24,7 @@ const BoardDetailsPage = ({ user }) => {
       <BoardDetails
         id={id}
         user={{ id: user?.pk || -1, token: token?.access || null }}
+        modifyMode={action === 'modify'}
       />
     </article>
   );

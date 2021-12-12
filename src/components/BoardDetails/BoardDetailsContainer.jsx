@@ -1,22 +1,26 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes, { string, number, object } from 'prop-types';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import { useModalContext } from '../../contexts';
 import jiseekApi from '../../api';
 import { boardKeys, mutationKeys } from '../../constants';
 import { BoardLoadFailError, LoadingCircle } from '../../assets/images/images';
 import BoardDetails from './BoardDetails';
+import { useImageUploader } from '../../hooks/common';
 
-const BoardDetailsContainer = ({ id, user }) => {
+const BoardDetailsContainer = ({ id, user, modifyMode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const openModal = useModalContext();
+  const [content, setContent] = useState('');
   const queryClient = useQueryClient();
+  const { setImageUrl, imageFile, reset, renderImgUploader } =
+    useImageUploader();
 
-  // 게시판 조회 기능 (R)
+  // 게시글 조회 기능 (R)
   const { data: post, status } = useQuery(
     boardKeys.postById(id),
     jiseekApi.get({ token: user.token }),
@@ -26,16 +30,43 @@ const BoardDetailsContainer = ({ id, user }) => {
     },
   );
 
-  // TODO: 좋아요 개선 중....
   useEffect(() => {
-    if (!user.token) {
+    if (!modifyMode || !post?.user?.pk || user?.id === -1) {
       return;
     }
-    queryClient.refetchQueries(boardKeys.postById(id), { exact: true });
-    // user
-  }, [id, user?.token, queryClient]);
+    if (post.user.pk !== user.id) {
+      toast.error('접근할 수 없는 페이지입니다.', { toastId: '' });
+      navigate('.', { replace: true });
+    }
+    setImageUrl(post.photo);
+    setContent(post.content);
+  }, [setImageUrl, modifyMode, post, user, navigate]);
 
-  // 게시판 삭제 기능 (D)
+  // 게시글 수정 기능(U)
+  const { mutate: updatePost } = useMutation(
+    (sendData) =>
+      jiseekApi.patch(`/boards/${id}/`, {
+        token: user.token,
+        ...sendData,
+        isForm: true,
+      }),
+    {
+      mutationKey: mutationKeys.postUpdate,
+      onMutate: async () => {
+        await queryClient.cancelQueries(boardKeys.postById(id));
+      },
+      onSuccess: (data) => {
+        queryClient.setQueryData(boardKeys.postById(id), data);
+        // TODO setContent?
+        reset();
+        navigate('.', { replace: true });
+      },
+      onError: () => toast.error('TODO: 글 수정 실패', { toastId: '' }),
+      onSettled: () => queryClient.invalidateQueries(boardKeys.postById(id)),
+    },
+  );
+
+  // 게시글 삭제 기능 (D)
   const { mutate: deletePost } = useMutation(
     () => jiseekApi.delete(`/boards/${id}/`, { token: user.token }),
     {
@@ -52,17 +83,50 @@ const BoardDetailsContainer = ({ id, user }) => {
     },
   );
 
-  const handleDelete = useCallback(() => {
+  const handleInput = useCallback(
+    (e) => {
+      if (e.target.value.length > 255) {
+        toast.error(t('boardContentMaxErr'), { toastId: 'TODO:' });
+        return;
+      }
+      setContent(e.target.value.slice(0, 255));
+    },
+    [t],
+  );
+
+  const handleUpdate = useCallback(
+    (e) => {
+      e.preventDefault();
+      const sendData = {};
+      if (content !== post.content) {
+        sendData.content = content;
+      }
+      if (imageFile) {
+        sendData.photo = imageFile;
+      }
+      updatePost(sendData);
+    },
+    [content, imageFile, post, updatePost],
+  );
+
+  const handleCancelDelete = useCallback(() => {
+    if (modifyMode) {
+      reset();
+      setContent(post.content);
+      navigate('.', { replace: true });
+      return;
+    }
     openModal('게시물을 삭제하시겠습니까?', 'select', {
       yes: () => deletePost(),
       no: () => {},
     });
-  }, [openModal, deletePost]);
+  }, [modifyMode, openModal, deletePost, navigate, reset, post]);
 
   // TODO: 테스트 필요
   const cancel = useCallback(async () => {
     await queryClient.cancelMutations(mutationKeys.postAll);
-  }, [queryClient]);
+    await queryClient.cancelQueries(boardKeys.postById(id));
+  }, [queryClient, id]);
 
   useEffect(() => () => cancel(), [cancel]);
 
@@ -76,7 +140,18 @@ const BoardDetailsContainer = ({ id, user }) => {
         <img src={LoadingCircle} alt="TODO: 로딩 문구 넣기" />
       )}
       {status === 'success' && (
-        <BoardDetails user={user} post={post} onDelete={handleDelete} />
+        <BoardDetails
+          user={user}
+          post={post}
+          modifyMode={modifyMode}
+          imageFile={imageFile}
+          content={content}
+          onInput={handleInput}
+          onSubmit={handleUpdate}
+          onCancelDelete={handleCancelDelete}
+        >
+          {renderImgUploader()}
+        </BoardDetails>
       )}
     </div>
   );
@@ -84,11 +159,13 @@ const BoardDetailsContainer = ({ id, user }) => {
 
 BoardDetailsContainer.propTypes = {
   id: PropTypes.oneOfType([number, object]),
+  modifyMode: PropTypes.bool,
   user: PropTypes.objectOf(PropTypes.oneOfType([number, string])),
 };
 
 BoardDetailsContainer.defaultProps = {
   id: -1,
+  modifyMode: false,
   user: { id: -1, token: null },
 };
 

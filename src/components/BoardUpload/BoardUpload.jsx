@@ -1,30 +1,25 @@
 import React from 'react';
-import PropTypes, { oneOfType, func, object } from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { StyledErrorMsg } from '../common';
 
-const BoardUpload = ({ imageFile, hookForm, children }) => {
+const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
   const { t } = useTranslation();
+
   return (
     /* eslint-disable react/jsx-props-no-spreading */
     <div>
       <Link to="..">이전</Link>
-      <form onSubmit={hookForm.onSubmit}>
+      <form onSubmit={onSubmit}>
         {children}
         <textarea
           type="text"
+          value={content}
           placeholder={t('boardPlaceHolder')}
-          {...hookForm.register('content')}
+          onInput={onInput}
         />
-        <span>{hookForm.watch('content').length}/255</span>
-        <StyledErrorMsg>
-          {hookForm.errors.content && hookForm.errors.content.message}
-        </StyledErrorMsg>
-        <button
-          disabled={!imageFile || hookForm.watch('content').length === 0}
-          type="submit"
-        >
+        <span>{content.length}/255</span>
+        <button disabled={!imageFile || content.length === 0} type="submit">
           글 작성
         </button>
       </form>
@@ -33,13 +28,18 @@ const BoardUpload = ({ imageFile, hookForm, children }) => {
 };
 
 BoardUpload.propTypes = {
-  hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
   imageFile: PropTypes.objectOf(PropTypes.any),
+  content: PropTypes.string,
+  onInput: PropTypes.func,
+  onSubmit: PropTypes.func,
   children: oneOfType([PropTypes.any]),
 };
 
 BoardUpload.defaultProps = {
   imageFile: null,
+  content: '',
+  onInput: null,
+  onSubmit: null,
   children: null,
 };
 

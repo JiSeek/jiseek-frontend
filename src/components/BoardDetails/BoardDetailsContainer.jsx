@@ -1,126 +1,89 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
+import PropTypes, { string, number, object } from 'prop-types';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import {
-  useAuthContext,
-  useLangContext,
-  useModalContext,
-} from '../../contexts';
+import { useModalContext } from '../../contexts';
 import jiseekApi from '../../api';
-import { boardKeys, userKeys } from '../../constants';
-import { getLocaleDate } from '../../utils';
-import LikeButtonContainer from '../common/LikeButtonContainer';
+import { boardKeys, mutationKeys } from '../../constants';
+import { BoardLoadFailError, LoadingCircle } from '../../assets/images/images';
+import BoardDetails from './BoardDetails';
 
-function BoardDetailsContainer() {
-  const { token } = useAuthContext();
-  const queryClient = useQueryClient();
-  const pk = queryClient.getQueryData(userKeys.info)?.pk;
+const BoardDetailsContainer = ({ id, user }) => {
   const navigate = useNavigate();
-  const params = useParams();
-  const [lang] = useLangContext();
   const { t } = useTranslation();
-  const modal = useModalContext();
+  const openModal = useModalContext();
+  const queryClient = useQueryClient();
 
   // 게시판 조회 기능 (R)
-  const {
-    data: details,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(
-    boardKeys.detailsById(params.id), 
-    jiseekApi.get(), {
-      refetchOnMount: true,
-      refetchOnReconnect: true,
-      refetchOnWindowFocus: true,
-      staleTime: 5 * 60 * 1000, // 5분
-    }
-  );
-
-  if (isError) {
-    console.log(t('boardReadErr'), error);
-  } else {
-    console.log('게시판 읽어오기 성공', details);
-  }
-
-  // 게시판 삭제 기능 (D)
-  const deletion = useMutation(
-    (id) => 
-      jiseekApi.delete(`/boards/${id}/`, {
-        token: token.access,
-      }),
+  const { data: post, status } = useQuery(
+    boardKeys.postById(id),
+    jiseekApi.get({ token: user.token }),
     {
-      onSuccess: () => {
-        toast.success(t('boardDeleteSucc'));
-        navigate('/board');
-      },
-      onError: (er) => toast.error(t('boardDeleteErr'), er),
-      onSettled: () => queryClient.invalidateQueries(boardKeys.superior),
+      refetchOnWindowFocus: true,
+      staleTime: 600000,
+      // cacheTime: 0,
     },
   );
 
-  const handleDelete = () => {
-    modal('게시물을 삭제하시겠습니까?', 'select', {
-      yes: () => deletion.mutate(details.id),
+  // TODO: 좋아요 개선 중....
+  useEffect(() => {
+    if (!user.token) {
+      return;
+    }
+    queryClient.refetchQueries(boardKeys.postById(id), { exact: true });
+    // user
+  }, [id, user?.token, queryClient]);
+
+  // 게시판 삭제 기능 (D)
+  const { mutate: deletePost } = useMutation(
+    () => jiseekApi.delete(`/boards/${id}/`, { token: user.token }),
+    {
+      mutationKey: mutationKeys.postDelete,
+      onMutate: async () => {
+        await queryClient.cancelQueries(boardKeys.postById(id));
+      },
+      onSuccess: () => {
+        toast.success(t('boardDeleteSucc'));
+        navigate('..');
+      },
+      onError: () => toast.error(t('boardDeleteErr')),
+      onSettled: () => queryClient.invalidateQueries(boardKeys.all),
+    },
+  );
+
+  const handleDelete = useCallback(() => {
+    openModal('게시물을 삭제하시겠습니까?', 'select', {
+      yes: () => deletePost(),
       no: () => {},
     });
-  };
-
-  // 게시판 수정 페이지로 이동
-  const handleUpdate = (photo, content) => {
-    navigate(`/board/modify/${details.id}`, { state: { photo, content } });
-  };
+  }, [openModal, deletePost]);
 
   return (
     <div>
       {/* 게시판 상세 정보 */}
-      {isLoading ? (
-        <div>로딩아이콘</div>
-      ) : (
-        <>
-          <div>{details.user.name}</div>
-
-          {/* 사용자와 작성자가 일치할 시, 삭제/수정과 좋아요여부/목록 기능 */}
-          {pk === details.user.pk ? (
-            <>
-              <LikeButtonContainer
-                type="board"
-                data={{
-                  pk: Number(details.id),
-                  content: details.content,
-                  created: details.created,
-                }}
-                like={details.is_fav}
-              />
-              <div>{details.like_users}</div>
-              <button
-                type="button"
-                onClick={() => handleUpdate(details.photo, details.content)}
-              >
-                게시판 수정
-              </button>
-              <button type="button" onClick={handleDelete}>
-                게시판 삭제
-              </button>
-            </>
-          ) : null}
-
-          <img src={details.photo} alt="이미지" />
-          <div>{details.count}</div>
-          <div>{details.content}</div>
-          {/* 게시판 날짜 표시, 수정 여부 */}
-          <div>
-            {getLocaleDate(details.created, lang)}
-            {details.created.slice(0, 20) !== details.modified.slice(0, 20) ? (
-              <> {t('boardBeModified')} </>
-            ) : null}
-          </div>
-        </>
+      {status === 'error' && (
+        <img src={BoardLoadFailError} alt="TODO: 에러 문구 넣기" />
+      )}
+      {status === 'loading' && (
+        <img src={LoadingCircle} alt="TODO: 로딩 문구 넣기" />
+      )}
+      {status === 'success' && (
+        <BoardDetails user={user} post={post} onDelete={handleDelete} />
       )}
     </div>
   );
-}
+};
+
+BoardDetailsContainer.propTypes = {
+  id: PropTypes.oneOfType([number, object]),
+  user: PropTypes.objectOf(PropTypes.oneOfType([number, string])),
+};
+
+BoardDetailsContainer.defaultProps = {
+  id: -1,
+  user: { id: -1, token: null },
+};
 
 export default BoardDetailsContainer;

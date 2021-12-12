@@ -1,1 +1,1 @@
-export { default as BoardDetails } from './BoardDetails';
+export { default as BoardDetails } from './BoardDetailsContainer';

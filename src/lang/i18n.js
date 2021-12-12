@@ -10,7 +10,7 @@ import { EN_MY_PAGE, KO_MY_PAGE } from './MyPage';
 import { EN_SIGN_OUT, KO_SIGN_OUT } from './SignOut';
 import { EN_AUTH, KO_AUTH } from './Auth';
 import { EN_BOARD, KO_BOARD } from './Board';
-import { EN_MEMBER, KO_MEMBER } from './Member';
+import { EN_MEMBERS, KO_MEMBERS } from './Members';
 
 const resources = {
   ko: {
@@ -25,7 +25,7 @@ const resources = {
       ...KO_SIGN_OUT,
       ...KO_AUTH,
       ...KO_BOARD,
-      ...KO_MEMBER,
+      ...KO_MEMBERS,
     },
   },
   en: {
@@ -40,7 +40,7 @@ const resources = {
       ...EN_SIGN_OUT,
       ...EN_AUTH,
       ...EN_BOARD,
-      ...EN_MEMBER,
+      ...EN_MEMBERS,
     },
   },
 };

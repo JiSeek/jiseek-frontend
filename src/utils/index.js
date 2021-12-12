@@ -1,3 +1,4 @@
+import React from 'react';
 import sha256 from 'sha256';
 
 export const setLocalStorage = (key, data) =>
@@ -19,3 +20,14 @@ export const getLocaleDate = (dateString, lang) =>
 export const encSha256 = (target, salt) => sha256(target + salt);
 
 export const getCurrentTime = () => parseInt(new Date().getTime() / 1000, 10);
+
+export const parseParagraph = (text) => (
+  <span>
+    {text.split('\n').map((line) => (
+      <>
+        {line}
+        <br />
+      </>
+    ))}
+  </span>
+);

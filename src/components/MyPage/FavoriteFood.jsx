@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { LikeButton, StyledFavContainer } from '../common';
-import { LoadingCircle } from '../../assets/images/images';
+import { LoadingCircle, BoardLoadFailError } from '../../assets/images/images';
 
 const FavoriteFood = ({ favFoods, status, onClick }) => {
   const { t } = useTranslation();
@@ -13,7 +13,9 @@ const FavoriteFood = ({ favFoods, status, onClick }) => {
       {status === 'loading' && (
         <img src={LoadingCircle} alt={t('myPageFavFoodsLoading')} />
       )}
-      {status === 'error' && <>에러는 요기</>}
+      {status === 'error' && (
+        <img src={BoardLoadFailError} alt={t('myPageLikeApplyErr')} />
+      )}
       {status === 'success' && (
         <div>
           {favFoods.map(({ pk, name, image }) => (
@@ -73,6 +75,7 @@ const HoverContents = styled.div`
   right: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 80%;
@@ -85,8 +88,9 @@ const HoverContents = styled.div`
 
     :first-child {
       /* 좋아요 버튼 */
-      text-align: right;
+      /* text-align: right; */
       padding-right: 1rem;
+      margin-left: auto;
     }
 
     :nth-child(2) {
@@ -95,7 +99,14 @@ const HoverContents = styled.div`
       font-size: 1.5rem;
       font-weight: 500;
       letter-spacing: 1px;
+      width: 80%;
       text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      margin-bottom: 1rem;
     }
 
     :last-child {

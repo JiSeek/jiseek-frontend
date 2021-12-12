@@ -34,4 +34,3 @@ export { default as Jihun } from './member/김지훈.png';
 export { default as Jiyun } from './member/박지윤.png';
 export { default as Minyeong } from './member/이민영.png';
 export { default as Jinseong } from './member/전진성.png';
-export { default as Velog } from './member/velog.png';

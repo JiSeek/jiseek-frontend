@@ -100,14 +100,19 @@ const MyInfoContainer = styled.section`
   justify-content: space-between;
   text-align: center;
   box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
-  padding: 40px;
-  /* height: 580px; */
+  padding: 60px 40px;
+  height: 53vh;
+  max-height: 480px;
+  > div > ul {
+    margin-top: 20px;
+  }
 `;
 
 const MyInfoTitle = styled.h2`
   width: 0;
   height: 0;
   font-size: 0;
+  display: none;
 `;
 
 const ProfileImage = styled.img`
@@ -120,8 +125,8 @@ const PlatformAndName = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.75rem;
-  margin-bottom: 0.5rem;
+  margin-top: 1.75rem;
+  margin-bottom: 1.5rem;
 
   > img {
     margin-right: 1rem;

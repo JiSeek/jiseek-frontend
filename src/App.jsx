@@ -23,7 +23,7 @@ import {
   NotFound,
   FoodSearchPage,
   PasswordChangePage,
-  Member,
+  Members,
 } from './pages';
 import { useAuthContext } from './contexts';
 import RootPage from './pages/RootPage';
@@ -75,7 +75,7 @@ const App = () => (
                 </FilteredRoute>
               }
             />
-            <Route path="member" element={<Member />} />
+            <Route path="member" element={<Members />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

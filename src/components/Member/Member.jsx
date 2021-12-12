@@ -195,6 +195,7 @@ const EachMember = styled.li`
     grid-area: image;
     width: 180px;
     height: 180px;
+    border-radius: 10px;
     object-fit: contain;
     /* background: greenyellow; */
     box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
@@ -220,7 +221,9 @@ const EachMember = styled.li`
     :last-child {
       grid-area: background;
       background: url('http://www.bibigo.com/img/kr/bg_sub5.gif') repeat 0 0;
+      background-size: 50px;
       height: 100%;
+      border-radius: 0 0 0 10px;
     }
   }
   > p {
@@ -231,7 +234,9 @@ const EachMember = styled.li`
     padding: 1rem 2rem 2rem 2rem;
     font-size: 1.65rem;
     letter-spacing: 1.5px;
-    background: url('http://www.bibigo.com/img/kr/bg_sub5.gif') repeat 0 0;
+    background: url('http://www.bibigo.com/img/kr/bg_sub5.gif') repeat;
+    background-size: 50px;
+    border-radius: 0 10px 10px 0;
     > span {
       margin: 0.5rem 0;
       :first-child {
@@ -251,6 +256,12 @@ const EachMember = styled.li`
     margin-left: auto;
     > div {
       justify-content: flex-end;
+      :last-child {
+        border-radius: 0 0 10px 0;
+      }
+    }
+    > p {
+      border-radius: 10px 0 0 10px;
     }
   }
 `;

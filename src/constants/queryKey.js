@@ -40,6 +40,8 @@ export const mutationKeys = Object.freeze({
   foodAll: 'foods',
   foodUpload: ['foods', 'upload'],
   foodResult: ['foods', 'result'],
+  postAll: 'post',
+  postCreate: ['post', 'create'],
   postDelete: ['post', 'delete'],
   commentCreate: ['post', 'comment', 'create'],
   commentDelete: ['post', 'comment', 'delete'],

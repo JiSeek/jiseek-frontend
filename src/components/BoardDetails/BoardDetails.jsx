@@ -21,13 +21,13 @@ const BoardDetails = ({ user, post, onDelete }) => {
         {user?.id === post?.user?.pk && (
           <span>
             <button type="button" onClick={onDelete}>
-              게시판 삭제
+              게시글 삭제
             </button>
             <Link
               to="./modify"
               state={{ photo: post?.photo, content: post?.content }}
             >
-              게시판 수정
+              게시글 수정
             </Link>
           </span>
         )}

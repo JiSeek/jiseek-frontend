@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-// import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
@@ -7,12 +6,10 @@ import Posts from './Posts';
 
 const postsQueryOpt = {
   refetchOnWindowFocus: true,
-  staleTime: 600000,
+  staleTime: 5 * 60 * 1000,
 };
 
 function PostsContainer() {
-  // const { t } = useTranslation();
-
   // 게시판 목록 읽어오기 (R) : 좋아요순
   const { data: bestPosts, status: bestPostsStatus } = useQuery(
     boardKeys.best,

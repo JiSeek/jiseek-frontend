@@ -16,13 +16,13 @@ const FoodDetails = ({
   imgUrl,
   favFoods,
   likeStatus,
-  onModal,
+  isModal,
   children,
 }) => {
   const { t } = useTranslation();
 
   return (
-    <Result onModal={onModal}>
+    <Result isModal={isModal}>
       {status === 'loading' && (
         <Center>
           <img src={LoadingCircle} alt="loading" />
@@ -69,7 +69,7 @@ const FoodDetails = ({
               </div>
             </section>
           </GridResult>
-          {!onModal && (
+          {!isModal && (
             <section>
               <Subtitle>{t('foodSearchTitleRecipes')}</Subtitle>
               <FoodRecipesContainer food={foodInfo?.name || ''} />
@@ -88,7 +88,7 @@ FoodDetails.propTypes = {
   status: PropTypes.string,
   favFoods: PropTypes.arrayOf(number),
   likeStatus: PropTypes.string,
-  onModal: PropTypes.bool,
+  isModal: PropTypes.bool,
   children: PropTypes.oneOfType([any]),
 };
 
@@ -99,7 +99,7 @@ FoodDetails.defaultProps = {
   status: '',
   favFoods: [],
   likeStatus: '',
-  onModal: false,
+  isModal: false,
   children: null,
 };
 
@@ -135,7 +135,7 @@ const Result = styled.article`
   text-align: center; // TODO: 임시 처리
 
   ${(props) =>
-    props.onModal &&
+    props.isModal &&
     css`
       padding: 0;
       width: 100%;

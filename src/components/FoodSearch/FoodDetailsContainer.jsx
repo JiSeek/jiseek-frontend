@@ -8,7 +8,7 @@ import { useAuthContext } from '../../contexts';
 
 const getCacheTime = (min) => min * 60 * 1000;
 
-const FoodDetailsContainer = ({ type, id, imgUrl, onModal, children }) => {
+const FoodDetailsContainer = ({ type, id, imgUrl, isModal, children }) => {
   const { token } = useAuthContext();
   const { data: foodInfo, status } = useQuery(
     foodKeys.detailById(id),
@@ -53,7 +53,7 @@ const FoodDetailsContainer = ({ type, id, imgUrl, onModal, children }) => {
       imgUrl={imgUrl}
       favFoods={favFoods}
       likeStatus={likeStatus}
-      onModal={onModal}
+      isModal={isModal}
     >
       {children}
     </FoodDetails>
@@ -64,7 +64,7 @@ FoodDetailsContainer.propTypes = {
   type: PropTypes.string,
   id: PropTypes.oneOfType([number, string]),
   imgUrl: PropTypes.string,
-  onModal: PropTypes.bool,
+  isModal: PropTypes.bool,
   children: PropTypes.oneOfType([any]),
 };
 
@@ -72,7 +72,7 @@ FoodDetailsContainer.defaultProps = {
   type: 'name',
   id: '',
   imgUrl: '',
-  onModal: false,
+  isModal: false,
   children: null,
 };
 

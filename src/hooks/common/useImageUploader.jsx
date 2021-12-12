@@ -32,14 +32,18 @@ const useImageUploader = () => {
     setImageFile(null);
   }, []);
 
-  const renderImgUploader = () => (
-    <ImgUploader imageUrl={imageUrl} handleFileInput={handleFileInput} />
+  const renderImgUploader = (type) => (
+    <ImgUploader
+      type={type}
+      imageUrl={imageUrl}
+      handleFileInput={handleFileInput}
+    />
   );
 
   return { imageFile, renderImgUploader, reset };
 };
 
-const ImgUploader = ({ imageUrl, handleFileInput }) => {
+const ImgUploader = ({ type, imageUrl, handleFileInput }) => {
   const { t } = useTranslation();
 
   return (
@@ -63,20 +67,24 @@ const ImgUploader = ({ imageUrl, handleFileInput }) => {
             onChange={handleFileInput}
           />
         </FileLabel>
-        <ResultButton disabled={!imageUrl} type="submit">
-          {t('foodSearchImageSubmit')}
-        </ResultButton>
+        {type === 'food' && (
+          <ResultButton disabled={!imageUrl} type="submit">
+            {t('foodSearchImageSubmit')}
+          </ResultButton>
+        )}
       </div>
     </>
   );
 };
 
 ImgUploader.propTypes = {
+  type: PropTypes.string,
   imageUrl: PropTypes.string,
   handleFileInput: PropTypes.func,
 };
 
 ImgUploader.defaultProps = {
+  type: '',
   imageUrl: '',
   handleFileInput: null,
 };

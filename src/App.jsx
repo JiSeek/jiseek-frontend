@@ -17,9 +17,6 @@ import {
   RegisterPage,
   LogInPage,
   BoardPage,
-  // BoardDetailsPage,
-  // BoardUploadPage,
-  // BoardModifyPage,
   MyPage,
   VerifyPage,
   LogOutPage,
@@ -59,10 +56,6 @@ const App = () => (
               }
             />
             <Route path="board/*" element={<BoardPage />} />
-            {/* <Route path="upload" element={<BoardUploadPage />} />
-              <Route path="post/:id" element={<BoardDetailsPage />} />
-              <Route path="modify/:id" element={<BoardModifyPage />} />
-            </Route> */}
             <Route
               path="mypage/*"
               element={

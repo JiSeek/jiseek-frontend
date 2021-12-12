@@ -10,7 +10,7 @@ export const boardKeys = Object.freeze({
   all: 'boards',
   best: ['boards', 'rank'],
   postById: (id) => ['boards', id],
-  commentsByBoardId: (boardId) => ['boards', boardId, 'comments'],
+  commentsByPostId: (boardId) => ['boards', boardId, 'comments'],
 });
 
 // 사용자 정보 고유키 정의
@@ -40,5 +40,8 @@ export const mutationKeys = Object.freeze({
   foodAll: 'foods',
   foodUpload: ['foods', 'upload'],
   foodResult: ['foods', 'result'],
-  postDelete: ['boards', 'delete'],
+  postDelete: ['post', 'delete'],
+  commentCreate: ['post', 'comment', 'create'],
+  commentDelete: ['post', 'comment', 'delete'],
+  commentUpdate: ['post', 'comment', 'update'],
 });

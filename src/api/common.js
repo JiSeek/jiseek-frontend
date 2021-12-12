@@ -10,6 +10,7 @@ export const createQueryApi =
     try {
       const url = `/${queryKey.join('/')}/`;
       const { token, ...params } = sendData;
+      // console.log('yyyy', sendData);
       const response = await axios({
         baseURL,
         url,

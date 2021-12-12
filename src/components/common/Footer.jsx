@@ -78,6 +78,7 @@ const FooterBackground = styled.div`
 
 const FooterContents = styled.ul`
   padding-bottom: 2rem;
+  width: 75vw;
   max-width: 1320px;
   margin: auto;
 

@@ -57,8 +57,8 @@ const ImgUploader = ({ type, imageUrl, handleFileInput }) => {
       >
         <img src={imageUrl || FileUpload} alt={t('foodSearchImageAlt')} />
       </DropContainer>
-      <div style={{ display: 'flex', justifyContent: 'center', width: 354 }}>
-        <FileLabel htmlFor="chooseFile">
+      <Buttons>
+        <label htmlFor="chooseFile">
           {t('foodSearchImageUpload')}
           <input
             id="chooseFile"
@@ -66,13 +66,13 @@ const ImgUploader = ({ type, imageUrl, handleFileInput }) => {
             accept="image/*"
             onChange={handleFileInput}
           />
-        </FileLabel>
+        </label>
         {type === 'food' && (
-          <ResultButton disabled={!imageUrl} type="submit">
+          <button disabled={!imageUrl} type="submit">
             {t('foodSearchImageSubmit')}
-          </ResultButton>
+          </button>
         )}
-      </div>
+      </Buttons>
     </>
   );
 };
@@ -90,33 +90,20 @@ ImgUploader.defaultProps = {
 };
 
 const DropContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 350px;
-  max-height: 350px;
-  border: 2px solid #72af2c;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  text-align: center;
+  width: 30rem;
+  height: 38vh;
+  border: 2px solid #72af2c8f;
   margin-bottom: 2rem;
 
   > img {
     pointer-events: none;
-    width: 350px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-  }
-`;
-
-const FileLabel = styled.label`
-  font-size: 0.9rem;
-  background-color: #92ce4d;
-  text-align: center;
-  padding: 1rem 0;
-  width: 100%;
-  cursor: pointer;
-  margin-right: 4px;
-
-  > input {
-    display: none;
   }
 `;
 
@@ -131,18 +118,41 @@ const long = keyframes`
   }
 `;
 
-const ResultButton = styled.button`
-  background: #407f00;
-  color: #f6fff2;
-  font-family: inherit;
-  font-size: 0.8rem;
-  border: none;
-  width: 100%;
-  cursor: pointer;
-  animation: ${long} 0.5s ease-out;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
 
-  :disabled {
-    display: none;
+  > label {
+    font-weight: 500;
+    background-color: #92ce4d;
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    cursor: pointer;
+    margin-right: 4px;
+
+    > input {
+      display: none;
+    }
+  }
+
+  > button {
+    background: #407f00;
+    color: #f6fff2;
+    font-family: inherit;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    animation: ${long} 0.5s ease-out;
+
+    :disabled {
+      display: none;
+    }
+
+    :hover {
+      background: #3f7f00c8;
+      transition: 0.3s;
+    }
   }
 `;
 

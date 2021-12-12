@@ -4,7 +4,7 @@ const KO_FOOD_SEARCH = {
   foodSearchTitle: '음식 알아보기',
   foodSearchNameTab: '음식 이름',
   foodSearchImageTab: '음식 사진',
-  foodSearchSearchBar: '음식명을 입력해주세요.',
+  foodSearchSearchBar: '음식명으로 검색해보세요.',
   foodSearchImageAlt: '업로드한 이미지',
   foodSearchImageUpload: '사진 선택',
   foodSearchImageSubmit: '결과 보기',

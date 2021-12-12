@@ -33,7 +33,7 @@ const EN_MEMBERS = {
     git: 'https://github.com/combiJihoon',
     blog: 'https://velog.io/@combi_jihoon',
     part: 'Backend',
-    role: '#Implementation of API related to our own user authentication and social login authentication (Naver & Kakao & Google) \n #Implementation of API related to mypage and likes #Service deployment #etc',
+    role: '#Implementation of API related to our own user authentication and social login authentication (Naver & Kakao & Google) \n #Implementation of API related to mypage and likes \n #Service deployment #etc',
     intro:
       'While working as a chemistry researcher, I became interested in experimental automation and efficiency and entered the developer. \n I am a back-end developer that have fun with delivering necessary data and building a distribution environment!',
   },
@@ -63,7 +63,7 @@ const EN_MEMBERS = {
     git: 'https://github.com/notCoderJ',
     blog: '',
     part: 'Frontend',
-    role: '#Implement Food search(by name, by photo) page function #Community page function re-factoring \n #Implemented user-related functions (sign in, sign up, my page) #etc',
+    role: '#Implement Food search(by name, by photo) page function \n #Implemented user-related functions (sign in, sign up, my page) \n #Community page function re-factoring #etc',
     intro:
       'After working as a system developer for the past three years, I fell in love with the charm of checking the results immediately and providing services to various users, and challenged the front-end field. \n I like structurization of codes and work on for being a front developer who cares for details to make users feel comfortable.',
   },

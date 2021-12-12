@@ -11,23 +11,25 @@ const MyInfoUpdate = ({ hookForm, imgUrl, onImgUpload, lockSubmit }) => {
   return (
     /* eslint-disable react/jsx-props-no-spreading */
     <UpdateInfo onSubmit={hookForm.onSubmit}>
-      <ProfileImage src={imgUrl} alt={t('myPageMyInfoProfile')} />
-      <FileLabel htmlFor="avatar">
-        {t('myPageMyInfoProfileSelect')}
-        <input
-          type="file"
-          id="avatar"
-          name="avatar"
-          accept="image/*"
-          {...hookForm.register('image', { onChange: onImgUpload })}
-        />
-      </FileLabel>
-      <label htmlFor="user-name">
-        <input type="text" id="user-name" {...hookForm.register('name')} />
-      </label>
-      <StyledErrorMsg>
-        {hookForm.errors.name && hookForm.errors.name.message}
-      </StyledErrorMsg>
+      <div>
+        <ProfileImage src={imgUrl} alt={t('myPageMyInfoProfile')} />
+        <FileLabel htmlFor="avatar">
+          {t('myPageMyInfoProfileSelect')}
+          <input
+            type="file"
+            id="avatar"
+            name="avatar"
+            accept="image/*"
+            {...hookForm.register('image', { onChange: onImgUpload })}
+          />
+        </FileLabel>
+        <NameLabel htmlFor="user-name">
+          <input type="text" id="user-name" {...hookForm.register('name')} />
+        </NameLabel>
+        <StyledErrorMsg>
+          {hookForm.errors.name && hookForm.errors.name.message}
+        </StyledErrorMsg>
+      </div>
       <StyledBtnContainer>
         <Link to="..">{t('myPageMyInfoCancelBtn')}</Link>
         <button disabled={lockSubmit} type="submit">
@@ -57,9 +59,41 @@ const UpdateInfo = styled.form`
   justify-content: space-between;
   text-align: center;
   box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
-  padding: 40px;
+  padding: 60px 40px;
+  height: 53vh;
+  max-height: 480px;
+  > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 330px;
+    margin-top: 20px;
+  }
+`;
 
-  > label > input {
+const ProfileImage = styled.img`
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+`;
+
+const FileLabel = styled.label`
+  width: 100%;
+  padding: 0.5rem 0;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.8rem;
+  background-color: #92ce4d;
+  color: #f6fff2;
+  cursor: pointer;
+
+  > input {
+    display: none;
+  }
+`;
+
+const NameLabel = styled.label`
+  > input {
     font-family: inherit;
     border: none;
     border-bottom: 2px solid #8cc748;
@@ -81,28 +115,6 @@ const UpdateInfo = styled.form`
     :first-child {
       margin-top: 0;
     }
-  }
-`;
-
-const ProfileImage = styled.img`
-  height: 200px;
-  width: 200px;
-  object-fit: cover;
-`;
-
-const FileLabel = styled.label`
-  width: 100%;
-  margin: 1rem 0;
-  padding: 0.35rem 0;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 0.8rem;
-  background-color: #92ce4d;
-  color: #f6fff2;
-  cursor: pointer;
-
-  > input {
-    display: none;
   }
 `;
 

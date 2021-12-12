@@ -10,7 +10,7 @@ const FavoritePostContainer = () => {
   const { data: favPosts, status } = useQuery(
     myPageKeys.favPosts,
     jiseekApi.get({ token: token.access }),
-    { staleTime: Infinity, refetchOnWindowFocus: true },
+    { staleTime: 5 * 60 * 1000, refetchOnWindowFocus: true },
   );
 
   return <FavoritePost favPosts={favPosts} status={status} />;

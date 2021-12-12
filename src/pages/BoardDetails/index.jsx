@@ -13,8 +13,10 @@ const BoardDetailsPage = ({ user }) => {
   if (!/^\d+$/.test(id)) {
     // TODO: 한/영 변환필요
     toast.error('유효하지 않은 게시물입니다.', { toastId: '' });
-    return <Navigate to="/board" replace />;
+    return <Navigate to=".." />;
   }
+  // TODO: 라우팅 구조 잡는 중...
+  // console.log('xxxx', params);
 
   return (
     <article>

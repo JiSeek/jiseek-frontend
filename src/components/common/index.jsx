@@ -1,4 +1,5 @@
 export { default as CustomLink } from './CustomLink';
+export { default as FilteredRoute } from './FilteredRoute';
 export { default as NavigationBar } from './NavigationBarContainer';
 export { default as FormLessButton } from './FormLessButton';
 export { default as BubbleTypeNavBar } from './BubbleTypeNavBar';

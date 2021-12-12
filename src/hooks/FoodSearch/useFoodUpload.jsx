@@ -25,7 +25,7 @@ const useFoodUpload = () => {
     imageFile,
     reset: uploadReset,
     renderImgUploader,
-  } = useImageUploader();
+  } = useImageUploader('food');
 
   const {
     mutateAsync: imgResult,
@@ -114,7 +114,7 @@ const useFoodUpload = () => {
   );
 
   const RenderFoodUpload = () => (
-    <form onSubmit={onSubmit}>{renderImgUploader()}</form>
+    <form onSubmit={onSubmit}>{renderImgUploader('food')}</form>
   );
 
   return { analysis, status, reset, RenderFoodUpload };

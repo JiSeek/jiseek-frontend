@@ -1,7 +1,5 @@
 import * as yup from 'yup';
 
-// TODO: i18n 적용 후 문구로 변환
-
 export const getRegisterValidation = (t) =>
   yup.object({
     publicTypes: yup.object({
@@ -44,7 +42,7 @@ export const getRegisterValidation = (t) =>
     }),
   });
 
-// TODO: 나의 정보 수정 유효성 검사 언어변환
+// TODO: 내정보 수정 문구 추가
 export const getMyInfoFormValidation = (t) =>
   yup.object({ name: yup.string().max(20, t('')) });
 
@@ -77,4 +75,12 @@ export const getLoginValidation = (t) =>
       .required(
         t('signInRequiredErr', { what: t('signInPassword').toLowerCase() }),
       ),
+  });
+
+export const getPostUploadValidation = (t) =>
+  yup.object({
+    content: yup
+      .string()
+      .max(255, t('boardContentMaxErr'))
+      .required(t('boardContentRequiredErr')),
   });

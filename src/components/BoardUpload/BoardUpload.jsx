@@ -1,110 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import PropTypes, { oneOfType, func, object } from 'prop-types';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import jiseekApi from '../../api';
-import { boardKeys } from '../../constants';
-import { useAuthContext } from '../../contexts';
+import { StyledErrorMsg } from '../common';
 
-function BoardUpload() {
-  const { token } = useAuthContext();
-  const navigate = useNavigate();
-  const [selectedImg, setSelectedImg] = useState({ file: '', url: '' });
-  const [text, setText] = useState('');
-  const [characters, setChracters] = useState(0);
+const BoardUpload = ({ imageFile, hookForm, children }) => {
   const { t } = useTranslation();
-  const queryClient = useQueryClient();
-
-  // 게시판 생성 기능 (C)
-  const creation = useMutation(
-    ({ content, photo }) =>
-      jiseekApi.post('/boards/', {
-        token: token.access,
-        isForm: true,
-        content,
-        photo,
-      }),
-    {
-      onSuccess: (da) => {
-        toast.success(t('boardCreateSucc'), da);
-        // 서버에서 id받아서 상세 페이지로 이동
-        navigate(`/board/details/${da.id}`);
-      },
-      onError: (e) => toast.error(t('boardCreateErr'), e),
-      onSettled: () => queryClient.invalidateQueries(boardKeys.superior),
-    },
-  );
-
-  const handleCreation = () => {
-    if (!selectedImg.file) {
-      toast.warn(t('boardSelectPhoto'))
-    } else if (!text) {
-      toast.warn(t('boardWriteContent'))
-    } else {
-      creation.mutate({ 
-        content: text, 
-        photo: selectedImg.file }
-      )
-    }
-  }
-
-  // 이미지 선택
-  const handleSelectImg = (e) => {
-    const reader = new FileReader();
-    const files = Array.from(e.target.files);
-    reader.onloadend = () => {
-      setSelectedImg({ file: files[0], url: reader.result });
-    };
-    reader.readAsDataURL(files[0]); // 바이너리 파일을 Base64 Encode 문자열로 반환
-  };
-
-  // 텍스트는 255자로 제한까지
-  useEffect(() => {
-    setChracters(text.length);
-    if (text.length > 255) {
-      toast(t('boardLimitedText'));
-      setText(text.slice(0, 255));
-    }
-  }, [text, t]);
-
   return (
-    <>
-      {/* 작성 페이지 */}
-      <form
-        action="#"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleSelectImg}
-        />
-        {selectedImg && <img src={selectedImg.url} alt="이미지" />}
+    /* eslint-disable react/jsx-props-no-spreading */
+    <div>
+      <Link to="..">이전</Link>
+      <form onSubmit={hookForm.onSubmit}>
+        {children}
         <textarea
           type="text"
           placeholder={t('boardPlaceHolder')}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          {...hookForm.register('content')}
         />
-        <div>{characters}/255</div>
-
+        <span>{hookForm.watch('content').length}/255</span>
+        <StyledErrorMsg>
+          {hookForm.errors.content && hookForm.errors.content.message}
+        </StyledErrorMsg>
         <button
+          disabled={!imageFile || hookForm.watch('content').length === 0}
           type="submit"
-          onClick={ handleCreation }
         >
-          게시판 올리기
+          글 작성
         </button>
       </form>
-
-      <button type="button" onClick={() => navigate('/board')}>
-        돌아가기
-      </button>
-    </>
+    </div>
   );
-}
+};
+
+BoardUpload.propTypes = {
+  hookForm: PropTypes.objectOf(oneOfType([func, object])).isRequired,
+  imageFile: PropTypes.objectOf(PropTypes.any),
+  children: oneOfType([PropTypes.any]),
+};
+
+BoardUpload.defaultProps = {
+  imageFile: null,
+  children: null,
+};
 
 export default BoardUpload;

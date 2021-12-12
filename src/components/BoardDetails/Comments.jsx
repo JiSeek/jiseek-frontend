@@ -10,6 +10,7 @@ const Comments = ({
   comments,
   onUpdateComment,
   text,
+  modifiedText,
   setText,
   setModifiedText,
   onCreate,
@@ -50,7 +51,14 @@ const Comments = ({
                 {/* 사용자와 작성자가 일치할 시, 수정/삭제 버튼 */}
                 {userId === user && (
                   <span>
-                    <button type="button" onClick={() => onUpdate(id)}>
+                    <button
+                      disabled={
+                        onUpdateComment === id &&
+                        (!modifiedText || modifiedText === content)
+                      }
+                      type="button"
+                      onClick={() => onUpdate(id)}
+                    >
                       수정
                     </button>
                     <button type="button" onClick={() => onDeleteCancel(id)}>
@@ -86,6 +94,7 @@ Comments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.any),
   onUpdateComment: PropTypes.number,
   text: PropTypes.string,
+  modifiedText: PropTypes.string,
   setText: PropTypes.func,
   setModifiedText: PropTypes.func,
   onCreate: PropTypes.func,
@@ -99,6 +108,7 @@ Comments.defaultProps = {
   comments: [],
   onUpdateComment: -1,
   text: '',
+  modifiedText: '',
   setText: null,
   setModifiedText: null,
   onCreate: null,

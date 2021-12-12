@@ -22,8 +22,7 @@ const BoardDetailsContainer = ({ id, user }) => {
     jiseekApi.get({ token: user.token }),
     {
       refetchOnWindowFocus: true,
-      staleTime: 600000,
-      // cacheTime: 0,
+      staleTime: 5 * 60 * 1000,
     },
   );
 
@@ -59,6 +58,13 @@ const BoardDetailsContainer = ({ id, user }) => {
       no: () => {},
     });
   }, [openModal, deletePost]);
+
+  // TODO: 테스트 필요
+  const cancel = useCallback(async () => {
+    await queryClient.cancelMutations(mutationKeys.postAll);
+  }, [queryClient]);
+
+  useEffect(() => () => cancel(), [cancel]);
 
   return (
     <div>

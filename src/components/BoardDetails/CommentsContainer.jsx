@@ -22,7 +22,7 @@ const CommentsContainer = ({ postId, user }) => {
     jiseekApi.get(),
     {
       refetchOnWindowFocus: true,
-      staleTime: 600000,
+      staleTime: 5 * 60 * 1000,
     },
   );
 
@@ -93,6 +93,7 @@ const CommentsContainer = ({ postId, user }) => {
       },
       onSuccess: () => {
         setOnUpdateComment(-1);
+        setModifiedText('');
         toast.success(t('boardUpdateSucc'), { toastId: 'TODO' });
       },
       onError: () => toast.error(t('boardUpdateErr'), { toastId: 'TODO' }),
@@ -112,22 +113,20 @@ const CommentsContainer = ({ postId, user }) => {
   const handleUpdate = useCallback(
     (id) => {
       if (onUpdateComment !== id) {
+        setModifiedText('');
         setOnUpdateComment(id);
         return;
       }
 
-      if (!modifiedText) {
-        toast.warn(t('boardUpdateNone'));
-        return;
-      }
       updateComment({ id, content: modifiedText });
     },
-    [updateComment, modifiedText, t, onUpdateComment],
+    [updateComment, modifiedText, onUpdateComment],
   );
 
   const handleDeleteCancel = useCallback(
     (id) => {
       if (onUpdateComment === id) {
+        setModifiedText('');
         setOnUpdateComment(-1);
         return;
       }
@@ -147,6 +146,7 @@ const CommentsContainer = ({ postId, user }) => {
       comments={comments}
       onUpdateComment={onUpdateComment}
       text={text}
+      modifiedText={modifiedText}
       setText={setText}
       setModifiedText={setModifiedText}
       onCreate={handleCreate}

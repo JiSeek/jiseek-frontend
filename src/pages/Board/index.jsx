@@ -10,6 +10,7 @@ import BoardUploadPage from '../BoardUpload';
 import BoardDetailsPage from '../BoardDetails';
 import BoardModifyPage from '../BoardModify';
 import { Posts } from '../../components/Board';
+import { FilteredRoute } from '../../components/common';
 
 const BoardPage = () => {
   const { t } = useTranslation();
@@ -32,14 +33,24 @@ const BoardPage = () => {
           element={
             <BoardContainer>
               <Title>{t('boardCommunityTitle')}</Title>
-              {user?.pk && <Link to="./update">{t('boardUploadButton')}</Link>}
+              {user?.pk && <Link to="./upload">{t('boardUploadButton')}</Link>}
               <Posts />
             </BoardContainer>
           }
         />
-        <Route path="upload" element={<BoardUploadPage user={user} />} />
-        <Route path="post/:id" element={<BoardDetailsPage user={user} />}>
-          <Route path="modify" element={<BoardModifyPage user={user} />} />
+        <Route
+          path="upload/*"
+          element={
+            <FilteredRoute authSubUrls={['.']}>
+              <BoardUploadPage user={user} />
+            </FilteredRoute>
+          }
+        />
+        <Route path="post/*" element={<BoardDetailsPage user={user} />}>
+          <Route path=":id" element={<BoardDetailsPage user={user} />}>
+            <Route path="modify" element={<BoardModifyPage user={user} />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/not_found" replace />} />
         </Route>
         <Route path="*" element={<Navigate to="/not_found" replace />} />
       </Routes>

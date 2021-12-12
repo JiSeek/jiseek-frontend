@@ -1,14 +1,6 @@
-import React, { useMemo } from 'react';
-import PropTypes, { string, number, func, element } from 'prop-types';
+import React from 'react';
 import './App.css';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useParams,
-  useLocation,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -25,8 +17,8 @@ import {
   PasswordChangePage,
   Member,
 } from './pages';
-import { useAuthContext } from './contexts';
 import RootPage from './pages/RootPage';
+import { FilteredRoute } from './components/common';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -84,45 +76,5 @@ const App = () => (
     </QueryClientProvider>
   </BrowserRouter>
 );
-
-const FilteredRoute = ({ validSubUrls, authSubUrls, children }) => {
-  const { token } = useAuthContext();
-  const location = useLocation();
-  const params = useParams();
-  const subUrl = Object.values(params)[0];
-  const validList = useMemo(
-    () => [undefined, '', ...validSubUrls],
-    [validSubUrls],
-  );
-  const authList = useMemo(
-    () =>
-      authSubUrls.indexOf('.') !== -1
-        ? [undefined, '', ...authSubUrls]
-        : authSubUrls,
-    [authSubUrls],
-  );
-
-  if (validList.indexOf(subUrl) === -1) {
-    return <Navigate to="/not_found" replace />;
-  }
-
-  if (authList.indexOf(subUrl) !== -1 && !token.access) {
-    return <Navigate to="/login" state={{ from: location }} />;
-  }
-
-  return children;
-};
-
-FilteredRoute.propTypes = {
-  validSubUrls: PropTypes.arrayOf(string),
-  authSubUrls: PropTypes.arrayOf(string),
-  children: PropTypes.oneOfType([string, number, func, element]),
-};
-
-FilteredRoute.defaultProps = {
-  validSubUrls: [],
-  authSubUrls: [],
-  children: null,
-};
 
 export default App;

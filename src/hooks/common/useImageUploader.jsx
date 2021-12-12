@@ -40,7 +40,7 @@ const useImageUploader = () => {
     />
   );
 
-  return { imageFile, renderImgUploader, reset };
+  return { imageFile, setImageUrl, renderImgUploader, reset };
 };
 
 const ImgUploader = ({ type, imageUrl, handleFileInput }) => {

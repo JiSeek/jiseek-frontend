@@ -8,7 +8,7 @@ import jiseekApi from '../../api';
 import { boardKeys, mutationKeys } from '../../constants';
 import Comments from './Comments';
 
-const CommentsContainer = ({ postId, user }) => {
+const CommentsContainer = ({ postId, user, modifyMode }) => {
   const { t } = useTranslation();
   const openModal = useModalContext();
   const queryClient = useQueryClient();
@@ -143,6 +143,7 @@ const CommentsContainer = ({ postId, user }) => {
     <Comments
       userId={user?.id}
       status={status}
+      modifyMode={modifyMode}
       comments={comments}
       onUpdateComment={onUpdateComment}
       text={text}
@@ -159,11 +160,13 @@ const CommentsContainer = ({ postId, user }) => {
 CommentsContainer.propTypes = {
   postId: PropTypes.number,
   user: PropTypes.objectOf(PropTypes.oneOfType([number, string])),
+  modifyMode: PropTypes.bool,
 };
 
 CommentsContainer.defaultProps = {
   postId: -1,
   user: { id: -1, token: null },
+  modifyMode: false,
 };
 
 export default CommentsContainer;

@@ -27,3 +27,11 @@ export { default as HeartLine } from './icons/heart_line.svg';
 
 export { default as MainFirst } from './main/main2.jpg';
 export { default as MainTitle } from './main/main3.png';
+
+export { default as Yerim } from './member/고예림.png';
+export { default as Jeonghyeon } from './member/고정현.png';
+export { default as Jihun } from './member/김지훈.png';
+export { default as Jiyun } from './member/박지윤.png';
+export { default as Minyeong } from './member/이민영.png';
+export { default as Jinseong } from './member/전진성.png';
+export { default as Velog } from './member/velog.png';

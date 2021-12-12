@@ -61,3 +61,7 @@
     url('./fonts/Pretendard-Black.woff') format('woff'),
     url('./fonts/Pretendard-Black.otf') format('truetype');
 }
+@font-face {
+  font-family: 'Member';
+  src: url('./fonts/나눔손글씨 금은보화.ttf') format('truetype');
+}

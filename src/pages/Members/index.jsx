@@ -5,7 +5,7 @@ import { Member } from '../../components/Member';
 const Members = () => (
   <MemberContents>
     <Title>
-      지식<span>知食</span>팀의 지식인<span>知食人</span>들
+      지식<span>知食</span>의 지식인<span>知食人</span>들
     </Title>
     <Member />
   </MemberContents>
@@ -13,7 +13,7 @@ const Members = () => (
 
 const MemberContents = styled.div`
   padding: 5rem 0;
-  max-width: 1320px;
+  max-width: 1180px;
   margin: auto;
 `;
 
@@ -23,6 +23,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: baseline;
+  word-spacing: 1rem;
 
   > span {
     font-size: 3rem;

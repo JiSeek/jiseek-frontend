@@ -39,11 +39,7 @@ const BoardPage = () => {
             <BoardContainer>
               <div>
                 <h2>{t('boardCommunityTitle')}</h2>
-                {user?.pk && (
-                  <Link to="./upload">
-                    {t('boardWriteText', { what: t('boardPost') })}
-                  </Link>
-                )}
+                {user?.pk && <Link to="./upload">{t('boardWriteText')}</Link>}
               </div>
               <Posts />
             </BoardContainer>

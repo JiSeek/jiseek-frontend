@@ -20,7 +20,7 @@ const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
         />
         <span>{content.length}/255</span>
         <button disabled={!imageFile || content.length === 0} type="submit">
-          {t('boardWriteText', { what: t('boardPost') })}
+          {t('boardWriteText')}
         </button>
       </form>
     </div>

@@ -20,7 +20,7 @@ const EN_BOARD = {
   boardDeleteText: 'Delete',
   boardUpdateText: 'Update',
   boardApplyText: 'Apply',
-  boardWriteText: 'Write {{what}}',
+  boardWriteText: 'Write',
   boardTextInput: 'Input text...',
 
   // Questions

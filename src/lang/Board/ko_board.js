@@ -20,7 +20,7 @@ const KO_BOARD = {
   boardDeleteText: '삭제',
   boardUpdateText: '수정',
   boardApplyText: '적용',
-  boardWriteText: '{{what}} 작성',
+  boardWriteText: '작성',
   boardTextInput: '텍스트 입력...',
 
   // Questions

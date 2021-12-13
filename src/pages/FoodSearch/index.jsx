@@ -50,7 +50,7 @@ const StyledSearch = styled.div`
 `;
 
 const StyledNav = styled.nav`
-  font-size: 4.5rem;
+  font-size: 3.25rem;
   font-weight: 500;
   text-align: center;
   margin-top: 1rem;

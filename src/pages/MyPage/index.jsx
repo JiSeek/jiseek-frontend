@@ -38,6 +38,7 @@ const MyPage = () => {
 };
 
 const StyledMyPage = styled.div`
+  width: 80vw;
   max-width: 1320px;
   padding: 4rem 0;
   margin: auto;

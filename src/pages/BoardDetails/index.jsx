@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { Navigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { BoardDetails } from '../../components/BoardDetails';
@@ -18,7 +19,7 @@ const BoardDetailsPage = ({ user }) => {
   }
 
   return (
-    <article>
+    <StyledBoardDetail>
       {/* TODO: 임시 헤더 */}
       <h2>상세 페이지</h2>
       <BoardDetails
@@ -26,7 +27,7 @@ const BoardDetailsPage = ({ user }) => {
         user={{ id: user?.pk || -1, token: token?.access || null }}
         modifyMode={action === 'modify'}
       />
-    </article>
+    </StyledBoardDetail>
   );
 };
 
@@ -37,5 +38,11 @@ BoardDetailsPage.propTypes = {
 BoardDetailsPage.defaultProps = {
   user: {},
 };
+
+const StyledBoardDetail = styled.article`
+  > h2 {
+    display: none;
+  }
+`;
 
 export default BoardDetailsPage;

@@ -57,6 +57,17 @@ const TotalStyle = styled.div`
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #8ab65c92;
+    border-radius: 30px;
+  }
 `;
 
 const StickyOption = styled.main`

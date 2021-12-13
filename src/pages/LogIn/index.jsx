@@ -63,6 +63,7 @@ const LogInPage = () => {
 
 const StyledLogin = styled.div`
   padding: 4rem 0;
+  width: 75vw;
   max-width: 1320px;
   margin: auto;
   display: flex;

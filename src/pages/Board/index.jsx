@@ -8,7 +8,6 @@ import { userKeys } from '../../constants';
 import jiseekApi from '../../api';
 import BoardUploadPage from '../BoardUpload';
 import BoardDetailsPage from '../BoardDetails';
-import BoardModifyPage from '../BoardModify';
 import { Posts } from '../../components/Board';
 import { FilteredRoute } from '../../components/common';
 
@@ -50,11 +49,8 @@ const BoardPage = () => {
             </FilteredRoute>
           }
         />
-        <Route path="post/*" element={<BoardDetailsPage user={user} />}>
-          <Route path=":id" element={<BoardDetailsPage user={user} />}>
-            <Route path="modify" element={<BoardModifyPage user={user} />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/not_found" replace />} />
+        <Route path="post/:id" element={<BoardDetailsPage user={user} />}>
+          <Route path=":action" element={<></>} />
         </Route>
         <Route path="*" element={<Navigate to="/not_found" replace />} />
       </Routes>

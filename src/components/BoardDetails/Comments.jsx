@@ -7,6 +7,7 @@ import { getLocaleDate } from '../../utils';
 const Comments = ({
   userId,
   status,
+  modifyMode,
   comments,
   onUpdateComment,
   text,
@@ -49,7 +50,7 @@ const Comments = ({
                   )}
                 </div>
                 {/* 사용자와 작성자가 일치할 시, 수정/삭제 버튼 */}
-                {userId === user && (
+                {!modifyMode && userId === user && (
                   <span>
                     <button
                       disabled={
@@ -73,7 +74,7 @@ const Comments = ({
       )}
 
       {/* 댓글 입력창 */}
-      {userId !== -1 && (
+      {!modifyMode && userId !== -1 && (
         <form onSubmit={onCreate}>
           <button type="submit">댓글 작성</button>
           <textarea
@@ -91,6 +92,7 @@ const Comments = ({
 Comments.propTypes = {
   userId: PropTypes.oneOfType([number, object]),
   status: PropTypes.string,
+  modifyMode: PropTypes.bool,
   comments: PropTypes.arrayOf(PropTypes.any),
   onUpdateComment: PropTypes.number,
   text: PropTypes.string,
@@ -105,6 +107,7 @@ Comments.propTypes = {
 Comments.defaultProps = {
   userId: -1,
   status: 'idle',
+  modifyMode: false,
   comments: [],
   onUpdateComment: -1,
   text: '',

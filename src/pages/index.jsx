@@ -9,7 +9,6 @@ export { default as FoodSearchNameTab } from './FoodSearchNameTab';
 export { default as FoodSearchImageTab } from './FoodSearchImageTab';
 export { default as BoardPage } from './Board';
 export { default as BoardUploadPage } from './BoardUpload';
-export { default as BoardModifyPage } from './BoardModify';
 export { default as BoardDetailsPage } from './BoardDetails';
 export { default as MyPage } from './MyPage';
 export { default as PasswordChangePage } from './PasswordChange';

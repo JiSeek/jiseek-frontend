@@ -76,11 +76,3 @@ export const getLoginValidation = (t) =>
         t('signInRequiredErr', { what: t('signInPassword').toLowerCase() }),
       ),
   });
-
-export const getPostUploadValidation = (t) =>
-  yup.object({
-    content: yup
-      .string()
-      .max(255, t('boardContentMaxErr'))
-      .required(t('boardContentRequiredErr')),
-  });

@@ -9,18 +9,18 @@ const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
   return (
     /* eslint-disable react/jsx-props-no-spreading */
     <div>
-      <Link to="..">이전</Link>
+      <Link to="..">{t('boardBackText')}</Link>
       <form onSubmit={onSubmit}>
         {children}
         <textarea
           type="text"
           value={content}
-          placeholder={t('boardPlaceHolder')}
+          placeholder={t('boardTextInput')}
           onInput={onInput}
         />
         <span>{content.length}/255</span>
         <button disabled={!imageFile || content.length === 0} type="submit">
-          글 작성
+          {t('boardWriteText', { what: t('boardPost') })}
         </button>
       </form>
     </div>

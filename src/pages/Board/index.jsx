@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuthContext } from '../../contexts';
 import { userKeys } from '../../constants';
 import jiseekApi from '../../api';
@@ -13,6 +14,7 @@ import { FilteredRoute } from '../../components/common';
 
 const BoardPage = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const { token } = useAuthContext();
   const { data: user } = useQuery(
     userKeys.info,
@@ -24,6 +26,10 @@ const BoardPage = () => {
     },
   );
 
+  if (location?.state?.error) {
+    toast.error(t('boardInvalidPost'), { toastId: 'boardInvalidPost' });
+  }
+
   return (
     <StyledBoard>
       <Routes>
@@ -34,7 +40,9 @@ const BoardPage = () => {
               <div>
                 <h2>{t('boardCommunityTitle')}</h2>
                 {user?.pk && (
-                  <Link to="./upload">{t('boardUploadButton')}</Link>
+                  <Link to="./upload">
+                    {t('boardWriteText', { what: t('boardPost') })}
+                  </Link>
                 )}
               </div>
               <Posts />

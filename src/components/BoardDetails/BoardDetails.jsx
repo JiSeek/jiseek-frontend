@@ -26,50 +26,45 @@ const BoardDetails = ({
 
   return (
     /* eslint-disable react/jsx-props-no-spreading */
-    <DetailContents>
-      <form onSubmit={onSubmit}>
+    <DetailContents role={modifyMode ? 'form' : 'article'}>
+      <div>
         <Link to={from}>
           <MdOutlineNavigateBefore />
-          이전
+          {t('boardBackText')}
         </Link>
-        <p>
+        <span>
           <span>{post?.user?.name}</span>
           {user?.id === post?.user?.pk && (
-            <>
-              <span>
-                <button type="button" onClick={onCancelDelete}>
-                  {modifyMode ? '취소' : '삭제'}
+            <span>
+              <button type="button" onClick={onCancelDelete}>
+                {modifyMode ? t('boardCancelText') : t('boardDeleteText')}
+              </button>
+              {!modifyMode ? (
+                <Link
+                  to="./modify"
+                  state={{ photo: post?.photo, content: post?.content }}
+                >
+                  {t('boardUpdateText')}
+                </Link>
+              ) : (
+                <button
+                  disabled={
+                    content.length === 0 ||
+                    (!imageFile && content === post.content)
+                  }
+                  type="submit"
+                  onClick={onSubmit}
+                >
+                  {t('boardApplyText')}
                 </button>
-                {!modifyMode ? (
-                  <Link
-                    to="./modify"
-                    state={{ photo: post?.photo, content: post?.content }}
-                  >
-                    수정
-                  </Link>
-                ) : (
-                  <button
-                    disabled={
-                      content.length === 0 ||
-                      (!imageFile && content === post.content)
-                    }
-                    type="submit"
-                  >
-                    적용
-                  </button>
-                )}
-              </span>
-            </>
+              )}
+            </span>
           )}
-        </p>
-      </form>
+        </span>
+      </div>
       <div>
-        <form onSubmit={onSubmit}>
-          {!modifyMode ? (
-            <img src={post?.photo} alt="게시글 이미지" />
-          ) : (
-            children
-          )}
+        <section>
+          {!modifyMode ? <img src={post?.photo} alt="Posted Img" /> : children}
           <div>
             <span>{getLocaleDate(post?.created, i18n.language)}</span>
             {!modifyMode && (
@@ -89,8 +84,8 @@ const BoardDetails = ({
               </span>
             )}
           </div>
-        </form>
-        <form onSubmit={onSubmit}>
+        </section>
+        <section>
           {!modifyMode ? (
             <p>{post?.content}</p>
           ) : (
@@ -98,21 +93,21 @@ const BoardDetails = ({
               <textarea
                 type="text"
                 value={content}
-                placeholder={t('boardPlaceHolder')}
+                placeholder={t('boardTextInput')}
                 onInput={onInput}
               />
               <span>{content.length}/255</span>
             </p>
           )}
-        </form>
-        <div>
-          <h2>댓글</h2>
+        </section>
+        <section>
+          <h2>{t('boardComment')}</h2>
           <CommentsContainer
             postId={post?.id}
             modifyMode={modifyMode}
             user={user}
           />
-        </div>
+        </section>
       </div>
     </DetailContents>
   );
@@ -142,7 +137,7 @@ BoardDetails.defaultProps = {
   children: null,
 };
 
-const DetailContents = styled.ul`
+const DetailContents = styled.div`
   width: 60vw;
   max-width: 1100px;
   height: 60vh;
@@ -157,7 +152,7 @@ const DetailContents = styled.ul`
     cursor: pointer;
   }
 
-  > form {
+  > div {
     grid-area: img;
     > a {
       /* 이전 버튼 */
@@ -174,7 +169,7 @@ const DetailContents = styled.ul`
       }
     }
 
-    > p {
+    > span {
       display: flex;
       justify-content: space-between;
       margin: 0.75rem 0 0.25rem 0;
@@ -216,7 +211,7 @@ const DetailContents = styled.ul`
     grid-template-rows: auto 1fr;
     grid-template-areas: 'img comment' 'content comment';
     grid-gap: 1.5rem 2.5rem;
-    > form {
+    > section {
       :first-child {
         > img {
           /* 게시글 사진 */
@@ -260,7 +255,7 @@ const DetailContents = styled.ul`
       }
     }
 
-    > div {
+    :last-child {
       grid-area: comment;
       > h2 {
         margin-bottom: 1rem;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes, { string, number } from 'prop-types';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -40,25 +40,24 @@ const CommentsContainer = ({ postId, user, modifyMode }) => {
       },
       onSuccess: () => {
         setText('');
-        toast.success(t('boardCreateSucc'));
+        toast.success(t('boardCreateSuccess', { what: t('boardComment') }), {
+          toastId: 'boardCommentCreateSuccess',
+        });
       },
-      onError: () => toast.error(t('boardCreateErr')),
+      onError: () =>
+        toast.error(
+          t(
+            'boardCreateErr',
+            { what: t('boardComment') },
+            {
+              toastId: 'boardCommentCreateErr',
+            },
+          ),
+        ),
       onSettled: () =>
         queryClient.invalidateQueries(boardKeys.commentsByPostId(postId)),
     },
   );
-
-  // 댓글 255자로 제한
-  useEffect(() => {
-    if (text.length > 255) {
-      toast.warn(t('boardLimitedText'));
-      setText(text.slice(0, 255));
-    }
-    if (modifiedText.length > 255) {
-      toast.warn(t('boardLimitedText'));
-      setText(modifiedText.slice(0, 255));
-    }
-  }, [text, modifiedText, t]);
 
   // 댓글 삭제 기능 (D)
   const { mutate: deleteComment } = useMutation(
@@ -71,8 +70,18 @@ const CommentsContainer = ({ postId, user, modifyMode }) => {
       onMutate: async () => {
         await queryClient.cancelQueries(boardKeys.commentsByPostId(postId));
       },
-      onSuccess: () => toast.success(t('boardDeleteSucc')),
-      onError: () => toast.error(t('boardDeleteErr')),
+      onSuccess: () =>
+        toast.success(t('boardDeleteSuccess', { what: t('boardComment') }), {
+          toastId: 'boardCommentDeleteSuccess',
+        }),
+      onError: () =>
+        toast.error(
+          t(
+            'boardDeleteErr',
+            { what: t('boardComment') },
+            { toastId: 'boardCommentDeleteErr' },
+          ),
+        ),
       onSettled: () => {
         queryClient.invalidateQueries(boardKeys.commentsByPostId(postId));
       },
@@ -94,12 +103,45 @@ const CommentsContainer = ({ postId, user, modifyMode }) => {
       onSuccess: () => {
         setOnUpdateComment(-1);
         setModifiedText('');
-        toast.success(t('boardUpdateSucc'), { toastId: 'TODO' });
+        toast.success(t('boardUpdateSuccess', { what: t('boardComment') }), {
+          toastId: 'boardCommentUpdateSuccess',
+        });
       },
-      onError: () => toast.error(t('boardUpdateErr'), { toastId: 'TODO' }),
+      onError: () =>
+        toast.error(t('boardUpdateErr', { what: t('boardComment') }), {
+          toastId: 'boardCommentUpdateErr',
+        }),
       onSettled: () =>
         queryClient.invalidateQueries(boardKeys.commentsByPostId(postId)),
     },
+  );
+
+  const handleTextInput = useCallback(
+    (e) => {
+      if (e.target.value.length > 255) {
+        setText(e.target.value.slice(0, 255));
+        toast.error(t('boardContentMaxErr', { what: t('boardComment') }), {
+          toastId: 'boardCommentCreateMaxErr',
+        });
+        return;
+      }
+      setText(e.target.value);
+    },
+    [t],
+  );
+
+  const handleModifyInput = useCallback(
+    (e) => {
+      if (e.target.value.length > 255) {
+        setModifiedText(e.target.value.slice(0, 255));
+        toast.error(t('boardContentMaxErr', { what: t('boardComment') }), {
+          toastId: 'boardCommentModifyMaxErr',
+        });
+        return;
+      }
+      setModifiedText(e.target.value);
+    },
+    [t],
   );
 
   const handleCreate = useCallback(
@@ -111,9 +153,9 @@ const CommentsContainer = ({ postId, user, modifyMode }) => {
   );
 
   const handleUpdate = useCallback(
-    (id) => {
+    (id, content) => {
       if (onUpdateComment !== id) {
-        setModifiedText('');
+        setModifiedText(content);
         setOnUpdateComment(id);
         return;
       }
@@ -131,10 +173,14 @@ const CommentsContainer = ({ postId, user, modifyMode }) => {
         return;
       }
 
-      openModal(t('boardDeleteNor'), 'select', {
-        yes: () => deleteComment(id),
-        no: () => {},
-      });
+      openModal(
+        t('boardDeleteQuestion', { what: t('boardComment') }),
+        'select',
+        {
+          yes: () => deleteComment(id),
+          no: () => {},
+        },
+      );
     },
     [openModal, deleteComment, t, onUpdateComment],
   );
@@ -150,6 +196,8 @@ const CommentsContainer = ({ postId, user, modifyMode }) => {
       modifiedText={modifiedText}
       setText={setText}
       setModifiedText={setModifiedText}
+      onTextInput={handleTextInput}
+      onModifyInput={handleModifyInput}
       onCreate={handleCreate}
       onUpdate={handleUpdate}
       onDeleteCancel={handleDeleteCancel}

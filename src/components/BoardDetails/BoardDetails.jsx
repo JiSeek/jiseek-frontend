@@ -9,114 +9,121 @@ import { getLocaleDate } from '../../utils';
 import { LikeButton } from '../common';
 import { boardKeys } from '../../constants';
 
-const BoardDetails = ({
-  user,
-  post,
-  modifyMode,
-  imageFile,
-  content,
-  onInput,
-  onSubmit,
-  onCancelDelete,
-  children,
-}) => {
-  const location = useLocation();
-  const { t, i18n } = useTranslation();
-  const from = location.state?.from?.pathname || '..';
-
-  return (
-    /* eslint-disable react/jsx-props-no-spreading */
-    <DetailContents>
-      <form onSubmit={onSubmit}>
-        <Link to={from}>
-          <MdOutlineNavigateBefore />
-          이전
-        </Link>
-        <p>
-          <span>{post?.user?.name}</span>
-          {user?.id === post?.user?.pk && (
-            <>
-              <span>
-                <button type="button" onClick={onCancelDelete}>
-                  {modifyMode ? '취소' : '삭제'}
-                </button>
-                {!modifyMode ? (
-                  <Link
-                    to="./modify"
-                    state={{ photo: post?.photo, content: post?.content }}
-                  >
-                    수정
-                  </Link>
-                ) : (
-                  <button
-                    disabled={
-                      content.length === 0 ||
-                      (!imageFile && content === post.content)
-                    }
-                    type="submit"
-                  >
-                    적용
+const BoardDetails = React.forwardRef(
+  (
+    {
+      user,
+      post,
+      modifyMode,
+      imageFile,
+      content,
+      onInput,
+      onSubmit,
+      onCancelDelete,
+      children,
+    },
+    ref,
+  ) => {
+    const location = useLocation();
+    const { t, i18n } = useTranslation();
+    const from = location.state?.from?.pathname || '..';
+    
+    return (
+      /* eslint-disable react/jsx-props-no-spreading */
+      <DetailContents>
+        <form onSubmit={onSubmit}>
+          <Link to={from}>
+            <MdOutlineNavigateBefore />
+            이전
+          </Link>
+          <p>
+            <span>{post?.user?.name}</span>
+            {user?.id === post?.user?.pk && (
+              <>
+                <span>
+                  <button type="button" onClick={onCancelDelete}>
+                    {modifyMode ? '취소' : '삭제'}
                   </button>
-                )}
-              </span>
-            </>
-          )}
-        </p>
-      </form>
-      <div>
-        <form onSubmit={onSubmit}>
-          {!modifyMode ? (
-            <img src={post?.photo} alt="게시글 이미지" />
-          ) : (
-            children
-          )}
-          <div>
-            <span>{getLocaleDate(post?.created, i18n.language)}</span>
-            {!modifyMode && (
-              <span>
-                <LikeButton
-                  type="board"
-                  data={{
-                    pk: post?.id,
-                    photo: post.photo,
-                    content: post?.content,
-                    created: post?.created,
-                  }}
-                  like={post?.is_fav}
-                  refreshKey={boardKeys.postById(post?.id)}
-                />
-                <span>{post?.count}</span>
-              </span>
+                  {!modifyMode ? (
+                    <Link
+                      to="./modify"
+                      state={{ photo: post?.photo, content: post?.content }}
+                    >
+                      수정
+                    </Link>
+                  ) : (
+                    <button
+                      disabled={
+                        content.length === 0 ||
+                        (!imageFile && content === post.content)
+                      }
+                      type="submit"
+                    >
+                      적용
+                    </button>
+                  )}
+                </span>
+              </>
             )}
-          </div>
-        </form>
-        <form onSubmit={onSubmit}>
-          {!modifyMode ? (
-            <p>{post?.content}</p>
-          ) : (
-            <p>
-              <textarea
-                type="text"
-                value={content}
-                placeholder={t('boardPlaceHolder')}
-                onInput={onInput}
-              />
-              <span>{content.length}/255</span>
-            </p>
-          )}
+          </p>
         </form>
         <div>
-          <h2>댓글</h2>
-          <CommentsContainer
-            postId={post?.id}
-            modifyMode={modifyMode}
-            user={user}
-          />
+          <form onSubmit={onSubmit}>
+            {!modifyMode ? (
+              <img src={post?.photo} alt="게시글 이미지" />
+            ) : (
+              children
+            )}
+            <div>
+              <span>{getLocaleDate(post?.created, i18n.language)}</span>
+              {!modifyMode && (
+                <span>
+                  <LikeButton
+                    type="board"
+                    data={{
+                      pk: post?.id,
+                      photo: post.photo,
+                      content: post?.content,
+                      created: post?.created,
+                    }}
+                    like={post?.is_fav}
+                    refreshKey={boardKeys.postById(post?.id)}
+                  />
+                  <span>{post?.count}</span>
+                </span>
+              )}
+            </div>
+          </form>
+          <form onSubmit={onSubmit}>
+            {!modifyMode ? (
+              <p>{post?.content}</p>
+            ) : (
+              <p>
+                <AutoResizeTextArea
+                  type="text"
+                  value={content}
+                  placeholder={t('boardPlaceHolder')}
+                  onInput={onInput}
+                  ref={ref}
+                  rows="1"
+                />
+                <span>{content.length}/255</span>
+              </p>
+            )}
+          </form>
+          <div>
+            <h2>댓글</h2>
+            <CommentsContainer
+              postId={post?.id}
+              modifyMode={modifyMode}
+              user={user}
+            />
+          </div>
         </div>
-      </div>
-    </DetailContents>
-  );
-};
+      </DetailContents>
+    );
+  },
+);
 
 BoardDetails.propTypes = {
   user: PropTypes.objectOf(oneOfType([number, string])),
@@ -148,8 +155,8 @@ const DetailContents = styled.ul`
   height: 60vh;
   margin: auto;
   box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
-
   padding: 3rem 3rem;
+  word-break: break-word;
 
   button {
     border: none;
@@ -177,21 +184,21 @@ const DetailContents = styled.ul`
     > p {
       display: flex;
       justify-content: space-between;
-      margin: 0.75rem 0 0.25rem 0;
+      margin: 1.5rem 0 0.25rem 0;
       width: 48%;
       > span {
         :first-child {
-          /* 유저 이름 */
-          font-size: 1.25rem;
-          font-weight: 500;
+          margin-right: 1rem;
         }
         :last-child {
           font-size: 0.85rem;
+          /* width: 70px; */
 
           > button {
             /* 게시글 삭제 버튼 */
             opacity: 0.6;
             transition: 0.3s;
+            text-align: right;
             :hover {
               opacity: 1;
             }
@@ -200,10 +207,16 @@ const DetailContents = styled.ul`
             /* 게시글 수정 버튼 */
             opacity: 0.6;
             transition: 0.3s;
+            text-align: right;
             :hover {
               opacity: 1;
             }
           }
+        }
+        :first-child {
+          /* 유저 이름 */
+          font-size: 1.25rem;
+          font-weight: 500;
         }
       }
     }
@@ -223,7 +236,7 @@ const DetailContents = styled.ul`
           object-fit: cover;
           width: 100%;
           /* TODO: min, max height 설정하기 */
-          max-height: 48vh;
+          max-height: 40vh;
         }
 
         > div {
@@ -238,10 +251,14 @@ const DetailContents = styled.ul`
             :last-child {
               > button > img {
                 /* 좋아요 버튼 */
+                vertical-align: middle;
                 width: 1rem;
               }
               > span {
                 /* 좋아요 수 */
+                font-weight: 600;
+                font-size: 0.85rem;
+                vertical-align: middle;
               }
             }
           }
@@ -255,7 +272,6 @@ const DetailContents = styled.ul`
           /* 게시글 내용 */
           height: 150px;
           line-height: 1.3rem;
-          /* font-size: 1.15rem; */
         }
       }
     }
@@ -291,8 +307,45 @@ const DetailContents = styled.ul`
   }
 
   @media only screen and (max-height: 1000px) {
-    grid-template-areas: 'img content' 'img comment';
-    grid-template-rows: 1fr 1.3fr;
+    > form > p {
+      width: 30%;
+    }
+
+    > div {
+      grid-template-areas: 'img content' 'img comment';
+      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: 1fr 2fr;
+      grid-gap: 3rem;
+
+      > form {
+        :first-child {
+          > img {
+            /* 게시글 사진 */
+            max-height: 50vh;
+          }
+
+          > div {
+            /* 작성 시간, 좋아요 버튼 */
+          }
+        }
+      }
+    }
+  }
+`;
+
+const AutoResizeTextArea = styled.textarea`
+  resize: none;
+  overflow: hidden;
+  padding: 12px;
+  display: block;
+  outline: none;
+  min-height: 38px;
+  border-radius: 4px;
+  caret-color: lightskyblue;
+  box-sizing: border-box;
+  line-height: 20px;
+  &:focus {
+    background: azure;
   }
 `;
 

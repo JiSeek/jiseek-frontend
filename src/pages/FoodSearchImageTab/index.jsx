@@ -93,13 +93,17 @@ const FoodSearchImageTab = () => {
 
 const FoodUploadContainer = styled.div`
   position: relative;
+  width: 30rem;
+  height: 38vh;
+  display: flex;
+  margin: auto;
 
   > img {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 104%;
+    height: 104%;
   }
 `;
 

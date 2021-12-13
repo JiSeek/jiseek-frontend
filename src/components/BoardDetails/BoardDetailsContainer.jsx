@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes, { string, number, object } from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import BoardDetails from './BoardDetails';
 import { useImageUploader } from '../../hooks/common';
 
 const BoardDetailsContainer = ({ id, user, modifyMode }) => {
+  const ref = useRef(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const openModal = useModalContext();
@@ -83,8 +84,20 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
     },
   );
 
+  useEffect(() => {
+    if (ref === null || ref.current === null) {
+      return;
+    }
+    ref.current.style.height = '38px';
+    ref.current.style.height = `${ref.current.scrollHeight}px`;
+  }, []);
+
   const handleInput = useCallback(
     (e) => {
+      if (ref && ref.current) {
+        ref.current.style.height = '38px';
+        ref.current.style.height = `${ref.current.scrollHeight}px`;
+      }
       if (e.target.value.length > 255) {
         toast.error(t('boardContentMaxErr'), { toastId: 'TODO:' });
         return;
@@ -149,6 +162,7 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
           onInput={handleInput}
           onSubmit={handleUpdate}
           onCancelDelete={handleCancelDelete}
+          ref={ref}
         >
           {renderImgUploader()}
         </BoardDetails>

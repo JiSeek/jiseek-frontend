@@ -90,13 +90,12 @@ ImgUploader.defaultProps = {
 };
 
 const DropContainer = styled.div`
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
-  text-align: center;
-  width: 30rem;
-  height: 38vh;
-  border: 2px solid #72af2c8f;
+  /* text-align: center; */
+  /* width: 30rem;
+  height: 38vh; */
+  width: 100%;
+  height: 100%;
+  border: 2px solid #72af2c63;
   margin-bottom: 2rem;
 
   > img {
@@ -124,12 +123,18 @@ const Buttons = styled.div`
 
   > label {
     font-weight: 500;
-    background-color: #92ce4d;
     text-align: center;
     padding: 1rem 0;
     width: 100%;
     cursor: pointer;
     margin-right: 4px;
+    background-color: #92ce4d;
+    opacity: 0.6;
+    transition: 0.3s;
+
+    :hover {
+      opacity: 1;
+    }
 
     > input {
       display: none;
@@ -144,6 +149,12 @@ const Buttons = styled.div`
     width: 100%;
     cursor: pointer;
     animation: ${long} 0.5s ease-out;
+    opacity: 0.6;
+    transition: 0.3s;
+
+    :hover {
+      opacity: 1;
+    }
 
     :disabled {
       display: none;

@@ -149,7 +149,6 @@ const CommentContainer = styled.div`
       > div:first-child {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 0.25rem;
         > span {
           :last-child {
             font-size: 0.85rem;
@@ -181,6 +180,7 @@ const CommentContainer = styled.div`
       }
       > p {
         line-height: 1.1rem;
+        margin: 0.15rem 0;
       }
       > div:last-child {
         font-size: 0.75rem;
@@ -205,6 +205,7 @@ const CommentInput = styled.form`
 
     ::placeholder {
       transform: translateY(2rem);
+      color: #789180;
     }
 
     ::-webkit-scrollbar {
@@ -216,10 +217,6 @@ const CommentInput = styled.form`
     ::-webkit-scrollbar-thumb {
       background-color: #72af2c95;
       border-radius: 30px;
-    }
-
-    ::placeholder {
-      color: #789180;
     }
 
     :focus {

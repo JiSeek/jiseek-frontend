@@ -37,7 +37,7 @@ const Footer = ({ moveTop }) => (
         >
           <img src={FooterGitlab} alt="Jiseek Gitlab Link" />
         </a>
-        <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+        <a href="https://www.youtube.com/watch?v=A59Jaa7CKYk" target="_blank" rel="noreferrer">
           <img src={FooterYoutube} alt="Jiseek Youtube Link" />
         </a>
       </li>

@@ -13,7 +13,7 @@ const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
     <StyledBoardUpload>
       <Link to="..">
         <MdOutlineNavigateBefore />
-        이전
+        {t('boardBackText')}
       </Link>
       <UploadContents onSubmit={onSubmit}>
         <div>{children}</div>
@@ -31,7 +31,7 @@ const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
             disabled={!imageFile || content.length === 0}
             type="submit"
           >
-            글 작성
+            {t('boardWriteText')}
           </WriteButton>
         </div>
       </UploadContents>

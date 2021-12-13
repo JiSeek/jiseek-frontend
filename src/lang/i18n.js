@@ -11,6 +11,7 @@ import { EN_SIGN_OUT, KO_SIGN_OUT } from './SignOut';
 import { EN_AUTH, KO_AUTH } from './Auth';
 import { EN_BOARD, KO_BOARD } from './Board';
 import { EN_MEMBERS, KO_MEMBERS } from './Members';
+import { EN_COMMON, KO_COMMON } from './Common';
 
 const resources = {
   ko: {
@@ -26,6 +27,7 @@ const resources = {
       ...KO_AUTH,
       ...KO_BOARD,
       ...KO_MEMBERS,
+      ...KO_COMMON,
     },
   },
   en: {
@@ -41,6 +43,7 @@ const resources = {
       ...EN_AUTH,
       ...EN_BOARD,
       ...EN_MEMBERS,
+      ...EN_COMMON,
     },
   },
 };

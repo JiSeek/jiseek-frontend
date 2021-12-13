@@ -6,23 +6,21 @@ import { LoadingCircle, NoResultGif } from '../../assets/images/images';
 
 const Posts = ({ status, bestPosts, posts }) => (
   <div>
-    {status === 'loading' && (
-      <img src={LoadingCircle} alt="게시글 로딩 이미지" />
-    )}
-    {status === 'error' && <img src={NoResultGif} alt="게시글 오류 이미지" />}
+    {status === 'loading' && <img src={LoadingCircle} alt="Posts loading..." />}
+    {status === 'error' && <img src={NoResultGif} alt="Failed to load Posts" />}
     {status === 'success' && (
       <GridContainer>
         {Object.values(bestPosts).map((post) => (
           <Link key={`best-post-${post.id}`} to={`./post/${post.id}`}>
             <div>
-              <img src={post.photo} alt="베스트 게시글 이미지" />
+              <img src={post.photo} alt={`Best post ${post.id}`} />
             </div>
           </Link>
         ))}
         {Object.values(posts.results).map((post) => (
           <Link key={`post-${post.id}`} to={`./post/${post.id}`}>
             <div>
-              <img src={post.photo} alt="게시글 이미지" />
+              <img src={post.photo} alt={`post ${post.id}`} />
             </div>
           </Link>
         ))}

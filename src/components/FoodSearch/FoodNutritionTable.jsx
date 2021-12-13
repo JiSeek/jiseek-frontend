@@ -55,7 +55,7 @@ const Table = ({
     fetchData({ pageIndex });
   }, [fetchData, pageIndex]);
 
-  console.log(loading);
+  // console.log(loading);
 
   return (
     <>
@@ -92,7 +92,7 @@ const Table = ({
           </button>
         </span>
         {loading ? (
-          <img src={LoadingDot} alt="loading" width={40}/>
+          <img src={LoadingDot} alt="loading" width={40} />
         ) : (
           <p>
             {pageIndex + 1} / {pageOptions.length}

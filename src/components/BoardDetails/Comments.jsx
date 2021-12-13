@@ -14,8 +14,8 @@ const Comments = ({
   onUpdateComment,
   text,
   modifiedText,
-  setText,
-  setModifiedText,
+  onTextInput,
+  onModifyInput,
   onCreate,
   onUpdate,
   onDeleteCancel,
@@ -25,10 +25,10 @@ const Comments = ({
   return (
     <CommentContainer>
       {status === 'loading' && (
-        <img src={LoadingCircle} alt="댓글 로딩 이미지" />
+        <img src={LoadingCircle} alt="Comments loading..." />
       )}
       {status === 'error' && (
-        <img src={BoardLoadFailError} alt="댓글 로드 실패 이미지" />
+        <img src={BoardLoadFailError} alt="Failed to load comments" />
       )}
       {status === 'success' && (
         <ul>
@@ -45,23 +45,28 @@ const Comments = ({
                           (!modifiedText || modifiedText === content)
                         }
                         type="button"
-                        onClick={() => onUpdate(id)}
+                        onClick={() => onUpdate(id, content)}
                       >
-                        수정
+                        {t('boardUpdateText')}
                       </button>
                       <button type="button" onClick={() => onDeleteCancel(id)}>
-                        {onUpdateComment === id ? '취소' : '삭제'}
+                        {onUpdateComment === id
+                          ? t('boardCancelText')
+                          : t('boardDeleteText')}
                       </button>
                     </span>
                   )}
                 </div>
                 {onUpdateComment !== id && <p>{content}</p>}
                 {onUpdateComment === id && (
-                  <textarea
-                    type="text"
-                    defaultValue={content}
-                    onChange={(e) => setModifiedText(e.target.value)}
-                  />
+                  <>
+                    <textarea
+                      type="text"
+                      value={modifiedText}
+                      onInput={onModifyInput}
+                    />
+                    <span>{modifiedText.length}/255</span>
+                  </>
                 )}
                 {/* 댓글 날짜 표시, 수정여부 */}
                 <div>
@@ -82,11 +87,12 @@ const Comments = ({
         <CommentInput onSubmit={onCreate}>
           <textarea
             type="text"
-            placeholder={t('boardPlaceHolder')}
+            placeholder={t('boardTextInput')}
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onInput={onTextInput}
           />
-          <button type="submit">
+          <span>{text.length}/255</span>
+          <button disabled={text.length === 0} type="submit">
             <IoIosSend />
           </button>
         </CommentInput>
@@ -103,8 +109,8 @@ Comments.propTypes = {
   onUpdateComment: PropTypes.number,
   text: PropTypes.string,
   modifiedText: PropTypes.string,
-  setText: PropTypes.func,
-  setModifiedText: PropTypes.func,
+  onTextInput: PropTypes.func,
+  onModifyInput: PropTypes.func,
   onCreate: PropTypes.func,
   onUpdate: PropTypes.func,
   onDeleteCancel: PropTypes.func,
@@ -118,8 +124,8 @@ Comments.defaultProps = {
   onUpdateComment: -1,
   text: '',
   modifiedText: '',
-  setText: null,
-  setModifiedText: null,
+  onTextInput: null,
+  onModifyInput: null,
   onCreate: null,
   onUpdate: null,
   onDeleteCancel: null,

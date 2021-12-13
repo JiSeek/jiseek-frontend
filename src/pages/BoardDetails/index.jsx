@@ -1,27 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Navigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { BoardDetails } from '../../components/BoardDetails';
 import { useAuthContext } from '../../contexts';
 
 const BoardDetailsPage = ({ user }) => {
+  const location = useLocation();
   const params = useParams();
+  const { t } = useTranslation();
   const { token } = useAuthContext();
   const id = Number(params.id);
   const { action } = params;
 
   if (!/^\d+$/.test(id) || [undefined, 'modify'].indexOf(action) === -1) {
-    // TODO: 한/영 변환필요
-    toast.error('유효하지 않은 게시물입니다.', { toastId: '' });
-    return <Navigate to=".." />;
+    return <Navigate to=".." state={{ error: true }} />;
+  }
+
+  if (action === 'modify' && !token.access) {
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
   return (
     <StyledBoardDetail>
-      {/* TODO: 임시 헤더 */}
-      <h2>상세 페이지</h2>
+      <h2>{t('boardDetailsTitle')}</h2>
       <BoardDetails
         id={id}
         user={{ id: user?.pk || -1, token: token?.access || null }}

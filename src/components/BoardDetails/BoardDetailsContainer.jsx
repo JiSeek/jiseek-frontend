@@ -36,12 +36,12 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
       return;
     }
     if (post.user.pk !== user.id) {
-      toast.error('접근할 수 없는 페이지입니다.', { toastId: '' });
+      toast.error(t('boardAccessErr'), { toastId: 'boardAccessErr' });
       navigate('.', { replace: true });
     }
     setImageUrl(post.photo);
     setContent(post.content);
-  }, [setImageUrl, modifyMode, post, user, navigate]);
+  }, [setImageUrl, modifyMode, post, user, navigate, t]);
 
   // 게시글 수정 기능(U)
   const { mutate: updatePost } = useMutation(
@@ -58,11 +58,16 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
       },
       onSuccess: (data) => {
         queryClient.setQueryData(boardKeys.postById(id), data);
-        // TODO setContent?
+        toast.success(t('boardUpdateSuccess', { what: t('boardPost') }), {
+          toastId: 'boardPostUpdateSuccess',
+        });
         reset();
         navigate('.', { replace: true });
       },
-      onError: () => toast.error('TODO: 글 수정 실패', { toastId: '' }),
+      onError: () =>
+        toast.error(t('boardUpdateErr', { what: t('boardPost') }), {
+          toastId: 'boardPostUpdateErr',
+        }),
       onSettled: () => queryClient.invalidateQueries(boardKeys.postById(id)),
     },
   );
@@ -76,10 +81,15 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
         await queryClient.cancelQueries(boardKeys.postById(id));
       },
       onSuccess: () => {
-        toast.success(t('boardDeleteSucc'));
+        toast.success(t('boardDeleteSuccess', { what: t('boardPost') }), {
+          toastId: 'boardPostDeleteSuccess',
+        });
         navigate('..');
       },
-      onError: () => toast.error(t('boardDeleteErr')),
+      onError: () =>
+        toast.error(t('boardDeleteErr', { what: t('boardPost') }), {
+          toastId: 'boardPostDeleteErr',
+        }),
       onSettled: () => queryClient.invalidateQueries(boardKeys.all),
     },
   );
@@ -99,10 +109,13 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
         ref.current.style.height = `${ref.current.scrollHeight}px`;
       }
       if (e.target.value.length > 255) {
-        toast.error(t('boardContentMaxErr'), { toastId: 'TODO:' });
+        setContent(e.target.value.slice(0, 255));
+        toast.error(t('boardContentMaxErr', { what: t('boardPost') }), {
+          toastId: 'boardPostCreateMaxErr',
+        });
         return;
       }
-      setContent(e.target.value.slice(0, 255));
+      setContent(e.target.value);
     },
     [t],
   );
@@ -129,11 +142,11 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
       navigate('.', { replace: true });
       return;
     }
-    openModal('게시물을 삭제하시겠습니까?', 'select', {
+    openModal(t('boardDeleteQuestion', { what: t('boardPost') }), 'select', {
       yes: () => deletePost(),
       no: () => {},
     });
-  }, [modifyMode, openModal, deletePost, navigate, reset, post]);
+  }, [modifyMode, openModal, deletePost, navigate, reset, post, t]);
 
   // TODO: 테스트 필요
   const cancel = useCallback(async () => {
@@ -146,11 +159,11 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
   return (
     <div>
       {/* 게시판 상세 정보 */}
-      {status === 'error' && (
-        <img src={BoardLoadFailError} alt="TODO: 에러 문구 넣기" />
-      )}
       {status === 'loading' && (
-        <img src={LoadingCircle} alt="TODO: 로딩 문구 넣기" />
+        <img src={LoadingCircle} alt="Post details loading..." />
+      )}
+      {status === 'error' && (
+        <img src={BoardLoadFailError} alt="Failed to load Post details" />
       )}
       {status === 'success' && (
         <BoardDetails

@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 function getSummary(foodInfo) {
-  console.log(foodInfo);
+  // console.log(foodInfo);
   const foodData = [
     {
       name: 'Energy',

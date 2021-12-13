@@ -11,7 +11,7 @@ import {
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useAuthContext } from '../../contexts/AuthContext';
 import {
-  GoogleLogIn,
+  // GoogleLogIn,
   JiseekLogIn,
   KakaoLogIn,
   NaverLogIn,
@@ -50,9 +50,9 @@ const LogInPage = () => {
             <li>
               <NaverLogIn />
             </li>
-            <li>
+            {/* <li>
               <GoogleLogIn />
-            </li>
+            </li> */}
           </ul>
         </section>
       )}

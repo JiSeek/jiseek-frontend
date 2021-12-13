@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -27,11 +27,15 @@ const BoardUploadContainer = ({ user }) => {
     {
       mutationKey: mutationKeys.postCreate,
       onSuccess: ({ id }) => {
-        // TODO: 토스트
-        toast.success(t('boardCreateSucc'), { toastId: 'TODO' });
+        toast.success(t('boardCreateSuccess', { what: t('boardPost') }), {
+          toastId: 'boardPostCreateSuccess',
+        });
         navigate(`/board/post/${id}`, { replace: true });
       },
-      onError: () => toast.error(t('boardCreateErr'), { toastId: 'TODO' }),
+      onError: () =>
+        toast.error(t('boardCreateErr', { what: t('boardPost') }), {
+          toastId: 'boardPostCreateErr',
+        }),
       onSettled: () => queryClient.invalidateQueries(boardKeys.all),
     },
   );
@@ -39,10 +43,13 @@ const BoardUploadContainer = ({ user }) => {
   const onInput = useCallback(
     (e) => {
       if (e.target.value.length > 255) {
-        toast.error(t('boardContentMaxErr'), { toastId: 'TODO:' });
+        setContent(e.target.value.slice(0, 255));
+        toast.error(t('boardContentMaxErr', { what: t('boardPost') }), {
+          toastId: 'boardPostCreateMaxErr',
+        });
         return;
       }
-      setContent(e.target.value.slice(0, 255));
+      setContent(e.target.value);
     },
     [t],
   );

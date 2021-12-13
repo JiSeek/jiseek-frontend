@@ -25,7 +25,7 @@ const FoodSearchPage = () => {
   //   }
   // }, [ref?.current?.offsetHeight]);
 
-    console.log(ref?.current?.clientHeight);
+  // console.log(ref?.current?.clientHeight);
 
   return (
     <article ref={ref}>

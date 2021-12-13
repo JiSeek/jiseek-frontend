@@ -22,11 +22,11 @@ const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
             <textarea
               type="text"
               value={content}
-              placeholder={t('boardPlaceHolder')}
+              placeholder={t('boardTextInput')}
               onInput={onInput}
             />
+            <span>{content.length}/255</span>
           </TextareaContainer>
-          <span>{content.length}/255</span>
           <WriteButton
             disabled={!imageFile || content.length === 0}
             type="submit"
@@ -95,10 +95,7 @@ const UploadContents = styled.form`
 const TextareaContainer = styled.div`
   position: relative;
   height: 100%;
-
-  ::after {
-    content: ${(props) => props.currentLen};
-  }
+  margin-bottom: 2rem;
 
   > textarea {
     /* 게시글 내용 입력창 */
@@ -106,7 +103,6 @@ const TextareaContainer = styled.div`
     width: calc(100% - 1.5rem);
     height: calc(100% - 1.5rem);
     max-height: 40vh;
-    margin-bottom: 2rem;
     border: none;
     outline: none;
     padding: 0.75rem;
@@ -134,13 +130,15 @@ const TextareaContainer = styled.div`
         rgb(0 0 0 / 19%) 0px 1px 2px 0px;
     }
   }
-`;
 
-// const Limit = styled.span`
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-// `;
+  > span {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    opacity: 0.6;
+    font-size: 0.85rem;
+  }
+`;
 
 const WriteButton = styled.button`
   float: right;
@@ -149,9 +147,11 @@ const WriteButton = styled.button`
   border: none;
   padding: 0.85rem 1.5rem;
   transition: 0.3s;
+  cursor: pointer;
 
   :disabled {
     opacity: 0.6;
+    cursor: unset;
   }
 `;
 

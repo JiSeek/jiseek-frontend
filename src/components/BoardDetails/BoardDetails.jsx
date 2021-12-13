@@ -105,11 +105,14 @@ const BoardDetails = ({
             </p>
           )}
         </form>
-        <CommentsContainer
-          postId={post?.id}
-          modifyMode={modifyMode}
-          user={user}
-        />
+        <div>
+          <h2>댓글</h2>
+          <CommentsContainer
+            postId={post?.id}
+            modifyMode={modifyMode}
+            user={user}
+          />
+        </div>
       </div>
     </DetailContents>
   );
@@ -175,6 +178,7 @@ const DetailContents = styled.ul`
       display: flex;
       justify-content: space-between;
       margin: 0.75rem 0 0.25rem 0;
+      width: 48%;
       > span {
         :first-child {
           /* 유저 이름 */
@@ -204,58 +208,85 @@ const DetailContents = styled.ul`
       }
     }
   }
+
   > div {
+    /* 내용 */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas: 'img comment' 'content comment';
     grid-gap: 1.5rem 2.5rem;
-    > form:first-child {
-      > img {
-        /* 게시글 사진 */
-        object-fit: cover;
-        width: 100%;
-        /* TODO: min, max height 설정하기 */
-        max-height: 48vh;
-      }
+    > form {
+      :first-child {
+        > img {
+          /* 게시글 사진 */
+          object-fit: cover;
+          width: 100%;
+          /* TODO: min, max height 설정하기 */
+          max-height: 48vh;
+        }
 
-      > div {
-        /* 작성 시간, 좋아요 버튼 */
-        display: flex;
-        justify-content: space-between;
-        > span {
-          :first-child {
-            /* 작성 시간 */
-            font-size: 0.85rem;
-          }
-          :last-child {
-            > button > img {
-              /* 좋아요 버튼 */
-              width: 1rem;
+        > div {
+          /* 작성 시간, 좋아요 버튼 */
+          display: flex;
+          justify-content: space-between;
+          > span {
+            :first-child {
+              /* 작성 시간 */
+              font-size: 0.85rem;
             }
-            > span {
-              /* 좋아요 수 */
+            :last-child {
+              > button > img {
+                /* 좋아요 버튼 */
+                width: 1rem;
+              }
+              > span {
+                /* 좋아요 수 */
+              }
             }
           }
         }
       }
+      :nth-child(2) {
+        grid-area: content;
+        overflow-y: auto;
+
+        > p {
+          /* 게시글 내용 */
+          height: 150px;
+          line-height: 1.3rem;
+          /* font-size: 1.15rem; */
+        }
+      }
     }
 
-    > form:last-child > p {
-      /* 게시글 내용 */
-      grid-area: content;
-
-      overflow-y: auto;
-
-      height: 150px;
-      line-height: 1.15rem;
-      font-size: 1.15rem;
-    }
-
-    > ul {
-      /* 댓글 */
+    > div {
       grid-area: comment;
-      overflow-y: auto;
+      > h2 {
+        margin-bottom: 1rem;
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+
+        ::before,
+        ::after {
+          content: '';
+          flex-grow: 1;
+          background: #00110036;
+          height: 1px;
+        }
+
+        ::before {
+          margin-right: 1rem;
+        }
+        ::after {
+          margin-left: 1rem;
+        }
+      }
+      > ul {
+        /* 댓글 */
+        overflow-y: auto;
+      }
     }
   }
 

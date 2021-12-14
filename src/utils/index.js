@@ -23,11 +23,11 @@ export const getCurrentTime = () => parseInt(new Date().getTime() / 1000, 10);
 
 export const parseParagraph = (text) => (
   <span>
-    {text.split('\n').map((line) => (
-      <>
+    {text.split('\n').map((line, idx) => (
+      <React.Fragment key={`${line}-${idx + 1}`}>
         {line}
         <br />
-      </>
+      </React.Fragment>
     ))}
   </span>
 );

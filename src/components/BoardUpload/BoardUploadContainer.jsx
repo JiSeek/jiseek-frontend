@@ -17,7 +17,7 @@ const BoardUploadContainer = ({ user }) => {
   const { imageFile, renderImgUploader } = useImageUploader();
 
   // 게시판 생성 기능 (C)
-  const { mutate: createPost } = useMutation(
+  const { mutate: createPost, isLoading: createLoading } = useMutation(
     (sendData) =>
       jiseekApi.post('/boards/', {
         token: user.token,
@@ -42,13 +42,15 @@ const BoardUploadContainer = ({ user }) => {
 
   const onInput = useCallback(
     (e) => {
+      console.log('xxx', e);
       if (e.target.value.length > 255) {
+        setContent(e.target.value.slice(0, 255));
         toast.error(t('boardContentMaxErr', { what: t('boardPost') }), {
           toastId: 'boardPostCreateMaxErr',
         });
         return;
       }
-      setContent(e.target.value.slice(0, 255));
+      setContent(e.target.value);
     },
     [t],
   );
@@ -73,6 +75,7 @@ const BoardUploadContainer = ({ user }) => {
       content={content}
       onInput={onInput}
       onSubmit={onSubmit}
+      isLoading={createLoading}
     >
       {renderImgUploader()}
     </BoardUpload>

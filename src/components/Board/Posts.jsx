@@ -74,6 +74,11 @@ const GridContainer = styled.div`
       width: 100%;
       padding-bottom: 100%;
       overflow: hidden;
+      :hover {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.22);
+          transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      }
 
       > img {
         width: 100%;
@@ -81,6 +86,11 @@ const GridContainer = styled.div`
         object-fit: cover;
         border-radius: 20px;
         position: absolute;
+        :hover {
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.22);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
       }
     }
   }

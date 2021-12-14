@@ -4,7 +4,7 @@ import PropTypes, { number, object } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IoIosSend } from 'react-icons/io';
 import { BoardLoadFailError, LoadingCircle } from '../../assets/images/images';
-import { getLocaleDate } from '../../utils';
+import { getLocaleDate, parseParagraph } from '../../utils';
 
 const Comments = ({
   userId,
@@ -57,7 +57,7 @@ const Comments = ({
                     </span>
                   )}
                 </div>
-                {onUpdateComment !== id && <p>{content}</p>}
+                {onUpdateComment !== id && <p>{parseParagraph(content)}</p>}
                 {onUpdateComment === id && (
                   <>
                     <textarea
@@ -91,10 +91,12 @@ const Comments = ({
             value={text}
             onInput={onTextInput}
           />
-          <span>{text.length}/255</span>
-          <button disabled={text.length === 0} type="submit">
-            <IoIosSend />
-          </button>
+          <div>
+            <span>{text.length}/255</span>
+            <button disabled={text.length === 0} type="submit">
+              <IoIosSend />
+            </button>
+          </div>
         </CommentInput>
       )}
     </CommentContainer>
@@ -134,11 +136,18 @@ Comments.defaultProps = {
 const CommentContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
-  height: 50vh;
+  height: 100%;
   grid-gap: 1.5rem;
+  margin-right: 2rem;
+
+  button {
+    border: none;
+    background: none;
+  }
 
   > ul {
     overflow-y: auto;
+
     ::-webkit-scrollbar {
       width: 0.5rem;
       background-color: rgba(0, 0, 0, 0.1);
@@ -146,7 +155,7 @@ const CommentContainer = styled.div`
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: #72af2c95;
+      background-color: #ceaa3484;
       border-radius: 30px;
     }
     > li {
@@ -155,7 +164,6 @@ const CommentContainer = styled.div`
       > div:first-child {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 0.25rem;
         > span {
           :last-child {
             font-size: 0.85rem;
@@ -180,15 +188,18 @@ const CommentContainer = styled.div`
 
           :first-child {
             /* 댓글 단 사용자 이름 */
-            font-size: 1.05rem;
-            font-weight: 500;
+            font-size: 1.1rem;
           }
         }
       }
       > p {
-        line-height: 1.1rem;
+        font-weight: 300;
+        line-height: 1.15rem;
+        letter-spacing: 0.5px;
+        margin: 0.15rem 0;
       }
       > div:last-child {
+        font-weight: 300;
         font-size: 0.75rem;
       }
     }
@@ -199,18 +210,19 @@ const CommentInput = styled.form`
   display: flex;
   > textarea {
     resize: none;
-    height: 3rem;
+    /* height: 3rem; */
     overflow-y: auto;
     font-family: inherit;
     border: none;
     outline: none;
-    border-bottom: 2px solid #c1dda0;
+    border-bottom: 2px solid #ceaa3484;
     padding: 0.7rem 0.5rem 0.5rem 0.5rem;
     width: 100%;
-    background: #fbfbfb;
+    background: #fbfbfb68;
 
     ::placeholder {
       transform: translateY(2rem);
+      color: #789180;
     }
 
     ::-webkit-scrollbar {
@@ -220,27 +232,27 @@ const CommentInput = styled.form`
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: #72af2c95;
+      background-color: #ceaa3484;
       border-radius: 30px;
-    }
-
-    ::placeholder {
-      color: #789180;
     }
 
     :focus {
       transition: 0.3s;
       box-shadow: rgb(0 0 0 / 13%) 0px 1px 3px 0px,
         rgb(0 0 0 / 19%) 0px 1px 2px 0px;
+      background: #fbfbfbb3;
     }
   }
-  > button {
-    font-size: 1.5rem;
-    margin-top: auto;
-    color: #72af2c95;
-    transition: 0.3s;
-    :hover {
-      color: #09351b;
+  > div {
+    > button {
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-top: auto;
+      color: #a7882086;
+      transition: 0.3s;
+      :hover {
+        color: #92761bce;
+      }
     }
   }
 `;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes, { string, number, object } from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import BoardDetails from './BoardDetails';
 import { useImageUploader } from '../../hooks/common';
 
 const BoardDetailsContainer = ({ id, user, modifyMode }) => {
+  const ref = useRef(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const openModal = useModalContext();
@@ -38,12 +39,13 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
       toast.error(t('boardAccessErr'), { toastId: 'boardAccessErr' });
       navigate('.', { replace: true });
     }
+
     setImageUrl(post.photo);
     setContent(post.content);
   }, [setImageUrl, modifyMode, post, user, navigate, t]);
 
   // 게시글 수정 기능(U)
-  const { mutate: updatePost } = useMutation(
+  const { mutate: updatePost, isLoading: updateLoading } = useMutation(
     (sendData) =>
       jiseekApi.patch(`/boards/${id}/`, {
         token: user.token,
@@ -72,7 +74,7 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
   );
 
   // 게시글 삭제 기능 (D)
-  const { mutate: deletePost } = useMutation(
+  const { mutate: deletePost, isLoading: deleteLoading } = useMutation(
     () => jiseekApi.delete(`/boards/${id}/`, { token: user.token }),
     {
       mutationKey: mutationKeys.postDelete,
@@ -93,8 +95,20 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
     },
   );
 
+  useEffect(() => {
+    if (ref === null || ref.current === null) {
+      return;
+    }
+    ref.current.style.height = '38px';
+    ref.current.style.height = `${ref.current.scrollHeight}px`;
+  }, []);
+
   const handleInput = useCallback(
     (e) => {
+      if (ref && ref.current) {
+        ref.current.style.height = '38px';
+        ref.current.style.height = `${ref.current.scrollHeight}px`;
+      }
       if (e.target.value.length > 255) {
         setContent(e.target.value.slice(0, 255));
         toast.error(t('boardContentMaxErr', { what: t('boardPost') }), {
@@ -162,6 +176,8 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
           onInput={handleInput}
           onSubmit={handleUpdate}
           onCancelDelete={handleCancelDelete}
+          isLoading={updateLoading || deleteLoading}
+          ref={ref}
         >
           {renderImgUploader()}
         </BoardDetails>

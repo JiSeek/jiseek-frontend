@@ -77,28 +77,30 @@ const ModalRenderer = ({ type, selectFunc, onClose, children }) => (
     {type === 'select' && (
       <StyledSelectModal>
         {children}
-        {typeof selectFunc.yes === 'function' && (
-          <button
-            type="button"
-            onClick={() => {
-              selectFunc.yes();
-              onClose();
-            }}
-          >
-            확인
-          </button>
-        )}
-        {typeof selectFunc.no === 'function' && (
-          <button
-            type="button"
-            onClick={() => {
-              selectFunc.no();
-              onClose();
-            }}
-          >
-            취소
-          </button>
-        )}
+        <div>
+          {typeof selectFunc.yes === 'function' && (
+            <button
+              type="button"
+              onClick={() => {
+                selectFunc.yes();
+                onClose();
+              }}
+            >
+              확인
+            </button>
+          )}
+          {typeof selectFunc.no === 'function' && (
+            <button
+              type="button"
+              onClick={() => {
+                selectFunc.no();
+                onClose();
+              }}
+            >
+              취소
+            </button>
+          )}
+        </div>
       </StyledSelectModal>
     )}
     {type === 'message' && (
@@ -156,12 +158,64 @@ const StyledAlarmModal = styled.div`
   ${ModalCommon}
   width: 330px;
   height: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-family: inherit;
+
+  h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  p {
+    /* margin-top: 1rem; */
+    width:80%;
+    margin: 1rem auto 0 auto;
+    line-height: 1.25rem;
+  }
+
+  button {
+    padding: 0 1rem;
+    border: none;
+    background: none;
+    opacity: 0.6;
+    transition: 0.3s;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    :hover {
+      opacity: 1;
+    }
+  }
 `;
 
 const StyledSelectModal = styled.div`
   ${ModalCommon}
   width: 330px;
   height: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-family: inherit;
+
+  button {
+    padding: 0 1rem;
+    border: none;
+    background: none;
+    opacity: 0.6;
+    transition: 0.3s;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    :hover {
+      opacity: 1;
+    }
+  }
 `;
 
 const StyledMessageModal = styled.div`

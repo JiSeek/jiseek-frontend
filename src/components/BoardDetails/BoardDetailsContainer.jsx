@@ -39,12 +39,13 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
       toast.error(t('boardAccessErr'), { toastId: 'boardAccessErr' });
       navigate('.', { replace: true });
     }
+
     setImageUrl(post.photo);
     setContent(post.content);
   }, [setImageUrl, modifyMode, post, user, navigate, t]);
 
   // 게시글 수정 기능(U)
-  const { mutate: updatePost } = useMutation(
+  const { mutate: updatePost, isLoading: updateLoading } = useMutation(
     (sendData) =>
       jiseekApi.patch(`/boards/${id}/`, {
         token: user.token,
@@ -73,7 +74,7 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
   );
 
   // 게시글 삭제 기능 (D)
-  const { mutate: deletePost } = useMutation(
+  const { mutate: deletePost, isLoading: deleteLoading } = useMutation(
     () => jiseekApi.delete(`/boards/${id}/`, { token: user.token }),
     {
       mutationKey: mutationKeys.postDelete,
@@ -175,6 +176,7 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
           onInput={handleInput}
           onSubmit={handleUpdate}
           onCancelDelete={handleCancelDelete}
+          isLoading={updateLoading || deleteLoading}
           ref={ref}
         >
           {renderImgUploader()}

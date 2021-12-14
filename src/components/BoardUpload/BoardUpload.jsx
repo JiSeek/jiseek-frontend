@@ -5,7 +5,14 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineNavigateBefore } from 'react-icons/md';
 
-const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
+const BoardUpload = ({
+  imageFile,
+  content,
+  onInput,
+  onSubmit,
+  isLoading,
+  children,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -28,7 +35,7 @@ const BoardUpload = ({ imageFile, content, onInput, onSubmit, children }) => {
             <span>{content.length}/255</span>
           </TextareaContainer>
           <WriteButton
-            disabled={!imageFile || content.length === 0}
+            disabled={!imageFile || content.length === 0 || isLoading}
             type="submit"
           >
             {t('boardWriteText')}
@@ -44,6 +51,7 @@ BoardUpload.propTypes = {
   content: PropTypes.string,
   onInput: PropTypes.func,
   onSubmit: PropTypes.func,
+  isLoading: PropTypes.bool,
   children: oneOfType([PropTypes.any]),
 };
 
@@ -52,6 +60,7 @@ BoardUpload.defaultProps = {
   content: '',
   onInput: null,
   onSubmit: null,
+  isLoading: false,
   children: null,
 };
 

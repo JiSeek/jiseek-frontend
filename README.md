@@ -40,14 +40,22 @@ AI 이미지 감지 및 분류 기능을 활용해 사용자가 업로드한 사
 <img src="/uploads/112ad7c7988839f2f64591b323937e16/image.png" width="700px"/>
 
 ### 회원가입 및 로그인
-
+<img src="/uploads/0de7f1824e41ffbe3155b03210932132/회원가입.gif" width="400px"/> <img src="/uploads/6925dadb695ec9e135828b45387cdf9c/자체_로그인.gif" width="400px"/> <img src="/uploads/d07165f4f2a0b77ac4c6d5257f8c44d4/소셜_로그인.gif" width="400px"/>
 
 ### 음식 검색(이름/사진)
+<img src="/uploads/9a1afabd1794307f8e0be70147d1c939/음식명_검색.gif" width="700px"/>
+<img src="/uploads/3eee1d8fc838421b0deff6d6b89e2aac/사진_검색.gif" width="700px"/>
 
 ### 커뮤니티
+<img src="/uploads/315b45e82975dc090831125624d854c7/커뮤니티_메인_및_상세보기.gif" width="700px"/>
+<img src="/uploads/1d15d843ad40baafb34398ba2acafa2f/게시글_작성_및_댓글_작성.gif" width="700px"/>
 
 ### 마이페이지
+<img src="/uploads/df53b0bde6d989d31523943b37ad94e8/관심목록_보기.gif" width="700px"/>
+<img src="/uploads/9537533bf10bee020326e36f80492dd7/내정보_수정.gif" width="700px"/>
 
+### 다국어 지원
+<img src="/uploads/de7407f12ff6cbb73674d1a07d92f372/다국어_지원.gif" width="700px"/>
 
 </br>
 

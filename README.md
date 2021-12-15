@@ -1,25 +1,40 @@
 # 💡 지 식(知食, JISEEK)
 
-한국을 방문하는 외국인들에게 한국 음식의 영양 정보를 제공해주는 서비스.
+AI 이미지 감지 및 분류 기능을 활용해 사용자가 업로드한 사진 속 메뉴를 분석하여 한식 400종류의 영양 성분과 레시피를 제공하는 서비스 
+
+## 서비스 구조
+<img src="/uploads/ad0dbdc9c006ea1834dec42e92e8ebf6/jiseek_service.png" width="700px"/>
+
+## 기술 스택
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"/>
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"/>
+<img src="https://img.shields.io/badge/React_Context_Api-61DAFB?style=for-the-badge&logo=React&logoColor=white"/>
+<img src="https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=React-Table&logoColor=green"/>
+<img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=React-Router&logoColor=black"/>
+<img src="https://img.shields.io/badge/i18next-26A69A?style=for-the-badge&logo=i18next&logoColor=white"/>
+<img src="https://img.shields.io/badge/Styled--Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=yellow"/>
+<img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"/>
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/>
+
 
 ## 1. 프로젝트 소개
+### 서비스 대상
+한국에 방문 중이거나 예정인 외국인 & 한식의 영양 정보 및 레시피에 관심이 있는 한국인
 
-**어떠한 데이터셋와 도구 및 기술을 사용했는지에 대한 설명과 엔드유저에게 보이는 웹서비스에 대한 소개**
+### 기획 배경
+- 코로나 이전부터 이미 K-POP, 영화 등의 컨텐츠를 중심으로 전세계적으로 한국에 대한 전반적인 관심이 급증
+- 코로나 종식 이후 한국 방문을 희망하는 여행객의 잠재적 수요
+- 여행지에서 음식을 주문하는 경우 세부 정보를 알기 어려움
+- 자신이 주문한 음식 사진을 찍어 SNS에 올리는 일은 일상화된 삶의 양식
 
-- 사용하려는 데이터(제안된 데이터 중 하나 또는 선택한 다른 데이터 세트)를 명시, 이에 대한 설명
-- 기술 스택 (python,jupyter, javascript, MySQL 등)
-- 사용된 라이브러리 (numpy, matplotlib, wordcloud 등)
-- 웹서비스에 대한 자세한 개요
-
-</br>
 
 ## 2. 프로젝트 목표
+음식 사진을 찍어 업로드하면 포함된 음식의 영양 성분과 관련 레시피(유튜브 영상)를 알려주는 서비스를 제공한다.
 
-**인공지능(자연어/이미지) 모델 사용 결과로 도출되는 인사이트와 웹서비스의 해결과제에 대한 논의 (50자 이상)**
+- 
 
-- 프로젝트 아이디어 동기
-- 문제를 해결하기 위한 특정 질문 명시
-- 데이터를 통해 탐색하려는 문제를 구체적으로 작성
+- 
+-  사진 한 장으로 한식 관련 정보를 파악할 수 있도록 하여 외국인의 한식에 대한 접근성 향상
 
 </br>
 

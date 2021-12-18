@@ -1,6 +1,6 @@
 #/bin/sh
 
-[ ! $1 ] && echo 'why?' && exit 1
+[ ! $1 ] && echo 'fail...?' && exit 1
 
 if [ $1 == 'build' ]; then
         docker-compose -f docker-compose.yml down

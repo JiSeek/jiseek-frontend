@@ -94,7 +94,7 @@ const HoverContents = styled.div`
     }
 
     :nth-child(2) {
-      /* 음식 명 */
+      /* 게시글명 */
       color: #fbfbfb;
       font-size: 1.5rem;
       font-weight: 500;
@@ -106,11 +106,11 @@ const HoverContents = styled.div`
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
-      margin-bottom:1rem;
+      margin-bottom: 1rem;
     }
 
     :last-child {
-      /* 상세보기 버튼 */
+      /* 게시글 이동버튼 */
       text-align: center;
       > a {
         padding: 0.35rem 1rem;

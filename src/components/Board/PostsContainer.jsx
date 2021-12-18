@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
 import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
 import Posts from './Posts';
 
+// TODO: 커뮤니티 내에서는 로드 데이터 유지하고 페이지 이동 시 초기화
+// + 상세보기 들어갔다가 나왔을 때 스크롤 위치 유지.
 const postsQueryOpt = {
   refetchOnWindowFocus: true,
   staleTime: 5 * 60 * 1000,
 };
 
-function PostsContainer() {
+const PostsContainer = () => {
   // 게시판 목록 읽어오기 (R) : 좋아요순
   const { data: bestPosts, status: bestPostsStatus } = useQuery(
     boardKeys.best,
@@ -19,12 +21,25 @@ function PostsContainer() {
     },
   );
 
-  // 게시판 목록 읽어오기 (R) : 최신순
-  const { data: posts, status: postsStatus } = useQuery(
+  // 게시판 목록 읽어오기 (R) : 최신순 (무한 스크롤)
+  const {
+    data: posts,
+    status: postsStatus,
+    ...boards
+  } = useInfiniteQuery(
     boardKeys.all,
-    jiseekApi.get(),
+    ({ queryKey, pageParam = 1 }) =>
+      jiseekApi.get({ page: pageParam })({ queryKey }),
     {
-      ...postsQueryOpt,
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.next) {
+          return undefined;
+        }
+        const param = new URLSearchParams(
+          lastPage.next.slice(lastPage.next.indexOf('?')),
+        );
+        return param.get('page');
+      },
     },
   );
 
@@ -49,7 +64,14 @@ function PostsContainer() {
 
   useEffect(() => () => cancel(), [cancel]);
 
-  return <Posts status={status} bestPosts={bestPosts} posts={posts} />;
-}
+  return (
+    <Posts
+      status={status}
+      bestPosts={bestPosts}
+      posts={posts}
+      boards={boards}
+    />
+  );
+};
 
 export default PostsContainer;

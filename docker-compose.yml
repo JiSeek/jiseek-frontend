@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  jiseek:
+    container_name: jiseek
+    build:
+      dockerfile: Dockerfile.prod
+      context: .
+    ports:
+      - '80:80'

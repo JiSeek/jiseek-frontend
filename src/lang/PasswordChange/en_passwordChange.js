@@ -1,6 +1,7 @@
 const EN_PASSWORD_CHANGE = {
   passwordChangeCurrentErr: 'Enter the current password.',
-  passwordChangeOldSameErr: 'TODO: error text',
+  passwordChangeOldSameErr:
+    'You cannot use the same password as your current password.',
   passwordChangeNewFormErr:
     'Your password must be 8-16 characters, and include at least one uppercase/lowcase letter, a number, and a symbol(~!@#$%*).',
   passwordChangeNewRequiredErr: 'Enter an new password.',

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { StyledErrorMsg } from '../common';
 

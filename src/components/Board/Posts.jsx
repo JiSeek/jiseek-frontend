@@ -22,13 +22,13 @@ const Posts = ({
 
   const onIntersect = useCallback(
     ([entry], observer) => {
-      if (hasNextPage && entry.isIntersecting && !isFetchingNextPage) {
+      if (entry.isIntersecting && !isFetchingNextPage) {
         observer.unobserve(entry.target);
         fetchNextPage();
         observer.observe(entry.target);
       }
     },
-    [fetchNextPage, isFetchingNextPage, hasNextPage],
+    [fetchNextPage, isFetchingNextPage],
   );
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const Posts = ({
               </Link>
             )),
           )}
-          <InfiniteScroll ref={setTarget}>
+          <InfiniteScroll ref={setTarget} hidden={!hasNextPage}>
             {isFetchingNextPage && (
               <img src={LoadingDot} alt="Posts loading..." />
             )}
@@ -159,7 +159,7 @@ const GridContainer = styled.div`
       :hover {
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
           0 10px 10px rgba(0, 0, 0, 0.22);
-          transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       > img {
@@ -171,7 +171,7 @@ const GridContainer = styled.div`
         :hover {
           box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
             0 10px 10px rgba(0, 0, 0, 0.22);
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
       }
     }
@@ -204,7 +204,7 @@ const GridContainer = styled.div`
 const InfiniteScroll = styled.div`
   grid-column: 1/6;
   height: 15vh;
-  display: flex;
+  display: ${(props) => (props.hidden ? 'hidden' : 'flex')};
   justify-content: center;
   align-items: center;
 

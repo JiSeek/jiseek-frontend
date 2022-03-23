@@ -23,7 +23,6 @@ const EN_FOOD_SEARCH = {
   foodSearchAnalysisLoading: 'Food analysis loading image.',
   // Error
   foodSearchNoResult: 'No results image',
-  // foodSearchServerErr: 'Server connection is unstable.',
   foodSearchEmptyResultErr: 'There are no food results analyzed.',
   foodSearchTimeOutErr: 'Failed to analyze a food image.(Time Out)',
   foodSearchFavListErr: 'Failed to load favorite food.(Network Error)',

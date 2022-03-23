@@ -9,7 +9,6 @@ const FoodSearchBarContainer = ({ foodNames, setFindTarget }) => {
     focusItem,
     foundNames,
     onInput,
-    // onDebounceInput,
     onKeyUp,
     onKeyDown,
     onFocusInput,
@@ -25,7 +24,6 @@ const FoodSearchBarContainer = ({ foodNames, setFindTarget }) => {
         focusItem={focusItem}
         foundNames={foundNames}
         onInput={onInput}
-        // onDebounceInput={onDebounceInput}
         onKeyUp={onKeyUp}
         onKeyDown={onKeyDown}
         onFocusInput={onFocusInput}

@@ -26,7 +26,6 @@ const KO_FOOD_SEARCH = {
   foodSearchAnalysisLoading: '음식 분석 로딩 이미지',
   // Error
   foodSearchNoResult: '결과 없음 이미지',
-  // foodSearchServerErr: '서버 연결이 불안정합니다.',
   foodSearchEmptyResultErr: '분석된 음식 결과가 없습니다.',
   foodSearchTimeOutErr: '음식 사진 분석에 실패했습니다.(시간 초과)',
   foodSearchFavListErr: '관심 음식 목록을 불러오지 못했습니다.(네트워크 오류)',

@@ -88,7 +88,6 @@ const HoverContents = styled.div`
 
     :first-child {
       /* 좋아요 버튼 */
-      /* text-align: right; */
       padding-right: 1rem;
       margin-left: auto;
     }

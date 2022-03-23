@@ -42,7 +42,6 @@ export const getRegisterValidation = (t) =>
     }),
   });
 
-// TODO: 내정보 수정 문구 추가
 export const getMyInfoFormValidation = (t) =>
   yup.object({ name: yup.string().max(20, t('')) });
 

@@ -72,7 +72,6 @@ const EachMember = styled.li`
     height: 180px;
     border-radius: 10px;
     object-fit: contain;
-    /* background: greenyellow; */
     box-shadow: 0px 0 26px 5px rgb(0 0 0 / 20%);
     z-index: 1;
     padding: 20px 10px;

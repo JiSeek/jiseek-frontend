@@ -8,7 +8,6 @@ const createOAuth2Api =
         baseURL,
         url,
         method: 'post',
-        // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         headers: { 'Content-Type': 'application/json;charset=utf-8' },
         timeout: 3000,
         params,

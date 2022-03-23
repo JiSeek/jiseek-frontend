@@ -29,7 +29,6 @@ const Naver = () => {
       });
       naverLogin.init();
       naverLogin.logout();
-      // 네이버 로그인이 계속 유지되는 경우가 있음, 초기화시 로그아웃
     };
   }, []);
   const handleClick = () => {

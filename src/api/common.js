@@ -10,7 +10,6 @@ export const createQueryApi =
     try {
       const url = `/${queryKey.join('/')}/`;
       const { token, ...params } = sendData;
-      // console.log('yyyy', sendData);
       const response = await axios({
         baseURL,
         url,
@@ -66,9 +65,6 @@ export const createOAuth2BaseUrl = (type = '') => {
   switch (type) {
     case 'kakao':
       return 'https://kauth.kakao.com/oauth';
-    case 'naver':
-      // return 'https://nid.naver.com/oauth2.0';
-      return '';
     default:
       return '';
   }

@@ -120,10 +120,6 @@ const ResultFoodNames = styled.div`
     > span {
       padding: 0 0.5rem;
 
-      :nth-child(2n) {
-        /* border-right: 1px solid; */
-      }
-
       :first-child {
         border-left: none;
       }

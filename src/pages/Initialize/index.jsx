@@ -21,10 +21,8 @@ const Initialize = ({ children }) => {
       const expired =
         auth.expires_at - parseInt(new Date().getTime() / 1000, 10) <= 0;
       if (!expired) {
-        // console.log('1', expired, auth.expires_at);
         updateToken(auth);
       } else {
-        // console.log('2', expired, auth.expires_at);
         clearToken();
       }
     }

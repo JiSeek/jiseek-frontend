@@ -42,7 +42,6 @@ const BoardUploadContainer = ({ user }) => {
 
   const onInput = useCallback(
     (e) => {
-      console.log('xxx', e);
       if (e.target.value.length > 255) {
         setContent(e.target.value.slice(0, 255));
         toast.error(t('boardContentMaxErr', { what: t('boardPost') }), {

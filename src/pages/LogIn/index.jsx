@@ -10,14 +10,8 @@ import {
 } from 'react-router-dom';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useAuthContext } from '../../contexts/AuthContext';
-import {
-  // GoogleLogIn,
-  JiseekLogIn,
-  KakaoLogIn,
-  NaverLogIn,
-} from '../../components/LogIn';
+import { JiseekLogIn, KakaoLogIn, NaverLogIn } from '../../components/LogIn';
 
-// TODO: 로그인 url 다이렉트 접근 시 깜빡이고 떳다 없어지는 문제
 const LogInPage = () => {
   const location = useLocation();
   const { t } = useTranslation();
@@ -50,9 +44,6 @@ const LogInPage = () => {
             <li>
               <NaverLogIn />
             </li>
-            {/* <li>
-              <GoogleLogIn />
-            </li> */}
           </ul>
         </section>
       )}
@@ -103,9 +94,7 @@ const Or = styled.div`
   display: flex;
   flex-basis: 100%;
   align-items: center;
-  /* color: rgba(0, 0, 0, 0.35); */
   font-size: 12px;
-  /* margin: 8px 0px; */
 
   ::before,
   ::after {
@@ -113,9 +102,6 @@ const Or = styled.div`
     flex-grow: 1;
     background: #00110036;
     height: 1px;
-    /* font-size: 0px; */
-    /* line-height: 0px; */
-    /* margin: 0px 1.5rem; */
   }
 
   ::before {

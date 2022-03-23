@@ -46,7 +46,6 @@ const PasswordChangeContainer = () => {
         );
         navigate('/mypage');
       },
-      // TODO: 비밀 번호 변경 오류 구별해서 띄우기.
       onError: () =>
         toast.error(t('myPageChgPasswordErr'), {
           toastId: 'myPageChgPasswordErr',

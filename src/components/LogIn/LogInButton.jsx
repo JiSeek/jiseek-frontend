@@ -36,11 +36,9 @@ const StyledButton = styled.div`
 const Logo = styled.img`
   width: 2rem;
   margin: auto 0;
-  /* margin-left: 1.5rem; */
 `;
 
 const LogInMessage = styled.div`
-  /* text-align: center; */
   font-size: 0.9rem;
   font-weight: 500;
   margin: auto 0 auto 0.5rem;

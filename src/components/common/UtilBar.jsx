@@ -85,9 +85,3 @@ const StyledSelect = styled.select`
   border-radius: 5px;
   border: 1px solid #231815;
 `;
-
-// const StyledOption = styled.option`
-//   text-align: center;
-//   margin-right: 50px;
-//   /* TODO: option도 커스텀하기 */
-// `;

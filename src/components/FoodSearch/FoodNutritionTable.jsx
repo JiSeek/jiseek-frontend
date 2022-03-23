@@ -27,7 +27,6 @@ const Table = ({
   const {
     getTableProps,
     getTableBodyProps,
-    // headerGroups,
     prepareRow,
     page,
     canPreviousPage,
@@ -54,8 +53,6 @@ const Table = ({
   useEffect(() => {
     fetchData({ pageIndex });
   }, [fetchData, pageIndex]);
-
-  // console.log(loading);
 
   return (
     <>

@@ -43,7 +43,7 @@ const createOAuth2Info = (type) => ({
 
 export const oAuth2 = {
   kakao: createOAuth2Info('kakao'),
-  naver: createOAuth2Info('naver'), // Not used
+  naver: createOAuth2Info('naver'),
 };
 
 export * from './common';

@@ -4,8 +4,6 @@ FROM node:14.17.1-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:${PATH}
 COPY package*.json ./
-# RUN node -v
-# RUN npm -v
 RUN yarn install
 COPY . ./
 COPY .env ./

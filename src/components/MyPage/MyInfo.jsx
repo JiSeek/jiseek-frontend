@@ -23,7 +23,6 @@ const getLogo = (type) => {
   }
 };
 
-// TODO: 국적 표기?
 const activeState = {
   textDecoration: 'none',
   fontWeight: '700',
@@ -39,7 +38,6 @@ const MyInfo = ({ user, status }) => {
     <MyInfoContainer>
       <MyInfoTitle>{t('myPageMyInfo')}</MyInfoTitle>
       <div>
-        {/* TODO: 에러 처리 */}
         {status === 'loading' && 'Loading Logo'}
         {status === 'error' && 'Error Logo'}
         {status === 'success' && (

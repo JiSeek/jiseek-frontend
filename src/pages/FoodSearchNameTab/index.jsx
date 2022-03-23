@@ -10,7 +10,6 @@ const FoodSearchPage = () => {
   const { foodIdMap } = useFoodIdMap();
   const queryClient = useQueryClient();
   const ref = useRef(null);
-  // const [heightChanged, setHeightChanged] = useState(false);
 
   useEffect(
     () => async () => {
@@ -18,14 +17,6 @@ const FoodSearchPage = () => {
     },
     [queryClient],
   );
-
-  // useEffect(() => {
-  //   if (!ref.current) {
-  //     return;
-  //   }
-  // }, [ref?.current?.offsetHeight]);
-
-  // console.log(ref?.current?.clientHeight);
 
   return (
     <article ref={ref}>

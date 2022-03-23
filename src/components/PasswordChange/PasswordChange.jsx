@@ -78,7 +78,6 @@ const StyledChangeForm = styled.form`
       border: none;
       border-bottom: 2px solid #c1dda0;
       padding: 0.7rem 0.2rem 0.5rem 1rem;
-      /* margin: 1rem 0 1rem 0; */
       width: 23.5rem;
       background: #fbfbfb;
 

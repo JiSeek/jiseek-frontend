@@ -149,7 +149,6 @@ const BoardDetailsContainer = ({ id, user, modifyMode }) => {
     });
   }, [modifyMode, openModal, deletePost, navigate, reset, post, t]);
 
-  // TODO: 테스트 필요
   const cancel = useCallback(async () => {
     await queryClient.cancelMutations(mutationKeys.postAll);
     await queryClient.cancelQueries(boardKeys.postById(id));

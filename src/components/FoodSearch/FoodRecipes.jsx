@@ -57,7 +57,6 @@ const FoodRecipes = ({ food, recipes, status }) => {
                     </li>
                     <li>
                       <BiTimeFive />
-                      {/* TODO: 영상 길이 HH:MM:SS 단위로 변경하기 */}
                       <span>
                         {recipe.contentDetails.duration
                           .split(/[PTHMS]/)

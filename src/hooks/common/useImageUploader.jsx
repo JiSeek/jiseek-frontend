@@ -90,9 +90,6 @@ ImgUploader.defaultProps = {
 };
 
 const DropContainer = styled.div`
-  /* text-align: center; */
-  /* width: 30rem;
-  height: 38vh; */
   width: 100%;
   height: 100%;
   border: 2px solid #72af2c63;

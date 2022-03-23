@@ -4,8 +4,6 @@ import jiseekApi from '../../api';
 import { boardKeys } from '../../constants';
 import Posts from './Posts';
 
-// TODO: 커뮤니티 내에서는 로드 데이터 유지하고 페이지 이동 시 초기화
-// + 상세보기 들어갔다가 나왔을 때 스크롤 위치 유지.(21.12.19)
 const postsQueryOpt = {
   refetchOnWindowFocus: true,
   staleTime: 5 * 60 * 1000,
@@ -56,7 +54,6 @@ const PostsContainer = () => {
     return 'idle';
   }, [bestPostsStatus, postsStatus]);
 
-  // TODO: 테스트 필요
   const queryClient = useQueryClient();
   const cancel = useCallback(async () => {
     await queryClient.cancelQueries(boardKeys.all);

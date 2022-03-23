@@ -45,15 +45,11 @@ const LogOutPage = () => {
     },
   );
 
-  // TODO: 초기 로그아웃으로 접근 개선
-  // console.log('111', location, !!token.access && from === '/logout');
   useEffect(() => {
     if (!token.access) {
       navigate('/login', { replace: true, state: { from: '/logout' } });
-      // console.log('sdfsdnfls', 1);
       return;
     }
-    // console.log('sdfsdnfls', 2);
     mutate();
   }, [mutate, token.access, navigate]);
 

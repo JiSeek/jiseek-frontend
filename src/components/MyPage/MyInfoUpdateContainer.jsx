@@ -64,9 +64,6 @@ const MyInfoUpdateContainer = () => {
     {
       mutationKey: mutationKeys.userInfo,
       onSuccess: (data) => {
-        // TODO: 이걸 왜했지??
-        // setValue('image', data.image);
-        // setValue('name', data.name);
         queryClient.setQueryData(userKeys.info, data);
         toast.success(
           t('myPageChgSuccess', { what: t('myPageInfoEdit').toLowerCase() }),
@@ -76,7 +73,6 @@ const MyInfoUpdateContainer = () => {
         );
         navigate('/mypage');
       },
-      // TODO: 오류 구별해서 띄우기. 문구 조정 필요
       onError: () =>
         toast.error(t('myPageMyInfoUpdateErr'), {
           toastId: 'myPageMyInfoUpdateErr',

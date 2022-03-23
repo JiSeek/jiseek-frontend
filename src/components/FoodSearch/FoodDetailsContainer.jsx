@@ -36,7 +36,6 @@ const FoodDetailsContainer = ({ type, id, imgUrl, isModal, children }) => {
     [favList],
   );
 
-  // TODO: 테스트 필요
   const queryClient = useQueryClient();
   const cancel = useCallback(async () => {
     await queryClient.cancelQueries(foodKeys.detailById(id));

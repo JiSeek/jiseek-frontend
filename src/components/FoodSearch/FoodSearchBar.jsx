@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-// import { BiSearchAlt2 } from 'react-icons/bi';
 
 const FoodSearchBar = ({
   keyword,
   focusItem,
   foundNames,
   onInput,
-  // onDebounceInput,
   onKeyUp,
   onKeyDown,
   onFocusInput,
@@ -24,14 +22,12 @@ const FoodSearchBar = ({
       <StyledInput
         value={keyword}
         onInput={onInput}
-        // onInput={onDebounceInput}
         onKeyUp={onKeyUp}
         onKeyDown={onKeyDown}
         onClick={onFocusInput}
         onFocus={onFocusInput}
         onBlur={onBlur}
         placeholder={t('foodSearchSearchBar')}
-        // disabled
       />
       <StyledList
         empty={foundNames.length === 0}
@@ -55,7 +51,6 @@ FoodSearchBar.propTypes = {
   focusItem: PropTypes.number,
   foundNames: PropTypes.arrayOf(PropTypes.string),
   onInput: PropTypes.func,
-  // onDebounceInput: PropTypes.func,
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
   onFocusInput: PropTypes.func,
@@ -69,7 +64,6 @@ FoodSearchBar.defaultProps = {
   focusItem: -1,
   foundNames: [],
   onInput: null,
-  // onDebounceInput: null,
   onKeyUp: null,
   onKeyDown: null,
   onFocusInput: null,

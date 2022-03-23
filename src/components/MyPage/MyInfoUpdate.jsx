@@ -97,7 +97,6 @@ const NameLabel = styled.label`
     font-family: inherit;
     border: none;
     border-bottom: 2px solid #8cc748;
-    /* padding: 0.5rem 0 0.3rem 0; */
     width: 196px;
     background: #fbfbfb;
     text-align: center;

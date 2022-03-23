@@ -37,13 +37,6 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
     [keyword],
   );
 
-  // TODO: 동작 안함 보류...
-  // const onDebounceInput = useCallback(
-  //   (e) => {
-  //   },
-  //   [],
-  // );
-
   // 입력한 검색어에 대한 가능한 목록 표시 처리 핸들러
   const onKeyUp = useCallback(
     (e) => {
@@ -102,10 +95,7 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
             if (target) {
               return target;
             }
-            // if (foundNames.indexOf(e.target.value) !== -1) {
             return e.target.value;
-            // }
-            // return '';
           });
         }
         setKeyword('');
@@ -154,7 +144,6 @@ const useAutoComplete = (dataList = [], setTarget = null) => {
     focusItem,
     foundNames,
     onInput,
-    // onDebounceInput,
     onKeyUp,
     onKeyDown,
     onFocusInput,

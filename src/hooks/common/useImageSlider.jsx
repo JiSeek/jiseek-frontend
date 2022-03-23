@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-// 임시 스타일드 요건 뺄거...
 import styled, { css } from 'styled-components';
-import { ArrowTypeNavBar, BubbleTypeNavBar } from '../../components/common';
+import { ArrowTypeNavBar } from '../../components/common';
 
 /*
   Arguments:
@@ -74,7 +73,7 @@ const useDragMove = (last = 0, setSlideIdx = null) => {
   Arguments:
     - imageList: 표시할 이미지 목록(현재 객체형태 생각 중, 아직 결정X)
     - option: 객체 형식
-      - type: 네비게이션 형태(가능 옵션: 'arrow' | 'bubble')
+      - type: 네비게이션 형태(가능 옵션: 'arrow')
       - label: 사용자 접근성을 위한 네비게이션 aria-label
           객체 형식 입력 {ko: 한국어 버전, en: 영어 버전}
   Return Values:
@@ -105,10 +104,6 @@ const useImageSlider = (imageList = [], options = {}) => {
                     src={url}
                     alt={`${name} 이미지`}
                     value={`${name}`}
-                    // onMouseDown={onDragDown}
-                    // onMouseMove={onDragMove}
-                    // onMouseUp={onDragUp}
-                    // onMouseLeave={onAreaLeave}
                     onTouchStart={onDragDown}
                     onTouchMove={onDragMove}
                     onTouchEnd={onDragUp}
@@ -119,26 +114,21 @@ const useImageSlider = (imageList = [], options = {}) => {
           ))}
         </StyledSlider>
       </StyledSliderContainer>
-      {setOptions.type === 'arrow' ? (
-        <ArrowTypeNavBar
-          label={setOptions?.label}
-          name={imageList[slideIdx]?.name}
-          curIndex={slideIdx}
-          min={0}
-          max={imageList.length - 1}
-          onPrev={() => setSlideIdx((old) => old - 1)}
-          onNext={() => setSlideIdx((old) => old + 1)}
-        />
-      ) : (
-        <BubbleTypeNavBar /> // TODO: 미구현
-      )}
+      <ArrowTypeNavBar
+        label={setOptions?.label}
+        name={imageList[slideIdx]?.name}
+        curIndex={slideIdx}
+        min={0}
+        max={imageList.length - 1}
+        onPrev={() => setSlideIdx((old) => old - 1)}
+        onNext={() => setSlideIdx((old) => old + 1)}
+      />
     </div>
   );
 
   return { slideIdx, RenderImageSlider };
 };
 
-// TODO: 임시 스타일링 프레젠테이션으로 만들 것!
 const StyledSliderContainer = styled.div`
   width: 28vw;
   max-width: 380px;

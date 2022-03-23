@@ -4,7 +4,6 @@ const KO_FOOTER = {
   footerSiteMapSearchName: '이름 검색',
   footerSiteMapSearchPhoto: '사진 검색',
   footerSiteMapCommunity: '커뮤니티',
-  // footerSiteMapIntro: '소개',
 };
 
 export default KO_FOOTER;

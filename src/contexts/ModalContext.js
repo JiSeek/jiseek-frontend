@@ -170,8 +170,7 @@ const StyledAlarmModal = styled.div`
   }
 
   p {
-    /* margin-top: 1rem; */
-    width:80%;
+    width: 80%;
     margin: 1rem auto 0 auto;
     line-height: 1.25rem;
   }

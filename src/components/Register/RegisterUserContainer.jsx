@@ -69,8 +69,6 @@ const RegisterUserContainer = () => {
           errMsg = t('signUpServerErr');
           toast.error(errMsg, { toastId: 'signUpServerErr' });
         }
-        // TODO: 동작X, 네트워크 연결 실패시 무한 로딩 문제
-        // signUp.reset();
       },
     },
   );

@@ -15,7 +15,6 @@ const FavoriteFoodContainer = () => {
     { cacheTime: Infinity, staleTime: Infinity },
   );
 
-  // TODO: 임시 상세 보기 모달
   const onClick = useCallback(
     (e) =>
       openModal(

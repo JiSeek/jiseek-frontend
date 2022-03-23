@@ -52,7 +52,6 @@ const LikeButtonContainer = ({ type, data, like, refreshKey }) => {
         );
         return { previousFavs };
       },
-      // onSuccess: (res) => console.log('좋아요 상태: ', res),
       onError: (_1, _2, context) => {
         toast.error(t('myPageLikeApplyErr'), { toastId: 'likeApplyErr' });
         queryClinet.setQueryData(key, context.previousFavs);

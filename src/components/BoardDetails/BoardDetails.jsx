@@ -9,7 +9,6 @@ import { getLocaleDate, parseParagraph } from '../../utils';
 import { LikeButton } from '../common';
 import { boardKeys } from '../../constants';
 
-// const BoardDetails = (
 const BoardDetails = React.forwardRef(
   (
     {
@@ -188,7 +187,6 @@ const DetailContents = styled.div`
     'image image content' auto
     'like comment comment' auto
     / 1fr 2fr 4fr;
-  /* grid-gap: 2rem 2.5rem; */
   margin-top: 3rem;
   word-break: break-all;
 `;
